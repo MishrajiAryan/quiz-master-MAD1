@@ -1,2 +1,4 @@
 venv/
 .idx/
+.env
+__pycache__
