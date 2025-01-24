@@ -2,3 +2,4 @@ venv/
 .idx/
 .env
 __pycache__/
+instance/
