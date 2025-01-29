@@ -1,8 +1,11 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from app import app
-from models import db, User, Subject, Chapter, Quiz, Question, Score
+from models import db, User, Subject, Chapter, Quiz, Question, Score, Admin
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
+import os
+from dotenv import load_dotenv
+
 
 #the decorator @app.route is directing towards root dir '/'
 @app.route('/')
@@ -13,6 +16,7 @@ def index():
 def login():
     return render_template('login.html')
 
+#login post method
 @app.route('/login', methods={'POST'})
 def login_post():
     email = request.form.get('email')
@@ -22,8 +26,17 @@ def login_post():
         flash('Please fill all the fields')
         return redirect(url_for('login'))
     
-    user=User.query.filter_by(email=email).first()
+    #admin login
+    admin = Admin.query.filter_by(email=email).first()
+    if admin:
+        if not check_password_hash(admin.password, password):
+            flash('Incorrect Password')
+            return redirect(url_for('login'))
+        flash('Logged in as Admin')
+        return redirect(url_for('index'))
 
+    #user login
+    user=User.query.filter_by(email=email).first()
     if not user:
         flash('Email does not exist')
         return redirect(url_for('login'))
@@ -32,6 +45,7 @@ def login_post():
         flash('Incorrect Password')
         return redirect(url_for('login'))
     
+    flash('Logged in as {{ email }}')
     return redirect(url_for('index'))
 
 @app.route('/register')
@@ -47,23 +61,28 @@ def register_post():
     qualification = request.form.get('qualification')
     dob = request.form.get('dob')
 
-    if not email or not password or not confirm_password or not name or not qualification or not dob:
-        flash('Please fill all the fields')
+    if email.lower() == os.getenv('ADMIN_EMAIL'):
+        flash('Admin registration is not allowed!')
         return redirect(url_for('register'))
+    else:
+        if not email or not password or not confirm_password or not name or not qualification or not dob:
+            flash('Please fill all the fields')
+            return redirect(url_for('register'))
     
-    if password != confirm_password:
-        flash('Passwords do not match')
-        return redirect(url_for('register'))
+        if password != confirm_password:
+            flash('Passwords do not match')
+            return redirect(url_for('register'))
     
-    user = User.query.filter_by(email=email).first() #to check for unique prospect
+        user = User.query.filter_by(email=email).first() #to check for unique prospect
 
-    if user:
-        flash('Email already exists')
-        return redirect(url_for('register'))
+        if user:
+            flash('Email already exists')
+            return redirect(url_for('register'))
 
-    dob_date = datetime.strptime(dob, "%Y-%m-%d").date()
-    password_hash = generate_password_hash(password)
-    new_user = User(email=email, password=password_hash, name=name,qualification=qualification, dob=dob_date)
-    db.session.add(new_user)
-    db.session.commit()
-    return redirect(url_for('login'))
+
+        dob_date = datetime.strptime(dob, "%Y-%m-%d").date()
+        password_hash = generate_password_hash(password)
+        new_user = User(email=email, password=password_hash, name=name,qualification=qualification, dob=dob_date)
+        db.session.add(new_user)
+        db.session.commit()
+        return redirect(url_for('login'))

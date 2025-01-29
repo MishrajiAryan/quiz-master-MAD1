@@ -1,13 +1,29 @@
 from app import app
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+import os
+from werkzeug.security import generate_password_hash
+from dotenv import load_dotenv
 
 db = SQLAlchemy(app)
+load_dotenv()
 
 class Admin(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(50), unique=True, nullable=False)
+    email = db.Column(db.String(50), unique=True, nullable=False)
     password = db.Column(db.String(256), nullable=False)  # Store hashed passwords
+
+
+def create_admin():
+    with app.app_context():
+        admin_email = os.getenv('ADMIN_EMAIL')
+        admin_password = os.getenv('ADMIN_PASSWORD')  
+
+        if not Admin.query.filter_by(email=admin_email).first():
+            admin_user = Admin(email=admin_email, password=generate_password_hash(admin_password))
+            db.session.add(admin_user)
+            db.session.commit()
+
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -63,3 +79,4 @@ class Score(db.Model):
 
 with app.app_context():
     db.create_all()
+    create_admin()
