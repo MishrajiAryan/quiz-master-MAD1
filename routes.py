@@ -25,7 +25,7 @@ def login_post():
     user=User.query.filter_by(email=email).first()
 
     if not user:
-        flash('User does not exist')
+        flash('Email does not exist')
         return redirect(url_for('login'))
     
     if not check_password_hash(user.password, password):
