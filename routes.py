@@ -13,6 +13,27 @@ def index():
 def login():
     return render_template('login.html')
 
+@app.route('/login', methods={'POST'})
+def login_post():
+    email = request.form.get('email')
+    password = request.form.get('password')
+
+    if not email or not password:
+        flash('Please fill all the fields')
+        return redirect(url_for('login'))
+    
+    user=User.query.filter_by(email=email).first()
+
+    if not user:
+        flash('User does not exist')
+        return redirect(url_for('login'))
+    
+    if not check_password_hash(user.password, password):
+        flash('Incorrect Password')
+        return redirect(url_for('login'))
+    
+    return redirect(url_for('index'))
+
 @app.route('/register')
 def register():
     return render_template('register.html')
