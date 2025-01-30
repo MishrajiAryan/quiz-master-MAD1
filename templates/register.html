@@ -1,51 +1,51 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Register: Quiz Quest
+Register: Quiz Quest
 {% endblock %}
 
 {% block content %}
-    <h1 class="display-1 text-center">Welcome to Quiz Quest</h1>
-    <h1 class="display-5">Register</h1>
-    <form action="" method="post" class="form">
-        <div class="form-group">
-            <label for="email" class="form-label">Email:</label>
-            <input type="email" class="form-control" id="email" name="email" required>
+<h1 class="display-1 text-center">Welcome to Quiz Quest</h1>
+<h1 class="display-5">Register</h1>
+<form action="" method="post" class="form">
+    <div class="form-group">
+        <label for="email" class="form-label">Email:</label>
+        <input type="email" class="form-control" id="email" name="email" required>
+    </div>
+    <div class="form-group">
+        <label for="password" class="form-label">Password:</label>
+        <input type="password" class="form-control" id="password" name="password" required>
+    </div>
+    <div class="form-group">
+        <label for="confirm_password" class="form-label">Confirm Password:</label>
+        <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+    </div>
+    <div class="form-group">
+        <label for="name" class="form-label">Name:</label>
+        <input type="text" class="form-control" id="name" name="name" required>
+    </div>
+    <div class="form-group">
+        <label for="qualification" class="form-label">Qualification:</label>
+        <div class="input-group mb-3">
+            <label class="input-group-text" for="inputGroupSelect01">Your Qualification is</label>
+            <select class="form-select" type="text" id="qualification" name="qualification" required>
+                <option selected>Choose...</option>
+                <option value="Primary">Primary</option>
+                <option value="Secondary">Secondary</option>
+                <option value="Senior Secondary">Senior Secondary</option>
+                <option value="Graduation">Graduation</option>
+                <option value="Post Graduation">Post Graduation</option>
+                <option value="PhD">PhD</option>
+            </select>
         </div>
-        <div class="form-group">
-            <label for="password" class="form-label">Password:</label>
-            <input type="password" class="form-control" id="password" name="password" required>
-        </div>
-        <div class="form-group">
-            <label for="confirm_password" class="form-label">Confirm Password:</label>
-            <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
-        </div>
-        <div class="form-group">
-            <label for="name" class="form-label">Name:</label>
-            <input type="text" class="form-control" id="name" name="name" required>
-        </div>
-        <div class="form-group">
-            <label for="qualification" class="form-label">Qualification:</label>
-            <div class="input-group mb-3">
-                <label class="input-group-text" for="inputGroupSelect01">Your Qualification is</label>
-                <select class="form-select" type="text" id="qualification" name="qualification" required>
-                  <option selected>Choose...</option>
-                  <option value="Primary">Primary</option>
-                  <option value="Secondary">Secondary</option>
-                  <option value="Senior Secondary">Senior Secondary</option>
-                  <option value="Graduation">Graduation</option>
-                  <option value="Post Graduation">Post Graduation</option>
-                  <option value="PhD">PhD</option>
-                </select>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="dob" class="form-label">Date of Birth:</label>
-            <input type="date" class="form-control" id="dob" name="dob" required>
-        </div>
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </div>
-        
-    </form>
+    </div>
+    <div class="form-group">
+        <label for="dob" class="form-label">Date of Birth:</label>
+        <input type="date" class="form-control" id="dob" name="dob" required>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+
+</form>
 {% endblock %}

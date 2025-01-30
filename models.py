@@ -8,19 +8,21 @@ from dotenv import load_dotenv
 db = SQLAlchemy(app)
 load_dotenv()
 
+
 class Admin(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(50), unique=True, nullable=False)
-    password = db.Column(db.String(256), nullable=False)  # Store hashed passwords
+    # Store hashed passwords
+    password = db.Column(db.String(256), nullable=False)
 
 
 def create_admin():
     with app.app_context():
         admin_email = os.getenv('ADMIN_EMAIL')
-        admin_password = os.getenv('ADMIN_PASSWORD')  
+        admin_password = os.getenv('ADMIN_PASSWORD')
 
         if not Admin.query.filter_by(email=admin_email).first():
-            admin_user = Admin(email=admin_email, password=generate_password_hash(admin_password))
+            admin_user = Admin(email=admin_email,password=generate_password_hash(admin_password))
             db.session.add(admin_user)
             db.session.commit()
 
@@ -28,15 +30,18 @@ def create_admin():
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(100), unique=True, nullable=False)
-    password = db.Column(db.String(256), nullable=False)  # Store hashed passwords
+    # Store hashed passwords
+    password = db.Column(db.String(256), nullable=False)
     name = db.Column(db.String(100), nullable=False)
     qualification = db.Column(db.String(100))
     dob = db.Column(db.Date)
+
 
 class Subject(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), unique=True, nullable=False)
     description = db.Column(db.Text)
+
 
 class Chapter(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -46,6 +51,7 @@ class Chapter(db.Model):
 
     subject = db.relationship('Subject', backref=db.backref('chapters', lazy=True))
 
+
 class Quiz(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     chapter_id = db.Column(db.Integer, db.ForeignKey('chapter.id'), nullable=False)
@@ -54,6 +60,7 @@ class Quiz(db.Model):
     remarks = db.Column(db.Text)
 
     chapter = db.relationship('Chapter', backref=db.backref('quizzes', lazy=True))
+
 
 class Question(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -67,6 +74,7 @@ class Question(db.Model):
 
     quiz = db.relationship('Quiz', backref=db.backref('questions', lazy=True))
 
+
 class Score(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     quiz_id = db.Column(db.Integer, db.ForeignKey('quiz.id'), nullable=False)
@@ -76,6 +84,7 @@ class Score(db.Model):
 
     quiz = db.relationship('Quiz', backref=db.backref('scores', lazy=True))
     user = db.relationship('User', backref=db.backref('scores', lazy=True))
+
 
 with app.app_context():
     db.create_all()
