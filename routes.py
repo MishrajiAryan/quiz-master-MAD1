@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 from app import app
 from models import db, User, Subject, Chapter, Quiz, Question, Score, Admin
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -10,7 +10,12 @@ from dotenv import load_dotenv
 #the decorator @app.route is directing towards root dir '/'
 @app.route('/')
 def index():
-    return render_template('index.html')
+    #email in use
+    if 'email' in session:
+        return render_template('index.html')
+    else:
+        flash('Please login to continue')
+        return redirect(url_for('login'))
 
 @app.route('/login')
 def login():
@@ -32,6 +37,7 @@ def login_post():
         if not check_password_hash(admin.password, password):
             flash('Incorrect Password')
             return redirect(url_for('login'))
+        session['email']=admin.email
         flash('Logged in as Admin')
         return redirect(url_for('index'))
 
@@ -45,13 +51,15 @@ def login_post():
         flash('Incorrect Password')
         return redirect(url_for('login'))
     
-    flash('Logged in as {{ email }}')
+    session['email']=user.email
+    flash('Login Success')
     return redirect(url_for('index'))
 
 @app.route('/register')
 def register():
     return render_template('register.html')
 
+#register post method
 @app.route('/register', methods={'POST'})
 def register_post():
     email= request.form.get('email')
