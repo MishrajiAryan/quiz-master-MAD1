@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block title %}
+User Profile
+{% endblock %}
+
+{% block content %}
+
+<h1 class="display-1 text-center">
+{% if user %}
+    {{user.name}}
+{% else %}
+    Admin
+{% endif %}
+</h1>
+
+{% endblock %}

@@ -23,8 +23,6 @@ def login():
     return render_template('login.html')
 
 # login post method
-
-
 @app.route('/login', methods={'POST'})
 def login_post():
     email = request.form.get('email')
@@ -55,7 +53,7 @@ def login_post():
         return redirect(url_for('login'))
 
     session['email'] = user.email
-    flash('Login Success')
+    flash('Login Successful')
     return redirect(url_for('index'))
 
 
@@ -64,8 +62,6 @@ def register():
     return render_template('register.html')
 
 # register post method
-
-
 @app.route('/register', methods={'POST'})
 def register_post():
     email = request.form.get('email')
@@ -100,4 +96,17 @@ def register_post():
                         name=name, qualification=qualification, dob=dob_date)
         db.session.add(new_user)
         db.session.commit()
+        return redirect(url_for('login'))
+
+@app.route('/profile')
+def profile():
+    if 'email' in session:
+        admin = Admin.query.filter_by(email=session['email']).first()
+        if admin:
+            return render_template('profile.html')
+        else:
+            user = User.query.filter_by(email=session['email']).first()
+            return render_template('profile.html', user=user)
+    else:
+        flash('Please login to continue')
         return redirect(url_for('login'))
