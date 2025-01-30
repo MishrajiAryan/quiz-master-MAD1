@@ -5,18 +5,25 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 import os
 from dotenv import load_dotenv
+from functools import wraps
 
+# Decorator
+def auth_req(f):
+    @wraps(f)
+    def inner(*args, **kwargs):
+        if 'email' in session:
+            return f(*args,**kwargs)
+        else:
+            flash('Please login to continue')
+            return redirect(url_for('login'))
+    return inner
+        
 
 # the decorator @app.route is directing towards root dir '/'
 @app.route('/')
+@auth_req
 def index():
-    # email in use
-    if 'email' in session:
-        return render_template('index.html')
-    else:
-        flash('Please login to continue')
-        return redirect(url_for('login'))
-
+    return render_template('index.html')
 
 @app.route('/login')
 def login():
@@ -99,14 +106,12 @@ def register_post():
         return redirect(url_for('login'))
 
 @app.route('/profile')
+@auth_req
 def profile():
-    if 'email' in session:
-        admin = Admin.query.filter_by(email=session['email']).first()
-        if admin:
-            return render_template('profile.html')
-        else:
-            user = User.query.filter_by(email=session['email']).first()
-            return render_template('profile.html', user=user)
+    admin = Admin.query.filter_by(email=session['email']).first()
+    if admin:
+        return render_template('profile.html')
     else:
-        flash('Please login to continue')
-        return redirect(url_for('login'))
+        user = User.query.filter_by(email=session['email']).first()
+        return render_template('profile.html', user=user)
+    
