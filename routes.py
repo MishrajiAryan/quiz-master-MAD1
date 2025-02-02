@@ -129,6 +129,17 @@ def profile_post():
         flash('Please fill all the fields')
         return redirect(url_for('profile'))
     
+    admin = Admin.query.get(session['email'])
+    if admin:
+        if not check_password_hash(admin.password, password):
+            flash('Incorrect Password')
+            return redirect(url_for('profile'))
+    else:
+        user=User.query.get(session['email'])
+        if not check_password_hash(user.password, password):
+            flash('Incorrect Password')
+            return redirect(url_for('profile'))
+    
 @app.route('/logout')
 @auth_req
 def logout():
