@@ -1,7 +1,11 @@
 {% extends "layout.html" %}
 
 {% block title %}
-User Profile
+{% if user %}
+    {{user.name}}
+{% else %}
+    Admin
+{% endif %}
 {% endblock %}
 
 {% block content %}
@@ -13,5 +17,50 @@ User Profile
     Admin
 {% endif %}
 </h1>
+
+<!--Adding change credentials form for user-->
+<h1 class="display-5">Update Profile</h1>
+<form action="" method="post" class="form">
+    <div class="form-group">
+        <label for="current_password" class="form-label">Current Password:</label>
+        <input type="password" class="form-control" id="current_password" name="current_password" required>
+    </div>
+    <div class="form-group">
+        <label for="new_password" class="form-label">New Password:</label>
+        <input type="password" class="form-control" id="new_password" name="new_password" required>
+    </div>
+    <div class="form-group">
+        <label for="confirm_new_password" class="form-label">Confirm New Password:</label>
+        <input type="password" class="form-control" id="confirm_new_password" name="confirm_new_password" required>
+    </div>
+    <div class="form-group">
+        <label for="new_name" class="form-label">Name:</label>
+        <input type="text" class="form-control" id="new_name" name="new_name" required>
+    </div>
+    <div class="form-group">
+        <label for="new_qualification" class="form-label">Qualification:</label>
+        <div class="input-group mb-3">
+            <label class="input-group-text" for="inputGroupSelect01">Your Qualification is</label>
+            <select class="form-select" type="text" id="new_qualification" name="new_qualification" required>
+                <option selected>Choose...</option>
+                <option value="Primary">Primary</option>
+                <option value="Secondary">Secondary</option>
+                <option value="Senior Secondary">Senior Secondary</option>
+                <option value="Graduation">Graduation</option>
+                <option value="Post Graduation">Post Graduation</option>
+                <option value="PhD">PhD</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="new_dob" class="form-label">Date of Birth:</label>
+        <input type="date" class="form-control" id="new_dob" name="new_dob" required>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-success">Update</button>
+    </div>
+
+    <a href="{{ url_for('logout') }}" class="btn btn-outline-danger">Logout</a>
+
 
 {% endblock %}

@@ -115,3 +115,22 @@ def profile():
         user = User.query.filter_by(email=session['email']).first()
         return render_template('profile.html', user=user)
     
+@app.route('/profile', methods={'POST'})
+@auth_req
+def profile_post():
+    password = request.form.get('current_password')
+    new_password = request.form.get('new_password')
+    confirm_new_password = request.form.get('confirm_new_password')
+    new_name = request.form.get('new_name')
+    new_qualification = request.form.get('new_qualification')
+    new_dob = request.form.get('new_dob')
+
+    if not new_password or not password or not confirm_new_password or not new_name or not new_qualification or not new_dob:
+        flash('Please fill all the fields')
+        return redirect(url_for('profile'))
+    
+@app.route('/logout')
+@auth_req
+def logout():
+    session.pop('email')
+    return redirect(url_for('login'))
