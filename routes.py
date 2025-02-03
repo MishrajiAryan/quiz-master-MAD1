@@ -23,7 +23,13 @@ def auth_req(f):
 @app.route('/')
 @auth_req
 def index():
-    return render_template('index.html')
+    admin = Admin.query.filter_by(email=session['email']).first()
+    if admin:
+        return render_template('admin.html')
+
+    else:
+        user=User.query.filter_by(email=session['email']).first()
+        return render_template('index.html', user=user)
 
 @app.route('/login')
 def login():
@@ -175,3 +181,13 @@ def profile_post():
 def logout():
     session.pop('email')
     return redirect(url_for('login'))
+
+@app.route('/admin')
+@auth_req
+def admin():
+    return render_template('admin.html')
+
+@app.route('/subject/add')
+@auth_req
+def add_subject():
+    return 'sub adder'
