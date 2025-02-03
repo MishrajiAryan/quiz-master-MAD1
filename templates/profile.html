@@ -2,50 +2,54 @@
 
 {% block title %}
 {% if user %}
-    {{user.name}}
+{{user.name}}
 {% else %}
-    Admin
+Admin
 {% endif %}
 {% endblock %}
 
 {% block content %}
 
 <h1 class="display-1 text-center">
-{% if user %}
+    {% if user %}
+    <img src="https://api.dicebear.com/9.x/initials/svg?seed={{user.name}}"
+    class="object-fit-sm-contain img-thumbnail border rounded-circle mx-auto d-block" style="max-width: 15%;" alt="profile picture">
     {{user.name}}
-{% else %}
+    {% else %}
+    <img src="https://api.dicebear.com/9.x/initials/svg?seed=Admin"
+    class="object-fit-sm-contain img-thumbnail border rounded-circle mx-auto d-block" style="max-width: 15%;" alt="profile picture">
     Admin
-{% endif %}
+    {% endif %}
 </h1>
 
 <p class="text-center">
     {% if user %}
-        <div class="container text-center mt-4">
-            <div class="row text-center fw-bold border-bottom pb-2 d-none d-md-flex">
-                <div class="col-12 col-md-4 fw-bold">Email</div>
-                <div class="col-12 col-md-4 fw-bold">Date of Birth</div>
-                <div class="col-12 col-md-4 fw-bold">Qualification</div>
-            </div>
-            <div class="row text-center pt-2 d-none d-md-flex">
-                <div class="col-12 col-md-4">{{user.email}}</div>
-                <div class="col-12 col-md-4">{{user.dob}}</div>
-                <div class="col-12 col-md-4">{{user.qualification}}</div>
-            </div>
-            <!-- for small screens -->
-            <div class="row text-center d-md-none">
-                <div class="col-12 fw-bold">Email</div>
-                <div class="col-12 mb-2">{{user.email}}</div>
-    
-                <div class="col-12 fw-bold">Date of Birth</div>
-                <div class="col-12 mb-2">{{user.dob}}</div>
-    
-                <div class="col-12 fw-bold">Qualification</div>
-                <div class="col-12">{{user.qualification}}</div>
-            </div>
-        </div>
-    {% else %}
-        <h3 class="text-center">This is the page for Admin</h3>
-    {% endif %}
+<div class="container text-center mt-4">
+    <div class="row text-center fw-bold border-bottom pb-2 d-none d-md-flex">
+        <div class="col-12 col-md-4 fw-bold">Email</div>
+        <div class="col-12 col-md-4 fw-bold">Date of Birth</div>
+        <div class="col-12 col-md-4 fw-bold">Qualification</div>
+    </div>
+    <div class="row text-center pt-2 d-none d-md-flex">
+        <div class="col-12 col-md-4">{{user.email}}</div>
+        <div class="col-12 col-md-4">{{user.dob}}</div>
+        <div class="col-12 col-md-4">{{user.qualification}}</div>
+    </div>
+    <!-- for small screens -->
+    <div class="row text-center d-md-none">
+        <div class="col-12 fw-bold">Email</div>
+        <div class="col-12 mb-2">{{user.email}}</div>
+
+        <div class="col-12 fw-bold">Date of Birth</div>
+        <div class="col-12 mb-2">{{user.dob}}</div>
+
+        <div class="col-12 fw-bold">Qualification</div>
+        <div class="col-12">{{user.qualification}}</div>
+    </div>
+</div>
+{% else %}
+<h3 class="text-center">This is the page for Admin</h3>
+{% endif %}
 </p>
 
 <!--Adding change credentials form for user-->
@@ -90,11 +94,13 @@
     </div>
     {% endif %}
 
-    <div class="form-group">
-        <button type="submit" class="btn btn-success">Update</button>
+    <br>
+    <div class="btn-toolbar form-group" role="toolbar">
+        <div class="btn-group form-group me-2" role="group"">
+            <button type="submit" class="btn btn-success">Update</button>
+        </div>
+        <div class="btn-group form-group me-2" role="group">
+            <a href="{{ url_for('logout') }}" class="btn btn-outline-danger">Logout</a>
+        </div>
     </div>
-
-    <a href="{{ url_for('logout') }}" class="btn btn-outline-danger">Logout</a>
-
-
-{% endblock %}
+    {% endblock %}

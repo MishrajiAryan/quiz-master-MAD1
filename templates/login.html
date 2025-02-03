@@ -16,11 +16,14 @@ Login: Quiz Quest
         <label for="password" class="form-label">Password:</label>
         <input type="password" class="form-control" id="password" name="password" required>
     </div>
-    <div class="form-group">
-        <button type="submit" class="btn btn-primary">Login</button>
-    </div>
-    <div class="form-group">
-        <a class="btn btn-outline-info" href="{{ url_for('register')}}" role="button">Register</a>
+    <br>
+    <div class="btn-toolbar form-group" role="toolbar">
+        <div class="btn-group form-group me-2" role="group"">
+            <button type="submit" class="btn btn-primary">Login</button>
+        </div>
+        <div class="btn-group form-group me-2" role="group">
+            <a class="btn btn-warning" href="{{ url_for('register')}}" role="button">Register</a>
+        </div>
     </div>
 </form>
 {% endblock %}
