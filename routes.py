@@ -17,8 +17,27 @@ def auth_req(f):
             flash('Please login to continue')
             return redirect(url_for('login'))
     return inner
-        
 
+def admin_req(f):
+    @wraps(f)
+    def inner(*args, **kwargs):
+        if 'email' not in session:
+            flash('Please login to continue')
+            return redirect(url_for('login'))
+            
+        user=User.query.filter_by(email=session['email']).first()
+        if user in session:
+            flash('Access Denied')
+            return redirect(url_for('index'))
+        
+        admin = Admin.query.filter_by(email=session['email']).first()
+        if not admin:
+            flash('Access Denied')
+            return redirect(url_for('index'))
+        
+        return f(*args,**kwargs)
+    return inner
+        
 # the decorator @app.route is directing towards root dir '/'
 @app.route('/')
 @auth_req
@@ -68,7 +87,6 @@ def login_post():
     session['email'] = user.email
     flash('Login Successful')
     return redirect(url_for('index'))
-
 
 @app.route('/register')
 def register():
@@ -182,12 +200,25 @@ def logout():
     session.pop('email')
     return redirect(url_for('login'))
 
+
+'''Below are the pages of Admin'''
+
 @app.route('/admin')
-@auth_req
+@admin_req
 def admin():
     return render_template('admin.html')
 
 @app.route('/subject/add')
-@auth_req
+@admin_req
 def add_subject():
     return 'sub adder'
+
+@app.route('/subject/<int:id>')
+@admin_req
+def view_subject(id):
+    return "view"
+
+@app.route('/subject/<int:id>/delete')
+@admin_req
+def delete_subject(id):
+    return "delete"
