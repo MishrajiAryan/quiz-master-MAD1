@@ -125,20 +125,52 @@ def profile_post():
     new_qualification = request.form.get('new_qualification')
     new_dob = request.form.get('new_dob')
 
-    if not new_password or not password or not confirm_new_password or not new_name or not new_qualification or not new_dob:
-        flash('Please fill all the fields')
+    if not password:
+        flash('Please fill current password before changing anything')
         return redirect(url_for('profile'))
     
-    admin = Admin.query.get(session['email'])
+    admin = Admin.query.filter_by(email=session['email']).first()
     if admin:
         if not check_password_hash(admin.password, password):
             flash('Incorrect Password')
             return redirect(url_for('profile'))
+        
+        if new_password:
+            if new_password == confirm_new_password:
+                new_password_hash = generate_password_hash(new_password)
+                admin.password = new_password_hash
+            else:
+                flash('New Password does not match Confirm Password')
+                return redirect(url_for('profile'))
     else:
-        user=User.query.get(session['email'])
+        user=User.query.filter_by(email=session['email']).first()
         if not check_password_hash(user.password, password):
             flash('Incorrect Password')
             return redirect(url_for('profile'))
+        
+        if new_password:
+            if new_password == confirm_new_password:
+                new_password_hash = generate_password_hash(new_password)
+                user.password = new_password_hash
+            else:
+                flash('New Password does not match Confirm Password')
+                return redirect(url_for('profile'))
+    
+        if new_name:
+            user.name = new_name
+            
+        if new_qualification and new_qualification != "Choose...":
+            user.qualification = new_qualification
+            
+        if new_dob:
+            new_dob_date = datetime.strptime(new_dob, "%Y-%m-%d").date()
+            user.dob = new_dob_date
+
+    db.session.commit()
+    flash('Profile Updated successfully')
+    return redirect(url_for('profile'))
+
+
     
 @app.route('/logout')
 @auth_req
