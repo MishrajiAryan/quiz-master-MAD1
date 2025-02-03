@@ -44,8 +44,13 @@ Register: Quiz Quest
         <input type="date" class="form-control" id="dob" name="dob" required>
     </div>
     <br>
-    <div class="form-group">
-        <button type="submit" class="btn btn-primary">Submit</button>
+    <div class="btn-toolbar form-group" role="toolbar">
+        <div class="btn-group form-group me-2" role="group"">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+        <div class="btn-group form-group me-2" role="group">
+            <a class="btn btn-warning" href="{{ url_for('login')}}" role="button">Existing User?</a>
+        </div>
     </div>
 
 </form>

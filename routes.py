@@ -169,9 +169,7 @@ def profile_post():
     db.session.commit()
     flash('Profile Updated successfully')
     return redirect(url_for('profile'))
-
-
-    
+ 
 @app.route('/logout')
 @auth_req
 def logout():
