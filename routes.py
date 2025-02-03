@@ -211,12 +211,12 @@ def admin():
 @app.route('/subject/add')
 @admin_req
 def add_subject():
-    return 'sub adder'
+    return render_template('/subject/add_subject.html')
 
 @app.route('/subject/<int:id>')
 @admin_req
 def view_subject(id):
-    return "view"
+    return render_template('/subject/view_subject.html')
 
 @app.route('/subject/<int:id>/delete')
 @admin_req
