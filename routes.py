@@ -1,3 +1,4 @@
+from re import sub
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from app import app
 from models import db, User, Subject, Chapter, Quiz, Question, Score, Admin
@@ -44,7 +45,7 @@ def admin_req(f):
 def index():
     admin = Admin.query.filter_by(email=session['email']).first()
     if admin:
-        return render_template('admin.html')
+        return redirect(url_for('admin'))
 
     else:
         user=User.query.filter_by(email=session['email']).first()
@@ -206,19 +207,77 @@ def logout():
 @app.route('/admin')
 @admin_req
 def admin():
-    return render_template('admin.html')
+    subjects = Subject.query.all()
+    return render_template('admin.html', subjects=subjects)
 
 @app.route('/subject/add')
 @admin_req
 def add_subject():
     return render_template('/subject/add_subject.html')
 
+@app.route('/subject/add', methods=['POST'])
+@admin_req
+def add_subject_post():
+    name = request.form.get('subject_name')
+    description = request.form.get('subject_description')
+
+    if not description or not name:
+        flash('Please fill all the fields')
+        return redirect(url_for('add_subject'))
+    
+    subject = Subject(name=name, description=description)
+    db.session.add(subject)
+    db.session.commit()
+    flash("Subject Added Successfully")
+
+    return redirect(url_for('admin'))
+
 @app.route('/subject/<int:id>')
 @admin_req
 def view_subject(id):
-    return render_template('/subject/view_subject.html')
+    subject = Subject.query.get(id)
+    if not subject:
+        flash('Subject not found')
+        return redirect(url_for('admin'))
+    return render_template('/subject/view_subject.html',subject=subject)
+
+@app.route('/subject/<int:id>/edit')
+@admin_req
+def edit_subject(id):
+    subject = Subject.query.get(id)
+    if not subject:
+        flash('Subject not found')
+        return redirect(url_for('admin'))
+    return render_template('/subject/edit_subject.html', subject=subject)
+
+@app.route('/subject/<int:id>/edit', methods=['POST'])
+@admin_req
+def edit_subject_post(id):
+    subject = Subject.query.get(id)
+    if not subject:
+        flash('Subject not found')
+        return redirect(url_for('admin'))
+    
+    name = request.form.get('subject_name')
+    description = request.form.get('subject_description')
+
+    if not description or not name:
+        flash('Please fill all the fields')
+        return redirect(url_for('edit_subject'))
+    
+    subject.name = name
+    subject.description = description
+
+    db.session.commit()
+
+    flash("Subject Updated Successfully")
+    return redirect(url_for('admin'))
 
 @app.route('/subject/<int:id>/delete')
 @admin_req
 def delete_subject(id):
-    return "delete"
+    subject = Subject.query.get(id)
+    if not subject:
+        flash('Subject not found')
+        return redirect(url_for('admin'))
+    return render_template('/subject/delete_subject.html',subject=subject)
