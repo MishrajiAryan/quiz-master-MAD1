@@ -8,7 +8,7 @@ import os
 from dotenv import load_dotenv
 from functools import wraps
 
-# Decorator
+# Decorator for Authentication
 def auth_req(f):
     @wraps(f)
     def inner(*args, **kwargs):
@@ -19,6 +19,7 @@ def auth_req(f):
             return redirect(url_for('login'))
     return inner
 
+# Decorator for Admin Authentication
 def admin_req(f):
     @wraps(f)
     def inner(*args, **kwargs):
@@ -40,6 +41,7 @@ def admin_req(f):
     return inner
         
 # the decorator @app.route is directing towards root dir '/'
+# Index Page or HomePage
 @app.route('/')
 @auth_req
 def index():
@@ -51,6 +53,7 @@ def index():
         user=User.query.filter_by(email=session['email']).first()
         return render_template('index.html', user=user)
 
+# Login Page
 @app.route('/login')
 def login():
     return render_template('login.html')
@@ -89,6 +92,7 @@ def login_post():
     flash('Login Successful')
     return redirect(url_for('index'))
 
+# Register Page
 @app.route('/register')
 def register():
     return render_template('register.html')
@@ -130,6 +134,7 @@ def register_post():
         db.session.commit()
         return redirect(url_for('login'))
 
+# User/Admin profile page
 @app.route('/profile')
 @auth_req
 def profile():
@@ -139,7 +144,8 @@ def profile():
     else:
         user = User.query.filter_by(email=session['email']).first()
         return render_template('profile.html', user=user)
-    
+
+# User/Admin profile page post method
 @app.route('/profile', methods={'POST'})
 @auth_req
 def profile_post():
@@ -194,7 +200,8 @@ def profile_post():
     db.session.commit()
     flash('Profile Updated successfully')
     return redirect(url_for('profile'))
- 
+
+# Logout 
 @app.route('/logout')
 @auth_req
 def logout():
@@ -210,6 +217,8 @@ def admin():
     subjects = Subject.query.all()
     return render_template('admin.html', subjects=subjects)
 
+'''Subject Related Pages'''
+
 @app.route('/subject/add')
 @admin_req
 def add_subject():
@@ -224,6 +233,13 @@ def add_subject_post():
     if not description or not name:
         flash('Please fill all the fields')
         return redirect(url_for('add_subject'))
+    
+    existing_subject = Subject.query.filter(Subject.name == name).first()
+
+    if existing_subject:
+        flash('Subject name already exists, choose another')
+        return redirect(url_for('add_subject'))
+
     
     subject = Subject(name=name, description=description)
     db.session.add(subject)
@@ -263,7 +279,7 @@ def edit_subject_post(id):
 
     if not description or not name:
         flash('Please fill all the fields')
-        return redirect(url_for('edit_subject'))
+        return redirect(url_for('edit_subject', id=id))
     
     subject.name = name
     subject.description = description
@@ -281,3 +297,27 @@ def delete_subject(id):
         flash('Subject not found')
         return redirect(url_for('admin'))
     return render_template('/subject/delete_subject.html',subject=subject)
+
+@app.route('/subject/<int:id>/delete', methods=['POST'])
+@admin_req
+def delete_subject_post(id):
+    subject = Subject.query.get(id)
+    if not subject:
+        flash('Subject not found')
+        return redirect(url_for('admin'))
+    db.session.delete(subject)
+    db.session.commit()
+
+    flash('Subject Deleted Successfully')
+    return redirect(url_for('admin'))
+
+'''Chapters Related Pages'''
+
+@app.route('/subject/<int:id>/chapter/add')
+@admin_req
+def add_chapter(id):
+    return render_template('/chapter/add_chapter.html')
+
+
+
+'''Quiz Related Pages'''
