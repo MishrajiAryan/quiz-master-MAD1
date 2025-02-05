@@ -1,24 +1,28 @@
 {% extends "layout.html" %}
 
 {% block title %}
-{{subject.name}}
+{{chapter.name}}
 {% endblock %}
 
 {% block content %}
-<h1 class="display-3 text-center">{{subject.name}}</h1>
-<h5 class="text-center">{{subject.description}}</h5>
+<h1 class="display-3 text-center">{{chapter.name}}</h1>
+<h5 class="text-center">{{chapter.description}}</h5>
 <br>
-<div class="mx-auto text-center">
-    <a type="button" href="{{url_for('view_subject')}}" class="btn text-center btn-primary">
-        <i class="fa fa-plus" aria-hidden="true"></i>
-        Add Chapters
-    </a>
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-center text-center">
+    <h5 class="display-4">Quiz List</h5>
+
+    <div>
+        <a type="button" href="{{url_for('add_chapter', subject_id=subject.id)}}" class="btn btn-primary">
+            <i class="fa fa-plus" aria-hidden="true"></i> 
+            Add Quiz
+        </a>
+    </div>
 </div>
 <br>
 <table class="table table-hover">
     <thead>
       <tr>
-        <th scope="col">Subject ID</th>
+        <th scope="col">Quiz ID</th>
         <th scope="col">Subject Name</th>
         <th scope="col">Number of Chapters</th>
         <th scope="col">Description</th>

@@ -35,7 +35,7 @@
         <td>{{chapter.name}}</td>
         <td>{{chapter.quizzes|length}}</td>
         <td>
-            <a href="{{url_for('view_subject',subject_id=subject.id)}}" class="btn btn-success">
+            <a href="{{url_for('view_chapter',subject_id=chapter.subject_id, chapter_id=chapter.id)}}" class="btn btn-success">
                 <i class="fa fa-eye" aria-hidden="true"></i>
                 View
             </a>

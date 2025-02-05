@@ -424,6 +424,19 @@ def edit_chapter_post(subject_id,chapter_id):
     flash("Chapter Updated Successfully")
     return redirect(url_for('view_subject', subject_id=subject_id))
 
-
+@app.route('/subject/<int:subject_id>/chapter/<int:chapter_id>')
+@admin_req
+def view_chapter(subject_id,chapter_id):
+    subject = Subject.query.get(subject_id)
+    if not subject:
+        flash('Subject not found')
+        return redirect(url_for('admin'))
+    
+    chapter = Chapter.query.get(chapter_id)
+    if not chapter:
+        flash('Chapter does not exist')
+        return redirect(url_for('view_subject', subject_id=subject_id))
+    
+    return render_template('/chapter/view_chapter.html',subject=subject, chapter=chapter)
 
 '''Quiz Related Pages'''
