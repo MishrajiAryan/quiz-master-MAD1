@@ -1,4 +1,6 @@
 from re import sub
+from unicodedata import category
+from unittest import removeResult
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from app import app
 from models import db, User, Subject, Chapter, Quiz, Question, Score, Admin
@@ -248,28 +250,28 @@ def add_subject_post():
 
     return redirect(url_for('admin'))
 
-@app.route('/subject/<int:id>')
+@app.route('/subject/<int:subject_id>')
 @admin_req
-def view_subject(id):
-    subject = Subject.query.get(id)
+def view_subject(subject_id):
+    subject = Subject.query.get(subject_id)
     if not subject:
         flash('Subject not found')
         return redirect(url_for('admin'))
     return render_template('/subject/view_subject.html',subject=subject)
 
-@app.route('/subject/<int:id>/edit')
+@app.route('/subject/<int:subject_id>/edit')
 @admin_req
-def edit_subject(id):
-    subject = Subject.query.get(id)
+def edit_subject(subject_id):
+    subject = Subject.query.get(subject_id)
     if not subject:
         flash('Subject not found')
         return redirect(url_for('admin'))
     return render_template('/subject/edit_subject.html', subject=subject)
 
-@app.route('/subject/<int:id>/edit', methods=['POST'])
+@app.route('/subject/<int:subject_id>/edit', methods=['POST'])
 @admin_req
-def edit_subject_post(id):
-    subject = Subject.query.get(id)
+def edit_subject_post(subject_id):
+    subject = Subject.query.get(subject_id)
     if not subject:
         flash('Subject not found')
         return redirect(url_for('admin'))
@@ -279,7 +281,7 @@ def edit_subject_post(id):
 
     if not description or not name:
         flash('Please fill all the fields')
-        return redirect(url_for('edit_subject', id=id))
+        return redirect(url_for('edit_subject', subject_id=subject_id))
     
     subject.name = name
     subject.description = description
@@ -289,19 +291,19 @@ def edit_subject_post(id):
     flash("Subject Updated Successfully")
     return redirect(url_for('admin'))
 
-@app.route('/subject/<int:id>/delete')
+@app.route('/subject/<int:subject_id>/delete')
 @admin_req
-def delete_subject(id):
-    subject = Subject.query.get(id)
+def delete_subject(subject_id):
+    subject = Subject.query.get(subject_id)
     if not subject:
         flash('Subject not found')
         return redirect(url_for('admin'))
     return render_template('/subject/delete_subject.html',subject=subject)
 
-@app.route('/subject/<int:id>/delete', methods=['POST'])
+@app.route('/subject/<int:subject_id>/delete', methods=['POST'])
 @admin_req
-def delete_subject_post(id):
-    subject = Subject.query.get(id)
+def delete_subject_post(subject_id):
+    subject = Subject.query.get(subject_id)
     if not subject:
         flash('Subject not found')
         return redirect(url_for('admin'))
@@ -313,10 +315,114 @@ def delete_subject_post(id):
 
 '''Chapters Related Pages'''
 
-@app.route('/subject/<int:id>/chapter/add')
+@app.route('/subject/<int:subject_id>/chapter/add')
 @admin_req
-def add_chapter(id):
-    return render_template('/chapter/add_chapter.html')
+def add_chapter(subject_id):
+    subject = Subject.query.get(subject_id)
+    if not subject:
+        flash('Subject does not exist')
+        return redirect(url_for('admin'))
+    return render_template('/chapter/add_chapter.html', subject=subject)
+
+
+@app.route('/subject/<int:subject_id>/chapter/add', methods=['POST'])
+@admin_req
+def add_chapter_post(subject_id):
+    subject = Subject.query.get(subject_id)
+    name = request.form.get('chapter_name')
+    description = request.form.get('chapter_description')
+
+    if not description or not name:
+        flash('Please fill all the fields')
+        return redirect(url_for('add_chapter', subject_id=subject.id))
+    
+    chapter = Chapter(name=name, description=description, subject_id=subject.id)
+    db.session.add(chapter)
+    db.session.commit()
+    flash("Chapter Added Successfully")
+
+    return redirect(url_for('view_subject', subject_id=subject.id))
+
+
+@app.route('/subject/<int:subject_id>/chapter/<int:chapter_id>/delete')
+@admin_req
+def delete_chapter(subject_id, chapter_id):
+    subject = Subject.query.get(subject_id)
+    if not subject:
+        flash('Subject does not exist')
+        return redirect(url_for('admin'))
+    
+    chapter = Chapter.query.get(chapter_id)
+    if not chapter:
+        flash('Chapter does not exist')
+        return redirect(url_for('view_subject', subject_id=subject_id))
+    
+    return render_template('/chapter/delete_chapter.html',subject=subject, chapter=chapter)
+
+
+@app.route('/subject/<int:subject_id>/chapter/<int:chapter_id>/delete', methods=['POST'])
+@admin_req
+def delete_chapter_post(subject_id,chapter_id):
+    subject = Subject.query.get(subject_id)
+    
+    if not subject:
+        flash('Subject does not exist')
+        return redirect(url_for('admin'))
+    
+    chapter = Chapter.query.get(chapter_id)
+    if not chapter:
+        flash('Chapter does not exist')
+        return redirect(url_for('view_subject', subject_id=subject_id))
+    
+    db.session.delete(chapter)
+    db.session.commit()
+
+    flash('Chapter Deleted Successfully')
+    return redirect(url_for('view_subject', subject_id=subject_id))
+
+
+@app.route('/subject/<int:subject_id>/chapter/<int:chapter_id>/edit')
+@admin_req
+def edit_chapter(subject_id,chapter_id):
+    subject = Subject.query.get(subject_id)
+    if not subject:
+        flash('Subject not found')
+        return redirect(url_for('admin'))
+
+    chapter = Chapter.query.get(chapter_id)
+    if not chapter:
+        flash('Chapter does not exist')
+        return redirect(url_for('view_subject', subject_id=subject_id))
+    
+    return render_template('/chapter/edit_chapter.html', subject=subject, chapter=chapter)
+
+@app.route('/subject/<int:subject_id>/chapter/<int:chapter_id>/edit', methods=['POST'])
+@admin_req
+def edit_chapter_post(subject_id,chapter_id):
+    subject = Subject.query.get(subject_id)
+    if not subject:
+        flash('Subject not found')
+        return redirect(url_for('admin'))
+    
+    chapter = Chapter.query.get(chapter_id)
+    if not chapter:
+        flash('Chapter does not exist')
+        return redirect(url_for('view_subject', subject_id=subject_id))
+    
+    name = request.form.get('chapter_name')
+    description = request.form.get('chapter_description')
+
+    if not description or not name:
+        flash('Please fill all the fields')
+        return redirect(url_for('edit_chapter',subject_id=subject_id, chapter_id=chapter_id))
+    
+    chapter.name = name
+    chapter.description = description
+
+    db.session.commit()
+
+    flash("Chapter Updated Successfully")
+    return redirect(url_for('view_subject', subject_id=subject_id))
 
 
 
