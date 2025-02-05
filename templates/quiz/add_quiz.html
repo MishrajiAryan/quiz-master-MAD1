@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    New Quiz
+{% endblock %}
+
+{% block content %}
+<h1 class="display-3 text-center">Add New Quiz</h1>
+
+<form action="" method="post" class="form">
+    
+    <div class="form-group">
+        <label for="quiz_name" class="form-label">Name:</label>
+        <input type="text" class="form-control" style="max-width: 60%;" id="quiz_name" name="quiz_name" required>
+    </div>
+    <div class="form-group">
+        <label for="date_of_quiz" class="form-label">Date of Quiz:</label>
+        <input type="date" class="form-control" style="max-width: 60%;" id="date_of_quiz" name="date_of_quiz" required>
+    </div>
+    <div class="form-group">
+        <label for="time_duration" class="form-label">Time Duration(HH:MM):</label>
+        <input type="time" class="form-control hour-12" style="max-width: 60%;" id="time_duration" name="time_duration" required>
+    </div>
+    <div class="form-group">
+        <label for="remarks" class="form-label">Remarks:</label>
+        <input type="text" class="form-control" id="remarks" name="remarks" required>
+    </div>
+    <br>
+    <div class="btn-toolbar form-group" role="toolbar">
+        <div class="btn-group form-group me-2" role="group">
+            <button type="submit" class="btn btn-success">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+                Add Now
+            </button>
+        </div>
+    </div>
+
+</form>
+<script>
+    const dateInput = document.getElementById('date_of_quiz');
+    const today = new Date().toISOString().split('T')[0];
+    dateInput.setAttribute('min', today);
+  </script>
+{% endblock %}
