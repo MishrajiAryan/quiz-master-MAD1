@@ -1,71 +1,52 @@
 {% extends "layout.html" %}
 
 {% block title %}
-{{chapter.name}}
+    {{chapter.name}}
 {% endblock %}
 
 {% block content %}
 <h1 class="display-3 text-center">Chapter: {{chapter.name}}</h1>
 <h5 class="text-center">{{chapter.description}}</h5>
 <hr>
-<div class="card shadow-lg p-4">
-    <div class="card-body">
-      <div class="d-flex flex-column flex-md-row justify-content-between align-items-center text-center">
-        <h5 class="display-4">Quiz List</h5>
-    
-        <div>
-            <a type="button" href="{{url_for('add_quiz', subject_id=chapter.subject_id, chapter_id=chapter.id)}}" class="btn btn-primary">
-                <i class="fa fa-plus" aria-hidden="true"></i> 
-                Add Quiz
-            </a>
-        </div>
-    </div>
-    <br>
-    <table class="table table-hover">
-        <thead>
-          <tr>
-            <th scope="col">Quiz ID</th>
-            <th scope="col">Quiz Name</th>
-            <th scope="col">Number of Questions</th>
-            <th scope="col">Date of Quiz</th>
-            <th scope="col">Time Duration</th>
-            <th scope="col">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for quiz in chapter.quizzes %}
-          <tr>
-            <td>{{quiz.id}}</td>
-            <td>{{quiz.name}}</td>
-            <td>{{quiz.questions|length}}</td>
-            <td>{{quiz.date_of_quiz}}</td>
-            <td>{{quiz.time_duration}}</td>
-            <td>
-                <a href="{{url_for('view_quiz', subject_id=chapter.subject_id, chapter_id=quiz.chapter.id, quiz_id=quiz.id)}}" class="btn btn-success">
-                    <i class="fa fa-eye" aria-hidden="true"></i>
-                    View
-                </a>
-                <a href="{{url_for('edit_quiz', subject_id=chapter.subject_id, chapter_id=quiz.chapter.id, quiz_id=quiz.id)}}" class="btn btn-warning">
-                    <i class="fa fa-edit" aria-hidden="true"></i>
-                    Edit
-                </a>
-                <a href="{{url_for('delete_quiz', subject_id=chapter.subject_id, chapter_id=quiz.chapter.id, quiz_id=quiz.id)}}" class="btn btn-danger">
-                    <i class="fa fa-trash" aria-hidden="true"></i>
-                    Delete
-                </a>
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-      <br>
-      <a href="{{ url_for('view_subject', subject_id=subject.id)}}" class="btn btn-secondary">
-        <i class="fa fa-arrow-left"></i> 
-        Back to Subject
+
+<div class="text-center mb-4">
+    <a href="{{url_for('add_quiz', subject_id=chapter.subject_id, chapter_id=chapter.id)}}" class="btn btn-primary">
+        <i class="fa fa-plus" aria-hidden="true"></i> Add Quiz
     </a>
+</div>
+
+<div class="container">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for quiz in chapter.quizzes %}
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">{{ quiz.name }}</h5>
+                    <p class="card-text"><strong>Questions:</strong> {{ quiz.questions|length }}</p>
+                    <p class="card-text"><strong>Date:</strong> {{ quiz.date_of_quiz }}</p>
+                    <p class="card-text"><strong>Duration:</strong> {{ quiz.time_duration }}</p>
+                </div>
+                <div class="card-footer d-flex justify-content-between">
+                    <a href="{{url_for('view_quiz', subject_id=chapter.subject_id, chapter_id=quiz.chapter.id, quiz_id=quiz.id)}}" class="btn btn-success">
+                        <i class="fa fa-eye"></i> View
+                    </a>
+                    <a href="{{url_for('edit_quiz', subject_id=chapter.subject_id, chapter_id=quiz.chapter.id, quiz_id=quiz.id)}}" class="btn btn-warning">
+                        <i class="fa fa-edit"></i> Edit
+                    </a>
+                    <a href="{{url_for('delete_quiz', subject_id=chapter.subject_id, chapter_id=quiz.chapter.id, quiz_id=quiz.id)}}" class="btn btn-danger">
+                        <i class="fa fa-trash"></i> Delete
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
     </div>
 </div>
-<br>
 
+<div class="text-center mt-4">
+    <a href="{{ url_for('view_subject', subject_id=subject.id)}}" class="btn btn-secondary">
+        <i class="fa fa-arrow-left"></i> Back to Subject
+    </a>
+</div>
 
 {% endblock %}
