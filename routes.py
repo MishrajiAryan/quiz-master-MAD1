@@ -129,6 +129,9 @@ def register_post():
                         name=name, qualification=qualification, dob=dob_date)
         db.session.add(new_user)
         db.session.commit()
+
+        flash('Registration Successful')
+        flash('Login to continue')
         return redirect(url_for('login'))
 
 # User/Admin profile page
@@ -203,6 +206,7 @@ def profile_post():
 @auth_req
 def logout():
     session.pop('email')
+    flash('Log Out Successful')
     return redirect(url_for('login'))
 
 
@@ -670,7 +674,7 @@ def add_question_post(subject_id, chapter_id,quiz_id):
     correct_option = request.form.get('correct_option')
 
     
-    if not question_statement or not option1 or not option2 or not option3 or not option4 or not correct_option:
+    if not question_statement or not option1 or not option2 or not correct_option:
         flash('Please fill all the fields')
         return redirect(url_for('add_question', subject_id=subject_id, chapter_id=chapter_id, quiz_id=quiz_id))
     
@@ -697,7 +701,7 @@ def add_question_post(subject_id, chapter_id,quiz_id):
 
 @app.route('/subject/<int:subject_id>/chapter/<int:chapter_id>/quiz/<int:quiz_id>/question/<int:question_id>/delete')
 @admin_req
-def delete_question(subject_id, chapter_id,quiz_id):
+def delete_question(subject_id, chapter_id,quiz_id, question_id):
     subject = Subject.query.get(subject_id)
     if not subject:
         flash('Subject does not exist')
@@ -713,11 +717,16 @@ def delete_question(subject_id, chapter_id,quiz_id):
         flash('Quiz does not exist')
         return redirect(url_for('view_chapter', subject_id=subject_id, chapter_id=chapter_id))
     
-    return render_template('/quiz/delete_quiz.html',subject=subject, chapter=chapter, quiz=quiz)
+    question = Question.query.get(question_id)
+    if not quiz:
+        flash('Question does not exist')
+        return redirect(url_for('view_quiz', subject_id=subject_id, chapter_id=chapter_id, quiz_id=quiz_id))
+    
+    return render_template('/question/delete_question.html',subject=subject, chapter=chapter, quiz=quiz, question=question)
 
-@app.route('/subject/<int:subject_id>/chapter/<int:chapter_id>/quiz/<int:quiz_id>/delete', methods=['POST'])
+@app.route('/subject/<int:subject_id>/chapter/<int:chapter_id>/quiz/<int:quiz_id>/question/<int:question_id>/delete', methods=['POST'])
 @admin_req
-def delete_quiz_post(subject_id,chapter_id,quiz_id):
+def delete_question_post(subject_id,chapter_id,quiz_id,question_id):
     subject = Subject.query.get(subject_id)
     
     if not subject:
@@ -734,15 +743,20 @@ def delete_quiz_post(subject_id,chapter_id,quiz_id):
         flash('Quiz does not exist')
         return redirect(url_for('view_chapter', subject_id=subject_id, chapter_id=chapter_id))
     
-    db.session.delete(quiz)
+    question = Question.query.get(question_id)
+    if not quiz:
+        flash('Question does not exist')
+        return redirect(url_for('view_quiz', subject_id=subject_id, chapter_id=chapter_id, quiz_id=quiz_id))
+    
+    db.session.delete(question)
     db.session.commit()
 
-    flash('Quiz Deleted Successfully')
-    return redirect(url_for('view_chapter', subject_id=subject_id, chapter_id=chapter_id))
+    flash('Question Deleted Successfully')
+    return redirect(url_for('view_quiz', subject_id=subject_id, chapter_id=chapter_id, quiz_id=quiz_id))
 
-@app.route('/subject/<int:subject_id>/chapter/<int:chapter_id>/quiz/<int:quiz_id>/edit')
+@app.route('/subject/<int:subject_id>/chapter/<int:chapter_id>/quiz/<int:quiz_id>/question/<int:question_id>/edit')
 @admin_req
-def edit_quiz(subject_id,chapter_id,quiz_id):
+def edit_question(subject_id, chapter_id, quiz_id, question_id):
     subject = Subject.query.get(subject_id)
     if not subject:
         flash('Subject not found')
@@ -757,65 +771,82 @@ def edit_quiz(subject_id,chapter_id,quiz_id):
     if not quiz:
         flash('Quiz does not exist')
         return redirect(url_for('view_chapter', subject_id=subject_id, chapter_id=chapter_id))
-    
-    return render_template('/quiz/edit_quiz.html', subject=subject, chapter=chapter, quiz=quiz)
 
-@app.route('/subject/<int:subject_id>/chapter/<int:chapter_id>/quiz/<int:quiz_id>/edit', methods=['POST'])
+    question = Question.query.get(question_id)
+    if not question:
+        flash('Question does not exist')
+        return redirect(url_for('view_quiz', subject_id=subject_id, chapter_id=chapter_id, quiz_id=quiz_id))
+    
+    return render_template('/question/edit_question.html', subject=subject, chapter=chapter, quiz=quiz, question=question)
+
+@app.route('/subject/<int:subject_id>/chapter/<int:chapter_id>/quiz/<int:quiz_id>/question/<int:question_id>/edit', methods=['POST'])
 @admin_req
-def edit_quiz_post(subject_id,chapter_id, quiz_id):
+def edit_question_post(subject_id, chapter_id, quiz_id, question_id):
     subject = Subject.query.get(subject_id)
     if not subject:
         flash('Subject not found')
         return redirect(url_for('admin'))
-    
+
     chapter = Chapter.query.get(chapter_id)
     if not chapter:
         flash('Chapter does not exist')
         return redirect(url_for('view_subject', subject_id=subject_id))
-    
+
     quiz = Quiz.query.get(quiz_id)
     if not quiz:
         flash('Quiz does not exist')
         return redirect(url_for('view_chapter', subject_id=subject_id, chapter_id=chapter_id))
-    
-    name = request.form.get('quiz_name')
-    date_of_quiz = request.form.get('date_of_quiz')
-    time_duration = request.form.get('time_duration')
-    remarks = request.form.get('remarks')
-    
-    if not name or not date_of_quiz or not time_duration or not remarks:
-        flash('Please fill all the fields')
-        return redirect(url_for('add_quiz', subject_id=subject_id, chapter_id=chapter_id))
-    
-    date_of_quiz = datetime.strptime(date_of_quiz, "%Y-%m-%d").date()
 
-    quiz.name=name
-    quiz.date_of_quiz=date_of_quiz
-    quiz.remarks=remarks 
-    quiz.time_duration=time_duration
+    question = Question.query.get(question_id)
+    if not question:
+        flash('Question does not exist')
+        return redirect(url_for('view_quiz', subject_id=subject_id, chapter_id=chapter_id, quiz_id=quiz_id))
+
     
+    question_statement = request.form.get('question_statement')
+    option1 = request.form.get('option1')
+    option2 = request.form.get('option2')
+    option3 = request.form.get('option3')
+    option4 = request.form.get('option4')
+    correct_option = request.form.get('correct_option')
+
+    if not question_statement or not option1 or not option2 or not correct_option:
+        flash('Please fill all required fields')
+        return redirect(url_for('edit_question', subject_id=subject_id, chapter_id=chapter_id, quiz_id=quiz_id, question_id=question_id))
+
+    question.question_statement = question_statement
+    question.option1 = option1
+    question.option2 = option2
+    question.option3 = option3
+    question.option4 = option4
+    question.correct_option = correct_option
+
     db.session.commit()
+    flash("Question Updated Successfully")
 
-    flash("Quiz Updated Successfully")
-    return redirect(url_for('view_chapter', subject_id=subject_id, chapter_id=chapter_id))
+    return redirect(url_for('view_quiz', subject_id=subject_id, chapter_id=chapter_id, quiz_id=quiz_id))
 
-@app.route('/subject/<int:subject_id>/chapter/<int:chapter_id>/quiz/<int:quiz_id>')
+@app.route('/subject/<int:subject_id>/chapter/<int:chapter_id>/quiz/<int:quiz_id>/question/<int:question_id>')
 @admin_req
-def view_quiz(subject_id,chapter_id,quiz_id):
+def view_question(subject_id, chapter_id, quiz_id, question_id):
     subject = Subject.query.get(subject_id)
     if not subject:
         flash('Subject not found')
         return redirect(url_for('admin'))
-    
+
     chapter = Chapter.query.get(chapter_id)
     if not chapter:
         flash('Chapter does not exist')
         return redirect(url_for('view_subject', subject_id=subject_id))
-    
+
     quiz = Quiz.query.get(quiz_id)
     if not quiz:
         flash('Quiz does not exist')
         return redirect(url_for('view_chapter', subject_id=subject_id, chapter_id=chapter_id))
-    
-    return render_template('/quiz/view_quiz.html',subject=subject, chapter=chapter, quiz=quiz)
 
+    question = Question.query.get(question_id)
+    if not question:
+        flash('Question does not exist')
+        return redirect(url_for('view_quiz', subject_id=subject_id, chapter_id=chapter_id, quiz_id=quiz_id))
+
+    return render_template('/question/view_question.html', subject=subject, chapter=chapter, quiz=quiz, question=question)

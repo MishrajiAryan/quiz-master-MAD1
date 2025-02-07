@@ -6,51 +6,56 @@
 
 {% block content %}
 <h1 class="display-1 text-center">Admin Dashboard</h1>
-<br>
-<div class="d-flex flex-column flex-md-row justify-content-between align-items-center text-center">
-    <h5 class="display-4">Subject List</h5>
-
-    <div>
-        <a type="button" href="{{url_for('add_subject')}}" class="btn btn-primary">
-            <i class="fa fa-plus" aria-hidden="true"></i> 
-            Add Subject
-        </a>
+<hr>
+<div class="card shadow-lg p-4">
+    <div class="card-body">
+      <div class="d-flex flex-column flex-md-row justify-content-between align-items-center text-center">
+        <h5 class="display-4">Subject List</h5>
+    
+        <div>
+            <a type="button" href="{{url_for('add_subject')}}" class="btn btn-primary">
+                <i class="fa fa-plus" aria-hidden="true"></i> 
+                Add Subject
+            </a>
+        </div>
+    </div>
+    <br>
+    
+    <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Subject ID</th>
+            <th scope="col">Subject Name</th>
+            <th scope="col">Number of Chapters</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for subject in subjects %}
+          <tr>
+            <td>{{subject.id}}</td>
+            <td>{{subject.name}}</td>
+            <td>{{subject.chapters|length}}</td>
+            <td>
+                <a href="{{url_for('view_subject', subject_id=subject.id)}}" class="btn btn-success">
+                    <i class="fa fa-eye" aria-hidden="true"></i>
+                    View
+                </a>
+                <a href="{{url_for('edit_subject', subject_id=subject.id)}}" class="btn btn-warning">
+                    <i class="fa fa-edit" aria-hidden="true"></i>
+                    Edit
+                </a>
+                <a href="{{url_for('delete_subject', subject_id=subject.id)}}" class="btn btn-danger">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                    Delete
+                </a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    
     </div>
 </div>
 <br>
-
-<table class="table table-hover">
-    <thead>
-      <tr>
-        <th scope="col">Subject ID</th>
-        <th scope="col">Subject Name</th>
-        <th scope="col">Number of Chapters</th>
-        <th scope="col">Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for subject in subjects %}
-      <tr>
-        <td>{{subject.id}}</td>
-        <td>{{subject.name}}</td>
-        <td>{{subject.chapters|length}}</td>
-        <td>
-            <a href="{{url_for('view_subject', subject_id=subject.id)}}" class="btn btn-success">
-                <i class="fa fa-eye" aria-hidden="true"></i>
-                View
-            </a>
-            <a href="{{url_for('edit_subject', subject_id=subject.id)}}" class="btn btn-warning">
-                <i class="fa fa-edit" aria-hidden="true"></i>
-                Edit
-            </a>
-            <a href="{{url_for('delete_subject', subject_id=subject.id)}}" class="btn btn-danger">
-                <i class="fa fa-trash" aria-hidden="true"></i>
-                Delete
-            </a>
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-
 {% endblock %}

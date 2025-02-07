@@ -6,53 +6,59 @@ Register: Quiz Quest
 
 {% block content %}
 <h1 class="display-1 text-center">Welcome to Quiz Quest</h1>
-<h1 class="display-5">Register</h1>
-<form action="" method="post" class="form">
-    <div class="form-group">
-        <label for="email" class="form-label">Email:</label>
-        <input type="email" class="form-control" style="max-width: 60%;" id="email" name="email" required>
+<hr>
+<div class="card shadow-lg p-4">
+    <div class="card-body">
+        <h1 class="display-5">Register</h1>
+        <form action="" method="post" class="form">
+            <div class="form-group">
+                <label for="email" class="form-label">Email:</label>
+                <input type="email" class="form-control" style="max-width: 60%;" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password" class="form-label">Password:</label>
+                <input type="password" class="form-control" style="max-width: 60%;" id="password" name="password" required>
+            </div>
+            <div class="form-group">
+                <label for="confirm_password" class="form-label">Confirm Password:</label>
+                <input type="password" class="form-control" style="max-width: 60%;" id="confirm_password" name="confirm_password" required>
+            </div>
+            <div class="form-group">
+                <label for="name" class="form-label">Name:</label>
+                <input type="text" class="form-control" style="max-width: 60%;" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="qualification" class="form-label">Qualification:</label>
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="inputGroupSelect01">Your Qualification is</label>
+                    <select class="form-select" type="text" style="max-width: 47.5%;" id="qualification" name="qualification" required>
+                        <option selected>Choose...</option>
+                        <option value="Primary">Primary</option>
+                        <option value="Secondary">Secondary</option>
+                        <option value="Senior Secondary">Senior Secondary</option>
+                        <option value="Graduation">Graduation</option>
+                        <option value="Post Graduation">Post Graduation</option>
+                        <option value="PhD">PhD</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="dob" class="form-label">Date of Birth:</label>
+                <input type="date" class="form-control" style="max-width: 60%;" id="dob" name="dob" required>
+            </div>
+            <br>
+            <div class="btn-toolbar form-group" role="toolbar">
+                <div class="btn-group form-group me-2" role="group"">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+                <div class="btn-group form-group me-2" role="group">
+                    <a class="btn btn-warning" href="{{ url_for('login')}}" role="button">Existing User?</a>
+                </div>
+            </div>
+        
+        </form>
     </div>
-    <div class="form-group">
-        <label for="password" class="form-label">Password:</label>
-        <input type="password" class="form-control" style="max-width: 60%;" id="password" name="password" required>
-    </div>
-    <div class="form-group">
-        <label for="confirm_password" class="form-label">Confirm Password:</label>
-        <input type="password" class="form-control" style="max-width: 60%;" id="confirm_password" name="confirm_password" required>
-    </div>
-    <div class="form-group">
-        <label for="name" class="form-label">Name:</label>
-        <input type="text" class="form-control" style="max-width: 60%;" id="name" name="name" required>
-    </div>
-    <div class="form-group">
-        <label for="qualification" class="form-label">Qualification:</label>
-        <div class="input-group mb-3">
-            <label class="input-group-text" for="inputGroupSelect01">Your Qualification is</label>
-            <select class="form-select" type="text" style="max-width: 47.5%;" id="qualification" name="qualification" required>
-                <option selected>Choose...</option>
-                <option value="Primary">Primary</option>
-                <option value="Secondary">Secondary</option>
-                <option value="Senior Secondary">Senior Secondary</option>
-                <option value="Graduation">Graduation</option>
-                <option value="Post Graduation">Post Graduation</option>
-                <option value="PhD">PhD</option>
-            </select>
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="dob" class="form-label">Date of Birth:</label>
-        <input type="date" class="form-control" style="max-width: 60%;" id="dob" name="dob" required>
-    </div>
-    <br>
-    <div class="btn-toolbar form-group" role="toolbar">
-        <div class="btn-group form-group me-2" role="group"">
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </div>
-        <div class="btn-group form-group me-2" role="group">
-            <a class="btn btn-warning" href="{{ url_for('login')}}" role="button">Existing User?</a>
-        </div>
-    </div>
-
-</form>
+</div>
+<br>
 <br>
 {% endblock %}

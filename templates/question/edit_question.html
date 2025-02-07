@@ -1,40 +1,73 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Edit Quiz
+    Edit Question
 {% endblock %}
 
 {% block content %}
-<h1 class="display-3 text-center">Edit Quiz</h1>
-
-<form action="" method="post" class="form">
+<div class="container">
+    <h1 class="display-3 text-center">Edit Question</h1>
+    <hr>
+<div class="card shadow-lg p-4">
+    <div class="card-body">
+        <form action="" method="post" class="form">
+            <div class="form-group">
+                <label for="question_statement" class="form-label">Question Statement:</label>
+                <input type="text" class="form-control" value="{{ question.question_statement }}" id="question_statement" name="question_statement" required>
+            </div>
     
-    <div class="form-group">
-        <label for="quiz_name" class="form-label">Name:</label>
-        <input type="text" class="form-control" style="max-width: 60%;" value="{{quiz.name}}" id="quiz_name" name="quiz_name" required>
+            <h4 class="mt-4">Options:</h4>
+            <div class="form-group">
+                <label for="option1" class="form-label">Option 1:</label>
+                <input type="text" class="form-control" value="{{ question.option1 }}" id="option1" name="option1" required>
+            </div>
+    
+            <div class="form-group">
+                <label for="option2" class="form-label">Option 2:</label>
+                <input type="text" class="form-control" value="{{ question.option2 }}" id="option2" name="option2" required>
+            </div>
+    
+            <div class="form-group">
+                <label for="option3" class="form-label">Option 3:</label>
+                <input type="text" class="form-control" value="{{ question.option3 }}" id="option3" name="option3">
+            </div>
+    
+            <div class="form-group">
+                <label for="option4" class="form-label">Option 4:</label>
+                <input type="text" class="form-control" value="{{ question.option4 }}" id="option4" name="option4">
+            </div>
+    
+            <div class="form-group">
+                <label for="correct_option" class="form-label">Correct Option:</label>
+                <select class="form-select" id="correct_option" name="correct_option" required>
+                    <option value="1" {% if question.correct_option == 1 %}selected{% endif %}>Option 1</option>
+                    <option value="2" {% if question.correct_option == 2 %}selected{% endif %}>Option 2</option>
+                    <option value="3" {% if question.correct_option == 3 %}selected{% endif %}>Option 3</option>
+                    <option value="4" {% if question.correct_option == 4 %}selected{% endif %}>Option 4</option>
+                </select>
+            </div>
+    
+            <br>
+            <div class="btn-toolbar form-group" role="toolbar">
+                <div class="btn-group form-group me-2" role="group">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fa fa-edit" aria-hidden="true"></i>
+                        Update
+                    </button>
+                </div>
+                <div class="btn-group form-group me-2" role="group">
+                    <a href="{{ url_for('view_quiz', subject_id=subject.id, chapter_id=chapter.id, quiz_id=quiz.id, question_id=question.id) }}" class="btn btn-secondary">
+                        <i class="fa fa-arrow-left"></i> 
+                        Back to Quiz
+                    </a>
+                </div>
+            </div>
+        </form>
     </div>
-    <div class="form-group">
-        <label for="date_of_quiz" class="form-label">Date of Quiz:</label>
-        <input type="date" class="form-control" style="max-width: 60%;" value="{{quiz.date_of_quiz}}" id="date_of_quiz" name="date_of_quiz" required>
-    </div>
-    <div class="form-group">
-        <label for="time_duration" class="form-label">Time Duration(HH:MM):</label>
-        <input type="time" class="form-control hour-12" style="max-width: 60%;" value="{{quiz.time_duration}}" id="time_duration" name="time_duration" required>
-    </div>
-    <div class="form-group">
-        <label for="remarks" class="form-label">Remarks:</label>
-        <input type="text" class="form-control" id="remarks" value="{{quiz.remarks}}" name="remarks" required>
-    </div>
-    <br>
-    <div class="btn-toolbar form-group" role="toolbar">
-        <div class="btn-group form-group me-2" role="group"">
-            <button type="submit" class="btn btn-success">
-                <i class="fa fa-edit" aria-hidden="true"></i>
-                Update
-            </button>
-        </div>
-    </div>
+</div>
+<br>
 
-</form>
+    
+</div>
 
 {% endblock %}

@@ -1,32 +1,44 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Edit Subject
+    Edit {{subject.name}}
 {% endblock %}
 
 {% block content %}
 <h1 class="display-3 text-center">Edit Subject</h1>
-
-<form action="" method="post" class="form">
+<hr>
+<div class="card shadow-lg p-4">
+    <div class="card-body">
+        <form action="" method="post" class="form">
     
-    <div class="form-group">
-        <label for="subject_name" class="form-label">Name:</label>
-        <input type="text" class="form-control" style="max-width: 60%;" value="{{subject.name}}" id="subject_name" name="subject_name" required>
+            <div class="form-group">
+                <label for="subject_name" class="form-label">Name:</label>
+                <input type="text" class="form-control" style="max-width: 60%;" value="{{subject.name}}" id="subject_name" name="subject_name" required>
+            </div>
+            <div class="form-group">
+                <label for="subject_description" class="form-label">Description:</label>
+                <input type="text" class="form-control" id="subject_description" value="{{subject.description}}" name="subject_description" required>
+            </div>
+            <br>
+            <div class="btn-toolbar form-group" role="toolbar">
+                <div class="btn-group form-group me-2" role="group"">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fa fa-edit" aria-hidden="true"></i>
+                        Update
+                    </button>
+                </div>
+                <div class="btn-group form-group me-2" role="group"">
+                    <a href="{{ url_for('admin') }}" class="btn btn-secondary">
+                        <i class="fa fa-arrow-left"></i> 
+                        Back to Subjects
+                    </a>
+                </div>
+            </div>
+        
+        </form>
     </div>
-    <div class="form-group">
-        <label for="subject_description" class="form-label">Description:</label>
-        <input type="text" class="form-control" id="subject_description" value="{{subject.description}}" name="subject_description" required>
-    </div>
-    <br>
-    <div class="btn-toolbar form-group" role="toolbar">
-        <div class="btn-group form-group me-2" role="group"">
-            <button type="submit" class="btn btn-success">
-                <i class="fa fa-edit" aria-hidden="true"></i>
-                Update
-            </button>
-        </div>
-    </div>
+</div>
+<br>
 
-</form>
 
 {% endblock %}

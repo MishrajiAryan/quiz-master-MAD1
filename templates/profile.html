@@ -9,7 +9,6 @@ Admin
 {% endblock %}
 
 {% block content %}
-
 <h1 class="display-1 text-center">
     {% if user %}
     <img src="https://api.dicebear.com/9.x/initials/svg?seed={{user.name}}"
@@ -47,60 +46,64 @@ Admin
         <div class="col-12">{{user.qualification}}</div>
     </div>
 </div>
-{% else %}
-<h3 class="text-center">This is the page for Admin</h3>
 {% endif %}
 </p>
 
-<!--Adding change credentials form for user-->
-<h1 class="display-5">Update Profile</h1>
-<form action="{{ url_for('profile') }}" method="post" class="form">
-    <div class="form-group">
-        <label for="current_password" class="form-label">Current Password:</label>
-        <input type="password" class="form-control" style="max-width: 60%;" id="current_password" name="current_password" required>
+<hr>
+<div class="card shadow-lg p-4">
+    <div class="card-body">
+        <h1 class="display-5">Update Profile</h1>
+        <form action="{{ url_for('profile') }}" method="post" class="form">
+            <div class="form-group">
+                <label for="current_password" class="form-label">Current Password:</label>
+                <input type="password" class="form-control" style="max-width: 60%;" id="current_password" name="current_password" required>
+            </div>
+            <div class="form-group">
+                <label for="new_password" class="form-label">New Password:</label>
+                <input type="password" class="form-control" style="max-width: 60%;" id="new_password" name="new_password">
+            </div>
+            <div class="form-group">
+                <label for="confirm_new_password" class="form-label">Confirm New Password:</label>
+                <input type="password" class="form-control" style="max-width: 60%;" id="confirm_new_password" name="confirm_new_password">
+            </div>
+        
+            {% if user %}
+            <div class="form-group">
+                <label for="new_name" class="form-label">Name:</label>
+                <input type="text" class="form-control" style="max-width: 60%;" id="new_name" name="new_name">
+            </div>
+            <div class="form-group">
+                <label for="new_qualification" class="form-label">Qualification:</label>
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="inputGroupSelect01">Your Qualification is</label>
+                    <select class="form-select" style="max-width: 47.5%;" type="text" id="new_qualification" name="new_qualification">
+                        <option selected>Choose...</option>
+                        <option value="Primary">Primary</option>
+                        <option value="Secondary">Secondary</option>
+                        <option value="Senior Secondary">Senior Secondary</option>
+                        <option value="Graduation">Graduation</option>
+                        <option value="Post Graduation">Post Graduation</option>
+                        <option value="PhD">PhD</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="new_dob" class="form-label">Date of Birth:</label>
+                <input type="date" class="form-control" style="max-width: 60%;" id="new_dob" name="new_dob">
+            </div>
+            {% endif %}
+        
+            <br>
+            <div class="btn-toolbar form-group" role="toolbar">
+                <div class="btn-group form-group me-2" role="group"">
+                    <button type="submit" class="btn btn-success">Update</button>
+                </div>
+                <div class="btn-group form-group me-2" role="group">
+                    <a href="{{ url_for('logout') }}" class="btn btn-outline-danger">Logout</a>
+                </div>
+            </div>
     </div>
-    <div class="form-group">
-        <label for="new_password" class="form-label">New Password:</label>
-        <input type="password" class="form-control" style="max-width: 60%;" id="new_password" name="new_password">
-    </div>
-    <div class="form-group">
-        <label for="confirm_new_password" class="form-label">Confirm New Password:</label>
-        <input type="password" class="form-control" style="max-width: 60%;" id="confirm_new_password" name="confirm_new_password">
-    </div>
-
-    {% if user %}
-    <div class="form-group">
-        <label for="new_name" class="form-label">Name:</label>
-        <input type="text" class="form-control" style="max-width: 60%;" id="new_name" name="new_name">
-    </div>
-    <div class="form-group">
-        <label for="new_qualification" class="form-label">Qualification:</label>
-        <div class="input-group mb-3">
-            <label class="input-group-text" for="inputGroupSelect01">Your Qualification is</label>
-            <select class="form-select" style="max-width: 47.5%;" type="text" id="new_qualification" name="new_qualification">
-                <option selected>Choose...</option>
-                <option value="Primary">Primary</option>
-                <option value="Secondary">Secondary</option>
-                <option value="Senior Secondary">Senior Secondary</option>
-                <option value="Graduation">Graduation</option>
-                <option value="Post Graduation">Post Graduation</option>
-                <option value="PhD">PhD</option>
-            </select>
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="new_dob" class="form-label">Date of Birth:</label>
-        <input type="date" class="form-control" style="max-width: 60%;" id="new_dob" name="new_dob">
-    </div>
-    {% endif %}
-
-    <br>
-    <div class="btn-toolbar form-group" role="toolbar">
-        <div class="btn-group form-group me-2" role="group"">
-            <button type="submit" class="btn btn-success">Update</button>
-        </div>
-        <div class="btn-group form-group me-2" role="group">
-            <a href="{{ url_for('logout') }}" class="btn btn-outline-danger">Logout</a>
-        </div>
-    </div>
-    {% endblock %}
+</div>
+<br>
+<br>
+{% endblock %}

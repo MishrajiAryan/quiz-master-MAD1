@@ -6,27 +6,39 @@
 
 {% block content %}
 <h1 class="display-3 text-center">Add New Chapter</h1>
-
-<form action="" method="post" class="form">
+<hr>
+<div class="card shadow-lg p-4">
+    <div class="card-body">
+        <form action="" method="post" class="form">
     
-    <div class="form-group">
-        <label for="chapter_name" class="form-label">Name:</label>
-        <input type="text" class="form-control" style="max-width: 60%;" id="chapter_name" name="chapter_name" required>
+            <div class="form-group">
+                <label for="chapter_name" class="form-label">Name:</label>
+                <input type="text" class="form-control" style="max-width: 60%;" id="chapter_name" name="chapter_name" required>
+            </div>
+            <div class="form-group">
+                <label for="chapter_description" class="form-label">Description:</label>
+                <input type="text" class="form-control" id="chapter_description" name="chapter_description" required>
+            </div>
+            <br>
+            <div class="btn-toolbar form-group" role="toolbar">
+                <div class="btn-group form-group me-2" role="group">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                        Add Now
+                    </button>
+                </div>
+                <div class="btn-group form-group me-2" role="group">
+                    <a href="{{url_for('view_subject', subject_id=subject.id)}}" class="btn btn-secondary">
+                        <i class="fa fa-arrow-left"></i> 
+                        Back to Subject
+                    </a>
+                </div>
+            </div>
+        
+        </form>
     </div>
-    <div class="form-group">
-        <label for="chapter_description" class="form-label">Description:</label>
-        <input type="text" class="form-control" id="chapter_description" name="chapter_description" required>
-    </div>
-    <br>
-    <div class="btn-toolbar form-group" role="toolbar">
-        <div class="btn-group form-group me-2" role="group">
-            <button type="submit" class="btn btn-success">
-                <i class="fa fa-plus" aria-hidden="true"></i>
-                Add Now
-            </button>
-        </div>
-    </div>
+</div>
+<br>
 
-</form>
 
 {% endblock %}
