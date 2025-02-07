@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Admin Dashboard
+{% endblock %}
+
+{% block content %}
+<h1 class="display-1 text-center">Users</h1>
+<hr>
+<div class="card shadow-lg p-4">
+    <div class="card-body">
+          
+    <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">User ID</th>
+            <th scope="col">Email</th>
+            <th scope="col">Name</th>
+            <th scope="col">Date of Birth</th>
+            <th scope="col">Qualification</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in users %}
+          <tr>
+            <td>{{user.id}}</td>
+            <td>{{user.email}}</td>
+            <td>{{user.name}}</td>
+            <td>{{user.dob}}</td>
+            <td>{{user.qualification}}</td>
+            <td>
+                <a href="" class="btn btn-success">
+                    <i class="fa fa-eye" aria-hidden="true"></i>
+                    View
+                </a>
+                
+                <a href="" class="btn btn-danger">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                    Revoke Access
+                </a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    
+    </div>
+</div>
+<br>
+{% endblock %}

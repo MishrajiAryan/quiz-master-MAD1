@@ -140,7 +140,7 @@ def register_post():
 def profile():
     admin = Admin.query.filter_by(email=session['email']).first()
     if admin:
-        return render_template('profile.html')
+        return render_template('profile.html',admin=admin)
     else:
         user = User.query.filter_by(email=session['email']).first()
         return render_template('profile.html', user=user)
@@ -216,14 +216,24 @@ def logout():
 @admin_req
 def admin():
     subjects = Subject.query.all()
-    return render_template('admin.html', subjects=subjects)
+    admin = Admin.query.filter_by(email=session['email']).first()
+    return render_template('admin.html',admin=admin, subjects=subjects)
+
+@app.route('/admin/users')
+@admin_req
+def user_dash():
+    admin = Admin.query.filter_by(email=session['email']).first()
+    users = User.query.all()
+    return render_template('user_dash.html',admin=admin, users=users)
+
 
 '''Subject Related Pages'''
 
 @app.route('/subject/add')
 @admin_req
 def add_subject():
-    return render_template('/subject/add_subject.html')
+    admin = Admin.query.filter_by(email=session['email']).first()
+    return render_template('/subject/add_subject.html',admin=admin)
 
 @app.route('/subject/add', methods=['POST'])
 @admin_req
@@ -256,7 +266,8 @@ def view_subject(subject_id):
     if not subject:
         flash('Subject not found')
         return redirect(url_for('admin'))
-    return render_template('/subject/view_subject.html',subject=subject)
+    admin = Admin.query.filter_by(email=session['email']).first()
+    return render_template('/subject/view_subject.html',subject=subject, admin=admin)
 
 @app.route('/subject/<int:subject_id>/edit')
 @admin_req
@@ -265,7 +276,8 @@ def edit_subject(subject_id):
     if not subject:
         flash('Subject not found')
         return redirect(url_for('admin'))
-    return render_template('/subject/edit_subject.html', subject=subject)
+    admin = Admin.query.filter_by(email=session['email']).first()
+    return render_template('/subject/edit_subject.html', subject=subject,admin=admin)
 
 @app.route('/subject/<int:subject_id>/edit', methods=['POST'])
 @admin_req
@@ -297,7 +309,8 @@ def delete_subject(subject_id):
     if not subject:
         flash('Subject not found')
         return redirect(url_for('admin'))
-    return render_template('/subject/delete_subject.html',subject=subject)
+    admin = Admin.query.filter_by(email=session['email']).first()
+    return render_template('/subject/delete_subject.html',subject=subject,admin=admin)
 
 @app.route('/subject/<int:subject_id>/delete', methods=['POST'])
 @admin_req
@@ -321,7 +334,8 @@ def add_chapter(subject_id):
     if not subject:
         flash('Subject does not exist')
         return redirect(url_for('admin'))
-    return render_template('/chapter/add_chapter.html', subject=subject)
+    admin = Admin.query.filter_by(email=session['email']).first()
+    return render_template('/chapter/add_chapter.html', subject=subject,admin=admin)
 
 
 @app.route('/subject/<int:subject_id>/chapter/add', methods=['POST'])
@@ -363,8 +377,8 @@ def delete_chapter(subject_id, chapter_id):
     if not chapter:
         flash('Chapter does not exist')
         return redirect(url_for('view_subject', subject_id=subject_id))
-    
-    return render_template('/chapter/delete_chapter.html',subject=subject, chapter=chapter)
+    admin = Admin.query.filter_by(email=session['email']).first()
+    return render_template('/chapter/delete_chapter.html',subject=subject, chapter=chapter,admin=admin)
 
 
 @app.route('/subject/<int:subject_id>/chapter/<int:chapter_id>/delete', methods=['POST'])
@@ -400,8 +414,8 @@ def edit_chapter(subject_id,chapter_id):
     if not chapter:
         flash('Chapter does not exist')
         return redirect(url_for('view_subject', subject_id=subject_id))
-    
-    return render_template('/chapter/edit_chapter.html', subject=subject, chapter=chapter)
+    admin = Admin.query.filter_by(email=session['email']).first()
+    return render_template('/chapter/edit_chapter.html', subject=subject, chapter=chapter,admin=admin)
 
 @app.route('/subject/<int:subject_id>/chapter/<int:chapter_id>/edit', methods=['POST'])
 @admin_req
@@ -443,8 +457,8 @@ def view_chapter(subject_id,chapter_id):
     if not chapter:
         flash('Chapter does not exist')
         return redirect(url_for('view_subject', subject_id=subject_id))
-    
-    return render_template('/chapter/view_chapter.html',subject=subject, chapter=chapter)
+    admin = Admin.query.filter_by(email=session['email']).first()
+    return render_template('/chapter/view_chapter.html',subject=subject, chapter=chapter,admin=admin)
 
 '''Quiz Related Pages'''
 
@@ -460,8 +474,8 @@ def add_quiz(subject_id,chapter_id):
     if not chapter:
         flash('Chapter does not exist')
         return redirect(url_for('view_subject', subject_id=subject_id))
-    
-    return render_template('/quiz/add_quiz.html', subject=subject, chapter=chapter)
+    admin = Admin.query.filter_by(email=session['email']).first()
+    return render_template('/quiz/add_quiz.html', subject=subject, chapter=chapter,admin=admin)
 
 @app.route('/subject/<int:subject_id>/chapter/<int:chapter_id>/quiz/add', methods=['POST'])
 @admin_req
@@ -517,8 +531,8 @@ def delete_quiz(subject_id, chapter_id,quiz_id):
     if not quiz:
         flash('Quiz does not exist')
         return redirect(url_for('view_chapter', subject_id=subject_id, chapter_id=chapter_id))
-    
-    return render_template('/quiz/delete_quiz.html',subject=subject, chapter=chapter, quiz=quiz)
+    admin = Admin.query.filter_by(email=session['email']).first()
+    return render_template('/quiz/delete_quiz.html',subject=subject, chapter=chapter, quiz=quiz,admin=admin)
 
 @app.route('/subject/<int:subject_id>/chapter/<int:chapter_id>/quiz/<int:quiz_id>/delete', methods=['POST'])
 @admin_req
@@ -562,8 +576,8 @@ def edit_quiz(subject_id,chapter_id,quiz_id):
     if not quiz:
         flash('Quiz does not exist')
         return redirect(url_for('view_chapter', subject_id=subject_id, chapter_id=chapter_id))
-    
-    return render_template('/quiz/edit_quiz.html', subject=subject, chapter=chapter, quiz=quiz)
+    admin = Admin.query.filter_by(email=session['email']).first()
+    return render_template('/quiz/edit_quiz.html', subject=subject, chapter=chapter, quiz=quiz,admin=admin)
 
 @app.route('/subject/<int:subject_id>/chapter/<int:chapter_id>/quiz/<int:quiz_id>/edit', methods=['POST'])
 @admin_req
@@ -621,8 +635,8 @@ def view_quiz(subject_id,chapter_id,quiz_id):
     if not quiz:
         flash('Quiz does not exist')
         return redirect(url_for('view_chapter', subject_id=subject_id, chapter_id=chapter_id))
-    
-    return render_template('/quiz/view_quiz.html',subject=subject, chapter=chapter, quiz=quiz)
+    admin = Admin.query.filter_by(email=session['email']).first()
+    return render_template('/quiz/view_quiz.html',subject=subject, chapter=chapter, quiz=quiz,admin=admin)
 
 
 '''Question Related pages'''
@@ -645,8 +659,8 @@ def add_question(subject_id,chapter_id, quiz_id):
     if not quiz:
         flash('Quiz does not exist')
         return redirect(url_for('view_chapter', subject_id=subject_id, chapter_id=chapter_id))
-
-    return render_template('/question/add_question.html', subject=subject, chapter=chapter, quiz=quiz)
+    admin = Admin.query.filter_by(email=session['email']).first()
+    return render_template('/question/add_question.html', subject=subject, chapter=chapter, quiz=quiz,admin=admin)
 
 @app.route('/subject/<int:subject_id>/chapter/<int:chapter_id>/quiz/<int:quiz_id>/question/add', methods=['POST'])
 @admin_req
@@ -721,8 +735,8 @@ def delete_question(subject_id, chapter_id,quiz_id, question_id):
     if not quiz:
         flash('Question does not exist')
         return redirect(url_for('view_quiz', subject_id=subject_id, chapter_id=chapter_id, quiz_id=quiz_id))
-    
-    return render_template('/question/delete_question.html',subject=subject, chapter=chapter, quiz=quiz, question=question)
+    admin = Admin.query.filter_by(email=session['email']).first()
+    return render_template('/question/delete_question.html',subject=subject, chapter=chapter, quiz=quiz, question=question,admin=admin)
 
 @app.route('/subject/<int:subject_id>/chapter/<int:chapter_id>/quiz/<int:quiz_id>/question/<int:question_id>/delete', methods=['POST'])
 @admin_req
@@ -776,8 +790,8 @@ def edit_question(subject_id, chapter_id, quiz_id, question_id):
     if not question:
         flash('Question does not exist')
         return redirect(url_for('view_quiz', subject_id=subject_id, chapter_id=chapter_id, quiz_id=quiz_id))
-    
-    return render_template('/question/edit_question.html', subject=subject, chapter=chapter, quiz=quiz, question=question)
+    admin = Admin.query.filter_by(email=session['email']).first()
+    return render_template('/question/edit_question.html', subject=subject, chapter=chapter, quiz=quiz, question=question,admin=admin)
 
 @app.route('/subject/<int:subject_id>/chapter/<int:chapter_id>/quiz/<int:quiz_id>/question/<int:question_id>/edit', methods=['POST'])
 @admin_req
@@ -848,5 +862,6 @@ def view_question(subject_id, chapter_id, quiz_id, question_id):
     if not question:
         flash('Question does not exist')
         return redirect(url_for('view_quiz', subject_id=subject_id, chapter_id=chapter_id, quiz_id=quiz_id))
+    admin = Admin.query.filter_by(email=session['email']).first()
+    return render_template('/question/view_question.html', subject=subject, chapter=chapter, quiz=quiz, question=question,admin=admin)
 
-    return render_template('/question/view_question.html', subject=subject, chapter=chapter, quiz=quiz, question=question)
