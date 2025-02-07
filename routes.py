@@ -48,12 +48,12 @@ def index():
 
     else:
         user=User.query.filter_by(email=session['email']).first()
-        return render_template('index.html', user=user)
+        return render_template('/base/index.html', user=user)
 
 # Login Page
 @app.route('/login')
 def login():
-    return render_template('login.html')
+    return render_template('/base/login.html')
 
 # login post method
 @app.route('/login', methods={'POST'})
@@ -92,7 +92,7 @@ def login_post():
 # Register Page
 @app.route('/register')
 def register():
-    return render_template('register.html')
+    return render_template('/base/register.html')
 
 # register post method
 @app.route('/register', methods={'POST'})
@@ -140,10 +140,10 @@ def register_post():
 def profile():
     admin = Admin.query.filter_by(email=session['email']).first()
     if admin:
-        return render_template('profile.html',admin=admin)
+        return render_template('/base/profile.html',admin=admin)
     else:
         user = User.query.filter_by(email=session['email']).first()
-        return render_template('profile.html', user=user)
+        return render_template('/base/profile.html', user=user)
 
 # User/Admin profile page post method
 @app.route('/profile', methods={'POST'})
@@ -217,14 +217,14 @@ def logout():
 def admin():
     subjects = Subject.query.all()
     admin = Admin.query.filter_by(email=session['email']).first()
-    return render_template('admin.html',admin=admin, subjects=subjects)
+    return render_template('/base/admin.html',admin=admin, subjects=subjects)
 
 @app.route('/admin/users')
 @admin_req
-def user_dash():
+def user_dash_admin():
     admin = Admin.query.filter_by(email=session['email']).first()
     users = User.query.all()
-    return render_template('user_dash.html',admin=admin, users=users)
+    return render_template('/base/user_dash_admin.html',admin=admin, users=users)
 
 
 '''Subject Related Pages'''

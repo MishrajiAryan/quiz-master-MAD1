@@ -10,7 +10,7 @@
         {% if 'email' in session %}
           <a class="nav-link btn btn-outline-danger" aria-current="page" href="{{ url_for('index')}}">Home</a>
           {% if admin %}
-        <a class="nav-link btn btn-outline-danger" aria-current="page" href="{{ url_for('user_dash')}}">User Dashboard</a>
+        <a class="nav-link btn btn-outline-danger" aria-current="page" href="{{ url_for('user_dash_admin')}}">User Dashboard</a>
         <a class="nav-link btn btn-outline-danger" aria-current="page" href="{{ url_for('admin')}}">Subject Dashboard</a>
         {% endif %}
           <a class="nav-link btn btn-outline-danger" aria-current="page" href="{{ url_for('profile')}}">Profile</a>
