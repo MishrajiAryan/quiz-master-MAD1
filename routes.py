@@ -928,7 +928,7 @@ def attempt_quiz_post(user_id, quiz_id):
         flash('Quiz not found')
         return redirect(url_for('index'))
     
-    return redirect(url_for('quiz_test', user=user, quiz=quiz, quiz_id=quiz_id, user_id=user_id))
+    return redirect(url_for('quiz_test', quiz_id=quiz_id, user_id=user_id))
 
 
 @app.route('/user/<int:user_id>/quiz/<int:quiz_id>/now')
