@@ -898,18 +898,53 @@ def preview_quiz(user_id, quiz_id):
 
     return render_template('user/preview_quiz.html', user=user, quiz=quiz, subject=subject, chapter=chapter, quiz_id=quiz_id, user_id=user_id)
 
+
 @app.route('/user/<int:user_id>/quiz/<int:quiz_id>/attempt')
 @auth_req
 def attempt_quiz(user_id, quiz_id):
     user = User.query.filter_by(email=session.get('email')).first()
     if not user:
         flash('User not found')
-        return redirect(url_for('user'))
+        return redirect(url_for('index'))
 
     quiz = Quiz.query.filter_by(id=quiz_id).first()
     if not quiz:
         flash('Quiz not found')
-        return redirect(url_for('user'))
+        return redirect(url_for('index'))
     
     return render_template('user/attempt_quiz.html', user=user, quiz=quiz, quiz_id=quiz_id, user_id=user_id)
+
+
+@app.route('/user/<int:user_id>/quiz/<int:quiz_id>/attempt', methods=['POST'])
+@auth_req
+def attempt_quiz_post(user_id, quiz_id):
+    user = User.query.filter_by(email=session.get('email')).first()
+    if not user:
+        flash('User not found')
+        return redirect(url_for('index'))
+
+    quiz = Quiz.query.filter_by(id=quiz_id).first()
+    if not quiz:
+        flash('Quiz not found')
+        return redirect(url_for('index'))
+    
+    return redirect(url_for('quiz_test', user=user, quiz=quiz, quiz_id=quiz_id, user_id=user_id))
+
+
+@app.route('/user/<int:user_id>/quiz/<int:quiz_id>/now')
+@auth_req
+def quiz_test(user_id, quiz_id):
+    user = User.query.filter_by(email=session.get('email')).first()
+    if not user:
+        flash('User not found')
+        return redirect(url_for('index'))
+
+    quiz = Quiz.query.filter_by(id=quiz_id).first()
+    if not quiz:
+        flash('Quiz not found')
+        return redirect(url_for('index'))
+    
+    return render_template('user/quiz_test.html', user=user, quiz=quiz, quiz_id=quiz_id, user_id=user_id)
+
+
 
