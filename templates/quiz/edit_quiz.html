@@ -47,6 +47,10 @@
     </div>
 </div>
 <br>
-
+<script>
+    const dateInput = document.getElementById('date_of_quiz');
+    const today = new Date().toISOString().split('T')[0];
+    dateInput.setAttribute('min', today);
+  </script>
 
 {% endblock %}

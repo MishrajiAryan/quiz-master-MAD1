@@ -1,9 +1,23 @@
 {% extends "layout.html" %}
 
 {% block title %}
-Dashboard: {{user.name}} 
+Dashboard: {{ user.name }} 
 {% endblock %}
 
 {% block content %}
-this is content of index
+<h1 class="display-3 text-center">Welcome {{ user.name }}</h1>
+<h1 class="display-5 text-center">Select your Quest</h1>
+<hr>
+
+{% if quizzes %}
+<h3 class="text-center display-8">Current Quizzes</h3>
+{% include '/user/current_quiz.html' %}
+<br>
+<h3 class="text-center display-8">Upcoming Quizzes</h3>
+{% include '/user/upcoming_quiz.html' %}
+{% else %}
+<h3 class="text-center display-8">No upcoming quizzes available.</h3>
+{% endif %}
+<br>
+
 {% endblock %}

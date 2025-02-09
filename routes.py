@@ -5,7 +5,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash, ses
 from app import app
 from models import db, User, Subject, Chapter, Quiz, Question, Score, Admin
 from werkzeug.security import generate_password_hash, check_password_hash
-from datetime import datetime
+from datetime import datetime, timedelta
 import os
 from dotenv import load_dotenv
 from functools import wraps
@@ -47,8 +47,8 @@ def index():
         return redirect(url_for('admin'))
 
     else:
-        user=User.query.filter_by(email=session['email']).first()
-        return render_template('/base/index.html', user=user)
+        return redirect(url_for('user'))
+        
 
 # Login Page
 @app.route('/login')
@@ -864,4 +864,52 @@ def view_question(subject_id, chapter_id, quiz_id, question_id):
         return redirect(url_for('view_quiz', subject_id=subject_id, chapter_id=chapter_id, quiz_id=quiz_id))
     admin = Admin.query.filter_by(email=session['email']).first()
     return render_template('/question/view_question.html', subject=subject, chapter=chapter, quiz=quiz, question=question,admin=admin)
+
+'''User related Pages'''
+
+@app.route('/user')
+@auth_req
+def user():
+    user=User.query.filter_by(email=session['email']).first()
+    subjects = Subject.query.all()
+    chapters = Chapter.query.all()
+    quizzes = Quiz.query.all()
+    questions = Question.query.all()
+    tomorrow = (datetime.today() + timedelta(days=1)).date()
+    today = (datetime.today()).date()
+    return render_template('/base/index.html', user=user, subjects=subjects, chapters=chapters,quizzes=quizzes, questions=questions, tomorrow=tomorrow,today=today)
+
+
+@app.route('/user/<int:user_id>/quiz/<int:quiz_id>/view')
+@auth_req
+def preview_quiz(user_id, quiz_id):
+    user = User.query.filter_by(email=session.get('email')).first()
+    if not user:
+        flash('User not found')
+        return redirect(url_for('user'))
+
+    quiz = Quiz.query.filter_by(id=quiz_id).first()
+    if not quiz:
+        flash('Quiz not found')
+        return redirect(url_for('user'))
+
+    subject = Subject.query.all()
+    chapter = Chapter.query.all()
+
+    return render_template('user/preview_quiz.html', user=user, quiz=quiz, subject=subject, chapter=chapter, quiz_id=quiz_id, user_id=user_id)
+
+@app.route('/user/<int:user_id>/quiz/<int:quiz_id>/attempt')
+@auth_req
+def attempt_quiz(user_id, quiz_id):
+    user = User.query.filter_by(email=session.get('email')).first()
+    if not user:
+        flash('User not found')
+        return redirect(url_for('user'))
+
+    quiz = Quiz.query.filter_by(id=quiz_id).first()
+    if not quiz:
+        flash('Quiz not found')
+        return redirect(url_for('user'))
+    
+    return render_template('user/attempt_quiz.html', user=user, quiz=quiz, quiz_id=quiz_id, user_id=user_id)
 

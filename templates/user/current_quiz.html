@@ -1,0 +1,32 @@
+<div class="container">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for quiz in quizzes %}
+        {% if quiz.date_of_quiz == today %}
+        <div class="col">
+            <div class="card h-100 shadow-lg border-0 {% if loop.index is even %} bg-primary-subtle {% else %} bg-warning-subtle {% endif %}">
+                <div class="card-body">
+                    <h5 class="card-title text-center">{{ quiz.name }}</h5>
+                    <p class="card-text">{{ quiz.remarks }}</p>
+                    <p class="card-text"><strong>Questions:</strong> {{ quiz.questions|length }}</p>
+                    <p class="card-text"><strong>Time Duration:</strong> {{ quiz.time_duration }}</p>
+                    <p class="card-text"><strong>Scheduled Date:</strong> {{ quiz.date_of_quiz.strftime('%d-%m-%Y') }}</p>
+                </div>
+                <div class="card-footer d-flex justify-content-between">
+                    <a href="{{ url_for('preview_quiz', user_id=user.id, quiz_id=quiz.id) }}" 
+                       class="btn btn-success">
+                        <i class="fa fa-eye"></i> 
+                        View
+                    </a>
+                    <a href="{{ url_for('attempt_quiz', user_id=user.id, quiz_id=quiz.id) }}" 
+                       class="btn btn-primary">
+                        <i class="fa fa-play"></i> 
+                        Attempt
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
