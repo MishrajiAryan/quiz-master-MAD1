@@ -1,48 +1,86 @@
-{% extends "layout.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {{quiz.name}}
+    </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-{% block title %}
-{{quiz.name}}
-{% endblock %}
+</head>
+<body>
 
-{% block content %}
-<div class="container-fluid mt-5" id="quiz_test">
-    <div class="d-flex justify-content-end mb-3">
-        <button id="toggleFullscreen" class="btn btn-primary">
-            <i class="fa fa-arrows-alt"></i> Toggle Fullscreen
-        </button>
-    </div>
+    <nav class="navbar navbar-expand-lg sticky-top" style="background-color: #ee8a98;">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="/">Quiz Quest</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse flex-row-reverse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <span class="navbar-text">
+                    <strong>Attempting: {{quiz.name}}</strong>
+                  </span>
+            </div>
+          </div>
+        </div>
+    </nav>
+
+    <p><strong>Time Allotted:</strong> <span id="timer">{{ quiz.time_duration }}</span></p> </div>
+
+    <script>
+        const timerDisplay = document.getElementById('timer');
+        const TIME_LEFT_KEY = 'quiz_time_left'; // Key for localStorage
     
-        
-    <h1 class="display-4 text-center">{{quiz.name}}</h1>
-    <div class="text-center mb-4">
-        <p><strong>Number of Questions:</strong> {{quiz.questions | length}}</p>
-        <p><strong>Time Allotted:</strong> {{quiz.time_duration}} minutes</p>
-    </div>
-    <hr>
-    <div class="mb-3">
-        <!-- Include your quiz content here -->
-    </div>
-</div>
-
-
-
-<script>
-    const element = document.getElementById('quiz_test');
-    const fullscreenButton = document.getElementById('toggleFullscreen');
-
-    // Function to handle fullscreen toggling
-    function toggleFullscreen() {
-        if (document.fullscreenElement) {
-            document.exitFullscreen();
-        } else {
-            element.requestFullscreen();
+        let timeRemaining = parseInt(localStorage.getItem(TIME_LEFT_KEY)) || parseTime(timerDisplay.textContent); // Get from localStorage or parse
+    
+        function parseTime(timeString) {
+            const [hours, minutes] = timeString.split(':').map(Number);
+            return hours * 3600 + minutes * 60; // converting into number then seconds
         }
-    }
-
-    window.onload = toggleFullscreen();
     
-    fullscreenButton.addEventListener('click', toggleFullscreen); // Use the same function
-</script>
+        function formatTime(totalSeconds) { 
+            const hours = Math.floor(totalSeconds / 3600);
+            const minutes = Math.floor((totalSeconds % 3600) / 60);
+            const seconds = totalSeconds % 60;
+    
+            const formattedHours = hours.toString().padStart(2, '0');
+            const formattedMinutes = minutes.toString().padStart(2, '0');
+            const formattedSeconds = seconds.toString().padStart(2, '0'); 
+    
+            return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`; 
+        }
+    
+        function updateTimer() {
+            if (timeRemaining > 0) {
+                timeRemaining--;
+                timerDisplay.textContent = formatTime(timeRemaining);
+                localStorage.setItem(TIME_LEFT_KEY, timeRemaining); // Store in localStorage
+            } else {
+                clearInterval(timerInterval); 
+                alert("Time's up!"); 
+            }
+        }
+    
+        timerDisplay.textContent = formatTime(timeRemaining); // Initial display
+        const timerInterval = setInterval(updateTimer, 1000);
+    
+        // When the quiz is submitted or the user leaves
+        window.addEventListener('beforeunload', () => {
+            localStorage.setItem(TIME_LEFT_KEY, timeRemaining); // Save before leaving
+        });
 
-{% endblock %}
+    </script>
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+    </script>
+</body>
 
+</html>
