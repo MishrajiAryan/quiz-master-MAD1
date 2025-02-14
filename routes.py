@@ -944,7 +944,43 @@ def quiz_test(user_id, quiz_id):
         flash('Quiz not found')
         return redirect(url_for('index'))
     
-    return render_template('user/quiz_test.html', user=user, quiz=quiz, quiz_id=quiz_id, user_id=user_id)
+    question = quiz.questions
+    
+    return render_template('user/quiz_test.html', user=user, quiz=quiz,question=question, quiz_id=quiz_id, user_id=user_id)
+
+
+@app.route('/user/<int:user_id>/quiz/<int:quiz_id>/now', methods=['POST'])
+@auth_req
+def quiz_test_post(user_id, quiz_id):
+    user = User.query.filter_by(email=session.get('email')).first()
+    if not user:
+        flash('User not found')
+        return redirect(url_for('index'))
+
+    quiz = Quiz.query.filter_by(id=quiz_id).first()
+    if not quiz:
+        flash('Quiz not found')
+        return redirect(url_for('index'))
+    
+    questions = quiz.questions
+    total_score = 0
+
+    for question in questions:
+        selected_option = request.form.get(f'question_{question.id}')
+        if selected_option and int(selected_option) == question.correct_option:
+            total_score = total_score +  1 
+
+    score = Score(
+        quiz_id=quiz.id,
+        user_id=user.id,
+        timestamp=datetime.now(),
+        total_scored=total_score
+    )
+
+    db.session.add(score)
+    db.session.commit()
+    
+    return render_template('user/quiz_result.html', user=user, quiz=quiz,question=question, quiz_id=quiz_id, user_id=user_id)
 
 
 

@@ -30,17 +30,22 @@ def create_admin():
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(100), unique=True, nullable=False)
+    phone_number = db.Column(db.String(20))
     # Store hashed passwords
     password = db.Column(db.String(256), nullable=False)
     name = db.Column(db.String(100), nullable=False)
     qualification = db.Column(db.String(100))
     dob = db.Column(db.Date)
+    created_at = db.Column(db.DateTime, default=datetime.today())
+    is_active = db.Column(db.Boolean, default=True)
+
 
 
 class Subject(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), unique=True, nullable=False)
     description = db.Column(db.Text)
+    created_at = db.Column(db.DateTime, default=datetime.today())
 
     chapters = db.relationship('Chapter', backref='subject', lazy=True, cascade="all, delete")
 
@@ -50,7 +55,7 @@ class Chapter(db.Model):
     name = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text)
     subject_id = db.Column(db.Integer, db.ForeignKey('subject.id', ondelete="CASCADE"), nullable=False)
-
+    created_at = db.Column(db.DateTime, default=datetime.today())
 
 class Quiz(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -81,7 +86,8 @@ class Score(db.Model):
     quiz_id = db.Column(db.Integer, db.ForeignKey('quiz.id'), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     timestamp = db.Column(db.DateTime, nullable=False)
-    total_scored = db.Column(db.Integer, nullable=False)
+    total_score = db.Column(db.Integer, nullable=False)
+    percentage_score = db.Column(db.Float)
 
     quiz = db.relationship('Quiz', backref=db.backref('scores', lazy=True))
     user = db.relationship('User', backref=db.backref('scores', lazy=True))

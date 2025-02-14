@@ -1,83 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>
-        {{quiz.name}}
-    </title>
+    <title>{{quiz.name}}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
+
 <body>
-
-    <nav class="navbar navbar-expand-lg sticky-top" style="background-color: #ee8a98;">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="/">Quiz Quest</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse flex-row-reverse" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
-                <span class="navbar-text">
-                    <strong>Attempting: {{quiz.name}}</strong>
-                  </span>
+    <div class="sticky-top">
+        <!-- Quiz Navbar -->
+        <nav class="navbar navbar-expand-lg" style="background-color: #ee8a98;">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">Quiz Quest</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse flex-row-reverse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav">
+                        <span class="navbar-text">
+                            <strong>Attempting: {{quiz.name}}</strong>
+                        </span>
+                    </div>
+                </div>
             </div>
-          </div>
+        </nav>
+
+        <!-- Timer -->
+        <div class="container">
+            <div class="row justify-content-between mt-3">
+                <div class="col-md-6">
+                    <p><strong>Time Left:</strong> <span id="timer">{{ quiz.time_duration }}</span></p>
+                </div>
+                <div class="col-md-6 text-end">
+                    Attempted Questions
+                </div>
+            </div>
         </div>
-    </nav>
+        <hr>
+    </div>
 
-    <p><strong>Time Allotted:</strong> <span id="timer">{{ quiz.time_duration }}</span></p> </div>
+    <!-- Quiz Form -->
+    <div class="card shadow-lg p-4 mx-auto" style="max-width: 1000px; width: 90%;">
+        <div class="card-body">
+            <form action="" method="post">
+                {% for question in quiz.questions %}
+                <div class="mb-4">
+                    <h3 class="display-5">Ques-{{ loop.index }}: {{ question.question_statement }}</h3>
+                    <hr>
+                    <!-- Options -->
+                    <div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="question_{{question.id}}" id="option1_{{question.id}}" value="1" required>
+                            <label class="form-check-label" for="option1_{{question.id}}">
+                                <h5>(1) {{question.option1}}</h5>
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="question_{{question.id}}" id="option2_{{question.id}}" value="2">
+                            <label class="form-check-label" for="option2_{{question.id}}">
+                                <h5>(2) {{question.option2}}</h5>
+                            </label>
+                        </div>
 
+                        {% if question.option3 %}
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="question_{{question.id}}" id="option3_{{question.id}}" value="3">
+                            <label class="form-check-label" for="option3_{{question.id}}">
+                                <h5>(3) {{question.option3}}</h5>
+                            </label>
+                        </div>
+                        {% endif %}
+
+                        {% if question.option4 %}
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="question_{{question.id}}" id="option4_{{question.id}}" value="4">
+                            <label class="form-check-label" for="option4_{{question.id}}">
+                                <h5>(4) {{question.option4}}</h5>
+                            </label>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <hr>
+                </div>
+                {% endfor %}
+
+                <!-- Submit Button -->
+                <div class="text-end">
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br>
+
+    <!-- Timer Script -->
     <script>
         const timerDisplay = document.getElementById('timer');
         const TIME_LEFT_KEY = 'quiz_time_left'; // Key for localStorage
-    
+
         let timeRemaining = parseInt(localStorage.getItem(TIME_LEFT_KEY)) || parseTime(timerDisplay.textContent); // Get from localStorage or parse
-    
+
         function parseTime(timeString) {
             const [hours, minutes] = timeString.split(':').map(Number);
-            return hours * 3600 + minutes * 60; // converting into number then seconds
+            return hours * 3600 + minutes * 60; // converting into seconds
         }
-    
-        function formatTime(totalSeconds) { 
+
+        function formatTime(totalSeconds) {
             const hours = Math.floor(totalSeconds / 3600);
             const minutes = Math.floor((totalSeconds % 3600) / 60);
             const seconds = totalSeconds % 60;
-    
+
             const formattedHours = hours.toString().padStart(2, '0');
             const formattedMinutes = minutes.toString().padStart(2, '0');
-            const formattedSeconds = seconds.toString().padStart(2, '0'); 
-    
-            return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`; 
+            const formattedSeconds = seconds.toString().padStart(2, '0');
+
+            return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
         }
-    
+
         function updateTimer() {
             if (timeRemaining > 0) {
                 timeRemaining--;
                 timerDisplay.textContent = formatTime(timeRemaining);
                 localStorage.setItem(TIME_LEFT_KEY, timeRemaining); // Store in localStorage
             } else {
-                clearInterval(timerInterval); 
-                alert("Time's up!"); 
+                clearInterval(timerInterval);
+                alert("Time's up!");
             }
         }
-    
+
         timerDisplay.textContent = formatTime(timeRemaining); // Initial display
         const timerInterval = setInterval(updateTimer, 1000);
-    
+
         // When the quiz is submitted or the user leaves
         window.addEventListener('beforeunload', () => {
             localStorage.setItem(TIME_LEFT_KEY, timeRemaining); // Save before leaving
         });
-
     </script>
-    
-    
-    
+
+    <!-- Bootstrap Script -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
