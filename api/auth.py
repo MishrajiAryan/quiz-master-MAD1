@@ -54,6 +54,14 @@ def login_post():
     if not check_password_hash(user.password, password):
         flash('Incorrect Password')
         return redirect(url_for('auth.login'))
+    
+    is_active= user.is_active
+
+    if is_active == False:
+        flash('User access revoked')
+        flash('Please contact admin for further actions')
+        return redirect(url_for('auth.login'))
+
 
     session['email'] = user.email
     flash('Login Successful')
@@ -68,6 +76,7 @@ def register():
 @auth_bp.route('/register', methods={'POST'})
 def register_post():
     email = request.form.get('email')
+    phone_number = request.form.get('phone_number')
     password = request.form.get('password')
     confirm_password = request.form.get('confirm_password')
     name = request.form.get('name')
@@ -78,7 +87,7 @@ def register_post():
         flash('Admin registration is not allowed!')
         return redirect(url_for('auth.register'))
     else:
-        if not email or not password or not confirm_password or not name or not qualification or not dob:
+        if not email or not password or not confirm_password or not name or not qualification or not dob or not phone_number:
             flash('Please fill all the fields')
             return redirect(url_for('auth.register'))
 
@@ -96,7 +105,7 @@ def register_post():
         dob_date = datetime.strptime(dob, "%Y-%m-%d").date()
         password_hash = generate_password_hash(password)
         new_user = User(email=email, password=password_hash,
-                        name=name, qualification=qualification, dob=dob_date)
+                        name=name, qualification=qualification, dob=dob_date, phone_number=phone_number)
         db.session.add(new_user)
         db.session.commit()
 
@@ -122,8 +131,8 @@ def profile_post():
     password = request.form.get('current_password')
     new_password = request.form.get('new_password')
     confirm_new_password = request.form.get('confirm_new_password')
+    new_phone_number = request.form.get('new_phone_number')
     new_name = request.form.get('new_name')
-    new_qualification = request.form.get('new_qualification')
     new_dob = request.form.get('new_dob')
 
     if not password:
@@ -160,8 +169,8 @@ def profile_post():
         if new_name:
             user.name = new_name
             
-        if new_qualification and new_qualification != "Choose...":
-            user.qualification = new_qualification
+        if new_phone_number:
+            user.phone_number = new_phone_number
             
         if new_dob:
             new_dob_date = datetime.strptime(new_dob, "%Y-%m-%d").date()

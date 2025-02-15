@@ -9,101 +9,98 @@ Admin
 {% endblock %}
 
 {% block content %}
-<h1 class="display-1 text-center">
-    {% if user %}
-    <img src="https://api.dicebear.com/9.x/initials/svg?seed={{user.name}}"
-    class="object-fit-sm-contain img-thumbnail border rounded-circle mx-auto d-block" style="max-width: 15%;" alt="profile picture">
-    {{user.name}}
-    {% else %}
-    <img src="https://api.dicebear.com/9.x/initials/svg?seed=Admin"
-    class="object-fit-sm-contain img-thumbnail border rounded-circle mx-auto d-block" style="max-width: 15%;" alt="profile picture">
-    Admin
-    {% endif %}
-</h1>
+<div class="container mt-5 d-flex justify-content-center">
+    <div class="col-md-8">
 
-<p class="text-center">
-    {% if user %}
-<div class="container text-center mt-4">
-    <div class="row text-center fw-bold border-bottom pb-2 d-none d-md-flex">
-        <div class="col-12 col-md-4 fw-bold">Email</div>
-        <div class="col-12 col-md-4 fw-bold">Date of Birth</div>
-        <div class="col-12 col-md-4 fw-bold">Qualification</div>
-    </div>
-    <div class="row text-center pt-2 d-none d-md-flex">
-        <div class="col-12 col-md-4">{{user.email}}</div>
-        <div class="col-12 col-md-4">{{user.dob}}</div>
-        <div class="col-12 col-md-4">{{user.qualification}}</div>
-    </div>
-    <!-- for small screens -->
-    <div class="row text-center d-md-none">
-        <div class="col-12 fw-bold">Email</div>
-        <div class="col-12 mb-2">{{user.email}}</div>
-
-        <div class="col-12 fw-bold">Date of Birth</div>
-        <div class="col-12 mb-2">{{user.dob}}</div>
-
-        <div class="col-12 fw-bold">Qualification</div>
-        <div class="col-12">{{user.qualification}}</div>
-    </div>
-</div>
-{% endif %}
-</p>
-
-<hr>
-<div class="card shadow-lg p-4">
-    <div class="card-body">
-        <h1 class="display-5">Update Profile</h1>
-        <form action="{{ url_for('auth.profile') }}" method="post" class="form">
-            <div class="form-group">
-                <label for="current_password" class="form-label">Current Password:</label>
-                <input type="password" class="form-control" style="max-width: 60%;" id="current_password" name="current_password" required>
-            </div>
-            <div class="form-group">
-                <label for="new_password" class="form-label">New Password:</label>
-                <input type="password" class="form-control" style="max-width: 60%;" id="new_password" name="new_password">
-            </div>
-            <div class="form-group">
-                <label for="confirm_new_password" class="form-label">Confirm New Password:</label>
-                <input type="password" class="form-control" style="max-width: 60%;" id="confirm_new_password" name="confirm_new_password">
-            </div>
-        
+        <h1 class="display-1 text-center">
             {% if user %}
-            <div class="form-group">
-                <label for="new_name" class="form-label">Name:</label>
-                <input type="text" class="form-control" style="max-width: 60%;" id="new_name" name="new_name">
-            </div>
-            <div class="form-group">
-                <label for="new_qualification" class="form-label">Qualification:</label>
-                <div class="input-group mb-3">
-                    <label class="input-group-text" for="inputGroupSelect01">Your Qualification is</label>
-                    <select class="form-select" style="max-width: 47.5%;" type="text" id="new_qualification" name="new_qualification">
-                        <option selected>Choose...</option>
-                        <option value="Primary">Primary</option>
-                        <option value="Secondary">Secondary</option>
-                        <option value="Senior Secondary">Senior Secondary</option>
-                        <option value="Graduation">Graduation</option>
-                        <option value="Post Graduation">Post Graduation</option>
-                        <option value="PhD">PhD</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="new_dob" class="form-label">Date of Birth:</label>
-                <input type="date" class="form-control" style="max-width: 60%;" id="new_dob" name="new_dob">
-            </div>
+            <img src="https://api.dicebear.com/9.x/initials/svg?seed={{user.name}}"
+            class="object-fit-sm-contain img-thumbnail border rounded-circle mx-auto d-block" style="max-width: 20%;" alt="profile picture">
+            {{user.name}}
+            {% else %}
+            <img src="https://api.dicebear.com/9.x/initials/svg?seed=Admin"
+            class="object-fit-sm-contain img-thumbnail border rounded-circle mx-auto d-block" style="max-width: 20%;" alt="profile picture">
+            Admin
             {% endif %}
+        </h1>
         
-            <br>
-            <div class="btn-toolbar form-group" role="toolbar">
-                <div class="btn-group form-group me-2" role="group"">
-                    <button type="submit" class="btn btn-success">Update</button>
-                </div>
-                <div class="btn-group form-group me-2" role="group">
-                    <a href="{{ url_for('auth.logout') }}" class="btn btn-outline-danger">Logout</a>
-                </div>
+        <p class="text-center">
+            {% if user %}
+        <div class="container text-center mt-4 ">
+            <div class="row text-center fw-bold border-bottom d-none d-md-flex">
+                <div class="col-12 col-md-4 fw-bold">Email</div>
+                <div class="col-12 col-md-4 fw-bold">Phone Number</div>
+                <div class="col-12 col-md-4 fw-bold">Date of Birth</div>
             </div>
+            <div class="row text-center d-none d-md-flex">
+                <div class="col-12 col-md-4">{{user.email}}</div>
+                <div class="col-12 col-md-4">{{user.phone_number}}</div>
+                <div class="col-12 col-md-4">{{user.dob}}</div>
+            </div>
+            <!-- for small screens -->
+            <div class="row text-center d-md-none">
+                <div class="col-12 fw-bold">Email</div>
+                <div class="col-12 mb-2">{{user.email}}</div>
+        
+                <div class="col-12 fw-bold">Phone Number</div>
+                <div class="col-12 mb-2">{{user.phone_number}}</div>
+        
+                <div class="col-12 fw-bold">Date of Birth</div>
+                <div class="col-12 mb-2">{{user.dob}}</div>
+        
+            </div>
+        </div>
+        {% endif %}
+        </p>
+        
+        <hr>
+        <div class="card shadow-lg p-4 mx-auto" style="max-width: 800px; width: 90%;">
+            <div class="card-body">
+                <h5 class="card-title display-5 ">Update Profile</h5>
+                <br>
+                <form action="{{ url_for('auth.profile') }}" method="post" class="form">
+                    <div class="form-group">
+                        <label for="current_password" class="form-label">Current Password:</label>
+                        <input type="password" class="form-control"  id="current_password" name="current_password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="new_password" class="form-label">New Password:</label>
+                        <input type="password" class="form-control"  id="new_password" name="new_password">
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm_new_password" class="form-label">Confirm New Password:</label>
+                        <input type="password" class="form-control"  id="confirm_new_password" name="confirm_new_password">
+                    </div>
+                
+                    {% if user %}
+                    <div class="form-group">
+                        <label for="new_phone_number" class="form-label">Phone Number:</label>
+                        <input type="tel" class="form-control"  placeholder="{{user.phone_number}}" id="new_phone_number" name="new_phone_number">
+                    </div>
+                    <div class="form-group">
+                        <label for="new_name" class="form-label">Name:</label>
+                        <input type="text" class="form-control"  placeholder="{{user.name}}" id="new_name" name="new_name">
+                    </div>
+                    <div class="form-group">
+                        <label for="new_dob" class="form-label">Date of Birth:</label>
+                        <input type="date" class="form-control"  placeholder="{{user.dob}}" id="new_dob" name="new_dob">
+                    </div>
+                    {% endif %}
+                
+                    <br>
+                    <div class="btn-toolbar form-group" role="toolbar">
+                        <div class="btn-group form-group me-2" role="group"">
+                            <button type="submit" class="btn btn-success">Update</button>
+                        </div>
+                        <div class="btn-group form-group me-2" role="group">
+                            <a href="{{ url_for('auth.logout') }}" class="btn btn-outline-danger">Logout</a>
+                        </div>
+                    </div>
+            </div>
+        </div>
+        <br>
+        <br>
     </div>
 </div>
-<br>
-<br>
+
 {% endblock %}

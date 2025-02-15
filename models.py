@@ -36,7 +36,7 @@ class User(db.Model):
     name = db.Column(db.String(100), nullable=False)
     qualification = db.Column(db.String(100))
     dob = db.Column(db.Date)
-    created_at = db.Column(db.DateTime, default=datetime.today())
+    created_at = db.Column(db.DateTime, default=datetime.today(), nullable=False)
     is_active = db.Column(db.Boolean, default=True, nullable=False)
 
 

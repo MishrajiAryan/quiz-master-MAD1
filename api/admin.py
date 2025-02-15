@@ -1,5 +1,5 @@
-from flask import session, Blueprint, jsonify, render_template
-from models import Subject, Admin, User
+from flask import session, Blueprint, jsonify, render_template, flash, redirect, url_for
+from models import Subject, Admin, User,db
 from auth.admin_auth import admin_req
 
 admin_bp = Blueprint('admin', __name__)
@@ -17,3 +17,15 @@ def user_dash_admin():
     admin = Admin.query.filter_by(email=session['email']).first()
     users = User.query.all()
     return render_template('base/user_dash_admin.html',admin=admin, users=users)
+
+@admin_bp.route('/admin/users/<int:user_id>/access', methods=['POST'])
+@admin_req
+def user_dash_admin_access(user_id):
+    user = User.query.get(user_id)
+    if user:
+        user.is_active = not user.is_active
+        db.session.commit()
+        flash('User access update successful')
+    else:
+        flash('User not found')
+    return redirect(url_for('admin.user_dash_admin', user_id=user_id))

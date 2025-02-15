@@ -5,30 +5,37 @@ Login: Quiz Quest
 {% endblock %}
 
 {% block content %}
-<h1 class="display-1 text-center">Welcome to Quiz Quest</h1>
-<hr>
-<div class="card shadow-lg p-4">
-    <div class="card-body">
-        <h3 class="display-5">Login</h3>
-        <form action="" method="post" class="my-form">
-            <div class="form-group">
-                <label for="email" class="form-label">Email:</label>
-                <input type="email" class="form-control" style="max-width: 60%;" id="email" name="email" required>
+<div class="container mt-5 d-flex justify-content-center">
+    <div class="col-md-8">
+        <h1 class="display-1 text-center">Welcome to Quiz Quest</h1>
+        <hr>
+        <div class="card shadow-lg p-4 mx-auto" style="max-width: 600px; width: 90%;">
+            <div class="card-body">
+                <h5 class="card-title display-5 ">Login</h5>
+                <br>
+                <form action="" method="post" class="my-form">
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email:</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="form-label">Password:</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    <br>
+                    <div class="btn-toolbar form-group" role="toolbar">
+                        <div class="btn-group form-group me-2" role="group"">
+                    <button type=" submit" class="btn btn-primary">Login</button>
+                        </div>
+                        <div class="btn-group form-group me-2" role="group">
+                            <a class="btn btn-warning" href="{{ url_for('auth.register')}}" role="button">Create New
+                                User?</a>
+                        </div>
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label for="password" class="form-label">Password:</label>
-                <input type="password" class="form-control" style="max-width: 60%;" id="password" name="password" required>
-            </div>
-            <br>
-            <div class="btn-toolbar form-group" role="toolbar">
-                <div class="btn-group form-group me-2" role="group"">
-                    <button type="submit" class="btn btn-primary">Login</button>
-                </div>
-                <div class="btn-group form-group me-2" role="group">
-                    <a class="btn btn-warning" href="{{ url_for('auth.register')}}" role="button">Create New User?</a>
-                </div>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
+
 {% endblock %}
