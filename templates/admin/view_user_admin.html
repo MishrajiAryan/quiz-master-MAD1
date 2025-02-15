@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Details: {{user.name}}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5 d-flex justify-content-center">
+    <div class="col-md-8">
+
+        <h1 class="display-1 text-center">
+            <img src="https://api.dicebear.com/9.x/initials/svg?seed={{user.name}}"
+            class="object-fit-sm-contain img-thumbnail border rounded-circle mx-auto d-block" style="max-width: 20%;" alt="profile picture">
+            {{user.name}}
+        </h1>
+        
+        <p class="text-center">
+        <div class="container text-center mt-4 ">
+            <div class="row text-center fw-bold border-bottom d-none d-md-flex">
+                <div class="col-12 col-md-4 fw-bold">Email</div>
+                <div class="col-12 col-md-4 fw-bold">Phone Number</div>
+                <div class="col-12 col-md-4 fw-bold">Date of Birth</div>
+            </div>
+            <div class="row text-center d-none d-md-flex">
+                <div class="col-12 col-md-4">{{user.email}}</div>
+                <div class="col-12 col-md-4">{{user.phone_number}}</div>
+                <div class="col-12 col-md-4">{{user.dob}}</div>
+            </div>
+            <!-- for small screens -->
+            <div class="row text-center d-md-none">
+                <div class="col-12 fw-bold">Email</div>
+                <div class="col-12 mb-2">{{user.email}}</div>
+        
+                <div class="col-12 fw-bold">Phone Number</div>
+                <div class="col-12 mb-2">{{user.phone_number}}</div>
+        
+                <div class="col-12 fw-bold">Date of Birth</div>
+                <div class="col-12 mb-2">{{user.dob}}</div>
+        
+            </div>
+        </div>
+        </p>
+        <hr>
+        <div class="card shadow-lg p-4 mx-auto" style="max-width: 800px; width: 90%;">
+            <div class="card-body">
+            </div>
+        </div>     
+    </div>
+</div>
+
+{% endblock %}

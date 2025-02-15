@@ -23,7 +23,7 @@ def index():
 # Login Page
 @auth_bp.route('/login')
 def login():
-    return render_template('base/login.html')
+    return render_template('auth/login.html')
 
 # login post method
 @auth_bp.route('/login', methods={'POST'})
@@ -70,7 +70,7 @@ def login_post():
 # Register Page
 @auth_bp.route('/register')
 def register():
-    return render_template('base/register.html')
+    return render_template('auth/register.html')
 
 # register post method
 @auth_bp.route('/register', methods={'POST'})
@@ -186,5 +186,6 @@ def profile_post():
 def logout():
     session.pop('email')
     flash('Log Out Successful')
+    session.clear()
     return redirect(url_for('auth.login'))
 
