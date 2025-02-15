@@ -56,7 +56,7 @@
                     </button>
                 </div>
                 <div class="btn-group form-group me-2" role="group">
-                    <a href="{{ url_for('view_quiz', subject_id=subject.id, chapter_id=chapter.id, quiz_id=quiz.id, question_id=question.id) }}" class="btn btn-secondary">
+                    <a href="{{ url_for('quiz.view_quiz', subject_id=subject.id, chapter_id=chapter.id, quiz_id=quiz.id, question_id=question.id) }}" class="btn btn-secondary">
                         <i class="fa fa-arrow-left"></i> 
                         Back to Quiz
                     </a>

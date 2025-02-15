@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg sticky-top" style="background-color: #ee8a98;">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/">Quiz Quest</a>
+    <a class="navbar-brand" href="{{ url_for('auth.index')}}">Quiz Quest</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
       aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -8,24 +8,24 @@
     <div class="collapse navbar-collapse flex-row-reverse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
         {% if 'email' in session %}
-          <a class="nav-link btn btn-outline-danger" aria-current="page" href="{{ url_for('index')}}">Home</a>
+          <a class="nav-link btn btn-outline-danger" aria-current="page" href="{{ url_for('auth.index')}}">Home</a>
           
           {% if admin %}
-        <a class="nav-link btn btn-outline-danger" aria-current="page" href="{{ url_for('user_dash_admin')}}">User Dashboard</a>
-        <a class="nav-link btn btn-outline-danger" aria-current="page" href="{{ url_for('admin')}}">Subject Dashboard</a>
-        <a class="nav-link btn btn-outline-danger" aria-current="page" href="{{ url_for('admin')}}">Summary</a>
+        <a class="nav-link btn btn-outline-danger" aria-current="page" href="{{ url_for('admin.user_dash_admin')}}">User Dashboard</a>
+        <a class="nav-link btn btn-outline-danger" aria-current="page" href="{{ url_for('admin.admin')}}">Subject Dashboard</a>
+        <a class="nav-link btn btn-outline-danger" aria-current="page" href="{{ url_for('admin.admin')}}">Summary</a>
 
         {% endif %}
         
         {% if user %}
-        <a class="nav-link btn btn-outline-danger" aria-current="page" href="{{ url_for('admin')}}">Attempted Quiz</a>
-        <a class="nav-link btn btn-outline-danger" aria-current="page" href="{{ url_for('admin')}}">Summary</a>
+        <a class="nav-link btn btn-outline-danger" aria-current="page" href="{{ url_for('admin.admin')}}">Attempted Quiz</a>
+        <a class="nav-link btn btn-outline-danger" aria-current="page" href="{{ url_for('admin.admin')}}">Summary</a>
 
         {% endif %}
-        <a class="nav-link btn btn-outline-danger" aria-current="page" href="{{ url_for('profile')}}">Profile</a>
+        <a class="nav-link btn btn-outline-danger" aria-current="page" href="{{ url_for('auth.profile')}}">Profile</a>
         
         {% else %}
-          <a class="nav-link btn btn-outline-danger" aria-current="page" href="{{ url_for('login')}}">Login/Register</a>
+          <a class="nav-link btn btn-outline-danger" aria-current="page" href="{{ url_for('auth.login')}}">Login/Register</a>
         {% endif %}
       </div>
     </div>

@@ -12,5 +12,7 @@ import models
 #Improves the code readability and makes it easy to modify
 import routes
 
+
 if __name__ == '__main__':
     app.run(debug=True)
+

@@ -37,7 +37,7 @@ class User(db.Model):
     qualification = db.Column(db.String(100))
     dob = db.Column(db.Date)
     created_at = db.Column(db.DateTime, default=datetime.today())
-    is_active = db.Column(db.Boolean, default=True)
+    is_active = db.Column(db.Boolean, default=True, nullable=False)
 
 
 
@@ -87,7 +87,8 @@ class Score(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     timestamp = db.Column(db.DateTime, nullable=False)
     total_score = db.Column(db.Integer, nullable=False)
-    percentage_score = db.Column(db.Float)
+    total_questions = db.Column(db.Integer, nullable=False)
+    percentage_score = db.Column(db.Float, nullable=False)
 
     quiz = db.relationship('Quiz', backref=db.backref('scores', lazy=True))
     user = db.relationship('User', backref=db.backref('scores', lazy=True))
