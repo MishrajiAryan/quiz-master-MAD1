@@ -37,6 +37,11 @@ def add_quiz_post(subject_id, chapter_id):
     date_of_quiz = request.form.get('date_of_quiz')
     time_duration = request.form.get('time_duration')
     remarks = request.form.get('remarks')
+
+    if time_duration =='00:00':
+        flash('Time duration cannot be zero')
+        return redirect(url_for('quiz.add_quiz', subject_id=subject_id, chapter_id=chapter_id))
+
     
     if not name or not date_of_quiz or not time_duration or not remarks:
         flash('Please fill all the fields')
@@ -144,6 +149,10 @@ def edit_quiz_post(subject_id,chapter_id, quiz_id):
     date_of_quiz = request.form.get('date_of_quiz')
     time_duration = request.form.get('time_duration')
     remarks = request.form.get('remarks')
+
+    if time_duration =='00:00':
+        flash('Time duration cannot be zero')
+        return redirect(url_for('quiz.add_quiz', subject_id=subject_id, chapter_id=chapter_id))
     
     if not name or not date_of_quiz or not time_duration or not remarks:
         flash('Please fill all the fields')

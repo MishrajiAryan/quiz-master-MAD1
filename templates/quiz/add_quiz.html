@@ -48,6 +48,17 @@
             const dateInput = document.getElementById('date_of_quiz');
             const today = new Date().toISOString().split('T')[0];
             dateInput.setAttribute('min', today);
+            
+            function validateForm() { // Added validation function
+                const timeDuration = document.getElementById('time_duration').value;
+                const [hours, minutes] = timeDuration.split(':').map(Number);
+
+                if (hours === 0 && minutes === 0) {
+                    alert('Time Duration cannot be zero.');
+                    return false;
+                }
+                return true;
+            }
           </script>
     </div>
 </div>

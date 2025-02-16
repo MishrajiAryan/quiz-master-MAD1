@@ -54,10 +54,10 @@ Details: {{user.name}}
               </tr>
             </thead>
             <tbody>
-              {% for score in scores %}
+              {% for score in score %}
               <tr>
                 <td>{{score.quiz_id}}</td>
-                <td>{{score.timestamp}}</td>
+                <td>{{score.timestamp.strftime('%Y-%m-%d')}}</td>
                 <td>{{score.total_questions}}</td>
                 <td>{{score.total_score}}</td>
                 <td>{{score.percentage_score}}</td>

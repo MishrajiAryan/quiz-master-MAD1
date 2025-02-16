@@ -18,6 +18,10 @@ def user():
         return redirect(url_for('admin.admin'))
     
     user=User.query.filter_by(email=session['email']).first()
+    score = Score.query.filter_by(user_id=user.id).all()
+
+    has_attempted = {score.quiz_id for score in score} #creating a set to list all quiz id attempted by user
+
     subjects = Subject.query.all()
     chapters = Chapter.query.all()
     quizzes = Quiz.query.all()
@@ -25,7 +29,8 @@ def user():
     tomorrow = (datetime.today() + timedelta(days=1)).date()
     today = (datetime.today()).date()
 
-    return render_template('/base/index.html', user=user, subjects=subjects, chapters=chapters,quizzes=quizzes, questions=questions, tomorrow=tomorrow,today=today)
+    return render_template('/base/index.html',has_attempted=has_attempted, user=user, subjects=subjects,score=score, chapters=chapters,quizzes=quizzes, questions=questions, tomorrow=tomorrow,today=today)
+
 
 
 @user_bp.route('/user/<int:user_id>/quiz/<int:quiz_id>/view')
@@ -71,7 +76,12 @@ def attempt_quiz(user_id, quiz_id):
         flash('Quiz not found')
         return redirect(url_for('auth.index'))
     
-    
+    score = Score.query.filter_by(user_id=user.id).all()
+    has_attempted = {score.quiz_id for score in score} #creating a set to list all quiz id attempted by user
+    if quiz.id in has_attempted:
+        flash('Quiz already attempted.')
+        return redirect(url_for('auth.index'))
+
     return render_template('user/attempt_quiz.html', user=user, quiz=quiz, quiz_id=quiz_id, user_id=user_id)
 
 
@@ -94,7 +104,7 @@ def attempt_quiz_post(user_id, quiz_id):
         return redirect(url_for('auth.index'))
     
     
-    return redirect(url_for('quiz_test', quiz_id=quiz_id, user_id=user_id))
+    return redirect(url_for('user.quiz_test', quiz_id=quiz_id, user_id=user_id))
 
 
 @user_bp.route('/user/<int:user_id>/quiz/<int:quiz_id>/now')
@@ -116,6 +126,13 @@ def quiz_test(user_id, quiz_id):
         return redirect(url_for('auth.index'))
     
     question = quiz.questions
+
+    score = Score.query.filter_by(user_id=user.id).all()
+
+    has_attempted = {score.quiz_id for score in score} #creating a set to list all quiz id attempted by user
+    if quiz.id in has_attempted:
+        flash('Quiz already attempted.')
+        return redirect(url_for('auth.index'))
     
     return render_template('user/quiz_test.html', user=user, quiz=quiz,question=question, quiz_id=quiz_id, user_id=user_id)
 
@@ -140,23 +157,28 @@ def quiz_test_post(user_id, quiz_id):
     
     questions = quiz.questions
     total_score = 0
+    total_questions = len(questions)
 
     for question in questions:
         selected_option = request.form.get(f'question_{question.id}')
         if selected_option and int(selected_option) == question.correct_option:
             total_score = total_score +  1 
 
+    percentage_score = 100*(total_score/total_questions)
+
     score = Score(
         quiz_id=quiz.id,
         user_id=user.id,
         timestamp=datetime.now(),
-        total_scored=total_score
+        total_score =total_score,
+        total_questions = total_questions,
+        percentage_score = percentage_score,
     )
 
     db.session.add(score)
     db.session.commit()
-    
-    return render_template('user/quiz_result.html', user=user, quiz=quiz,question=question, quiz_id=quiz_id, user_id=user_id)
+   
+    return redirect(url_for('user.quiz_result', user_id=user.id, quiz_id=quiz.id))
 
 
 @user_bp.route('/user/<int:user_id>/quiz/attempted')
@@ -174,9 +196,9 @@ def past_quiz_attempt(user_id):
 
     quiz = Quiz.query.all()
     
-    question = quiz.questions
+    score = Score.query.filter_by(user_id=user_id).all()
     
-    return render_template('user/quiz_test.html', user=user, quiz=quiz,question=question, user_id=user_id)
+    return render_template('user/past_quiz_attempt.html', user=user, quiz=quiz,score=score, user_id=user_id)
 
 
 @user_bp.route('/user/<int:user_id>/summary')
@@ -194,8 +216,30 @@ def user_summary(user_id):
 
     quiz = Quiz.query.all()
     
-    question = quiz.questions
     
-    return render_template('user/quiz_test.html', user=user, quiz=quiz,question=question, user_id=user_id)
+    return render_template('user/user_summary.html', user=user, quiz=quiz, user_id=user_id)
+
+@user_bp.route('/user/<int:user_id>/quiz/<int:quiz_id>/result')
+@auth_req
+def quiz_result(user_id, quiz_id):
+    admin = Admin.query.filter_by(email=session['email']).first()
+    if admin:
+        flash('Admin in session, cannot access')
+        return redirect(url_for('admin.admin'))
+    
+    user = User.query.filter_by(email=session.get('email')).first()
+    if not user:
+        flash('User not found')
+        return redirect(url_for('auth.index'))
+    
+    quiz = Quiz.query.filter_by(id=quiz_id).first()
+    if not quiz:
+        flash('Quiz not found')
+        return redirect(url_for('auth.index'))
+    
+    score = Score.query.filter_by(user_id=user_id, quiz_id=quiz_id).first()
+
+
+    return render_template('user/quiz_result.html', user=user,score=score, quiz=quiz, user_id=user_id)
 
 

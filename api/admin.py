@@ -1,5 +1,5 @@
 from flask import session, Blueprint, jsonify, render_template, flash, redirect, url_for
-from models import Subject, Admin, User,db, Score
+from models import Subject, Admin, User,db, Score, Quiz
 from auth.admin_auth import admin_req
 
 admin_bp = Blueprint('admin', __name__)
@@ -59,5 +59,4 @@ def admin_summary():
     subjects = Subject.query.all()
     admin = Admin.query.filter_by(email=session['email']).first()
     return render_template('admin/admin_summary.html',admin=admin, subjects=subjects)
-
 

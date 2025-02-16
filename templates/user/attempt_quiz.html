@@ -11,55 +11,51 @@ Attempt Quiz
             <h1 class="display-2 text-center">{{quiz.name}}</h1>
             <h1 class="display-4 text-center mb-4">Quiz Instructions</h1>
             <hr>
+
             <div class="mb-3">
                 <h5>1. Examination Timer</h5>
-                <p>The clock will be set at the server. The countdown timer at the top right corner of the screen will display the remaining time available for you to complete the examination. When the timer reaches zero, the examination will end by itself. You do not need to terminate the examination or submit your paper.</p>
+                <p>The clock will be set at the server. The countdown timer at the top right corner of the screen will display the remaining time available for you to complete the examination. When the timer reaches zero, the examination will end automatically. You do not need to manually submit your paper. You can use the submit button given below if you want to end it sooner.</p>
             </div>
+
             <div class="mb-3">
-                <h5>2. Question Palette</h5>
-                <p>The Question Palette displayed on the right side of the screen will show the status of each question using the following symbols:</p>
+                <h5>2. Answering Questions</h5>
+                <p>Each question will be displayed along with its options. Read each question carefully before attempting it.</p>
+            </div>
+
+            <div class="mb-3">
+                <h5>3. Multiple Choice Questions (MCQ)</h5>
+                <p>For MCQ type questions:</p>
                 <ul>
-                    <li><span class="badge text-bg-secondary">Ques</span>: You have not answered the question.</li>
-                    <li><span class="badge text-bg-success">Ques</span>: You have answered the question.</li>
+                    <li>Choose one answer from the 4 options (1, 2, 3, 4) given below the question by clicking on the radio button (circle) placed before the chosen option.</li>
+                    <li>To change your chosen answer, click on the radio button of another option.</li>
                 </ul>
             </div>
+
             <div class="mb-3">
-                <h5>3. Navigating Questions</h5>
-                <p>To answer a question, do the following:</p>
-                <ol>
-                    <li>Click on the question number in the Question Palette on the right side of your screen to go to that numbered question directly. Note that using this option does NOT save your answer to the current question.</li>
-                    <li>Click on <strong>Save & Next</strong> to save your answer for the current question and then go to the next question.</li>
-                </ol>
+                <h5>4. Technical Issues</h5>
+                <p>In case of any technical issues (e.g., internet connectivity problems, power outage), please contact the admin or support team. Your time will be compensated as deemed appropriate by the examination committee.</p>
             </div>
+
             <div class="mb-3">
-                <h5>4. Answering Multiple Choice Questions (MCQ)</h5>
-                <p>Procedure for answering a multiple choice (MCQ) type question:</p>
-                <ol>
-                    <li>Choose one answer from the 4 options (A, B, C, D) given below the question by clicking on the bubble placed before the chosen option.</li>
-                    <li>To deselect your chosen answer, click on the bubble of the chosen option again or click on the <strong>Clear Response</strong> button.</li>
-                    <li>To change your chosen answer, click on the bubble of another option.</li>
-                    <li>To save your answer, you MUST click on the <strong>Save & Next</strong> button.</li>
-                </ol>
+                <h5>5. Code of Conduct</h5>
+                <p>You are expected to maintain the highest standards of academic integrity during the examination. Any form of cheating, plagiarism, or use of unfair means will result in immediate disqualification.</p>
             </div>
-            <div class="mb-3">
-                <h5>5. Section Navigation</h5>
-                <p>After clicking the <strong>Save & Next</strong> button for the last question in a Section, you will automatically be taken to the first question of the next Section in sequence.</p>
-            </div>
+
             <div class="mb-3">
                 <form class="row g-3 needs-validation" novalidate method="post">
                     <div class="col-12">
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
-                        <label class="form-check-label" for="invalidCheck">
-                            I have read all the instructions carefully and have understood them. I agree not to cheat or use unfair means in this examination. I understand that using unfair means of any sort for my own or someone else's advantage will lead to my immediate disqualification.
-                        </label>
-                        <div class="invalid-feedback">
-                          You must agree before beginning the quiz.
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+                            <label class="form-check-label" for="invalidCheck">
+                                I have read all the instructions carefully and have understood them. I agree not to cheat or use unfair means in this examination. I understand that using unfair means of any sort for my own or someone else's advantage will lead to my immediate disqualification.
+                            </label>
+                            <div class="invalid-feedback">
+                                You must agree before beginning the quiz.
+                            </div>
                         </div>
-                      </div>
                     </div>
                     <div class="col-12">
-                      <button class="btn btn-primary" type="submit">Begin the Quiz</button>
+                        <button class="btn btn-primary" type="submit">Begin the Quiz</button>
                     </div>
                 </form>
             </div>
