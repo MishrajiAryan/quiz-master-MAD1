@@ -1,5 +1,5 @@
 from flask import session, Blueprint, jsonify, render_template, flash, redirect, url_for
-from models import Subject, Admin, User,db
+from models import Subject, Admin, User,db, Score
 from auth.admin_auth import admin_req
 
 admin_bp = Blueprint('admin', __name__)
@@ -31,14 +31,17 @@ def user_dash_admin_access(user_id):
         return redirect(url_for('admin.admin'))
     return redirect(url_for('admin.user_dash_admin', user_id=user_id))
 
+
 @admin_bp.route('/admin/user/<int:user_id>/view')
 @admin_req
 def view_user_admin(user_id):
     user = User.query.get(user_id)
     admin = Admin.query.filter_by(email=session['email']).first()
+    score = Score.query.filter_by(user_id=user_id).all()
 
     if not user:
         flash('User not found')
         return redirect(url_for('admin.admin'))
+    
+    return render_template('admin/view_user_admin.html', user_id=user_id, user=user, admin=admin, score=score)
 
-    return render_template('admin/view_user_admin.html', user_id=user_id, user=user, admin=admin)

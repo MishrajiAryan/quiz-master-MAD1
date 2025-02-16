@@ -23,6 +23,17 @@ def index():
 # Login Page
 @auth_bp.route('/login')
 def login():
+    if 'email' in session:
+        admin = Admin.query.filter_by(email=session['email']).first()
+        if admin:
+            flash('Already logged in as Admin - Logout first to login into another account')
+            return redirect(url_for('admin.admin'))
+        
+        user = User.query.filter_by(email=session['email']).first()
+        if user:
+            flash('Already logged in - Logout first to login into another account')
+            return redirect(url_for('user.user'))
+    
     return render_template('auth/login.html')
 
 # login post method
@@ -58,8 +69,7 @@ def login_post():
     is_active= user.is_active
 
     if is_active == False:
-        flash('User access revoked')
-        flash('Please contact admin for further actions')
+        flash('User access revoked by Admin. Please contact us for further actions')
         return redirect(url_for('auth.login'))
 
 
@@ -70,6 +80,17 @@ def login_post():
 # Register Page
 @auth_bp.route('/register')
 def register():
+    if 'email' in session:
+        admin = Admin.query.filter_by(email=session['email']).first()
+        if admin:
+            flash('Already logged in as Admin - Logout first to login into another account')
+            return redirect(url_for('admin.admin'))
+        
+        user = User.query.filter_by(email=session['email']).first()
+        if user:
+            flash('Already logged in - Logout first to login into another account')
+            return redirect(url_for('user.user'))
+        
     return render_template('auth/register.html')
 
 # register post method

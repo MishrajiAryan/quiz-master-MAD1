@@ -30,7 +30,7 @@ def create_admin():
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(100), unique=True, nullable=False)
-    phone_number = db.Column(db.String(20))
+    phone_number = db.Column(db.String(20), unique=True)
     # Store hashed passwords
     password = db.Column(db.String(256), nullable=False)
     name = db.Column(db.String(100), nullable=False)
@@ -85,7 +85,7 @@ class Score(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     quiz_id = db.Column(db.Integer, db.ForeignKey('quiz.id'), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    timestamp = db.Column(db.DateTime, nullable=False)
+    timestamp = db.Column(db.DateTime, nullable=False, default=datetime.today())
     total_score = db.Column(db.Integer, nullable=False)
     total_questions = db.Column(db.Integer, nullable=False)
     percentage_score = db.Column(db.Float, nullable=False)

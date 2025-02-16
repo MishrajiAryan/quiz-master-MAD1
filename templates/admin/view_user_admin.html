@@ -41,10 +41,35 @@ Details: {{user.name}}
         </div>
         </p>
         <hr>
-        <div class="card shadow-lg p-4 mx-auto" style="max-width: 800px; width: 90%;">
+        <div class="card shadow-lg p-4">
             <div class="card-body">
+                  
+            <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col">Quiz ID</th>
+                    <th scope="col">Date of Attempt</th>
+                    <th scope="col">Total Questions</th>
+                    <th scope="col">Total Scored</th>
+                    <th scope="col">Percentage Scored</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for score in scores %}
+                  <tr>
+                    <td>{{score.quiz_id}}</td>
+                    <td>{{score.timestamp}}</td>
+                    <td>{{score.total_questions}}</td>
+                    <td>{{score.total_score}}</td>
+                    <td>{{score.percentage_score}}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            
             </div>
-        </div>     
+        </div>
+        <br>     
     </div>
 </div>
 
