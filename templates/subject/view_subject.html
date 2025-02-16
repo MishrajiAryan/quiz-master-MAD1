@@ -24,6 +24,7 @@
                     <h5 class="card-title">{{ chapter.name }}</h5>
                     <p class="card-text text-muted">{{ chapter.description }}</p>
                     <p class="card-text"><strong>Quizzes:</strong> {{ chapter.quizzes|length }}</p>
+                    <p class="card-text"><strong>Date Created:</strong> {{ chapter.created_at.strftime('%Y-%m-%d') }}</p>
                 </div>
                 <div class="card-footer d-flex justify-content-between">
                     <a href="{{url_for('chapter.view_chapter', subject_id=chapter.subject_id, chapter_id=chapter.id)}}" class="btn btn-success">
@@ -43,7 +44,7 @@
 </div>
 
 <div class="text-center mt-4">
-    <a href="{{ url_for('admin.admin') }}" class="btn btn-secondary">
+    <a href="{{ url_for('admin.subject_dash_admin') }}" class="btn btn-secondary">
         <i class="fa fa-arrow-left"></i> Back to Subjects
     </a>
 </div>

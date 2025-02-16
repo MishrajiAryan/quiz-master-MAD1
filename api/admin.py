@@ -11,6 +11,13 @@ def admin():
     admin = Admin.query.filter_by(email=session['email']).first()
     return render_template('admin/admin.html',admin=admin, subjects=subjects)
 
+@admin_bp.route('/admin/subjects')
+@admin_req
+def subject_dash_admin():
+    subjects = Subject.query.all()
+    admin = Admin.query.filter_by(email=session['email']).first()
+    return render_template('admin/subject_dash_admin.html',admin=admin, subjects=subjects)
+
 @admin_bp.route('/admin/users')
 @admin_req
 def user_dash_admin():
@@ -44,4 +51,13 @@ def view_user_admin(user_id):
         return redirect(url_for('admin.admin'))
     
     return render_template('admin/view_user_admin.html', user_id=user_id, user=user, admin=admin, score=score)
+
+
+@admin_bp.route('/admin/summary')
+@admin_req
+def admin_summary():
+    subjects = Subject.query.all()
+    admin = Admin.query.filter_by(email=session['email']).first()
+    return render_template('admin/admin_summary.html',admin=admin, subjects=subjects)
+
 

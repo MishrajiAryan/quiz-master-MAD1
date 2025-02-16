@@ -11,7 +11,7 @@ def add_quiz(subject_id,chapter_id):
     subject = Subject.query.get(subject_id)
     if not subject:
         flash('Subject does not exist')
-        return redirect(url_for('admin.admin'))
+        return redirect(url_for('admin.subject_dash_admin'))
     
     chapter = Chapter.query.get(chapter_id)
     if not chapter:
@@ -26,7 +26,7 @@ def add_quiz_post(subject_id, chapter_id):
     subject = Subject.query.get(subject_id)
     if not subject:
         flash('Subject does not exist')
-        return redirect(url_for('admin.admin'))
+        return redirect(url_for('admin.subject_dash_admin'))
     
     chapter = Chapter.query.get(chapter_id)
     if not chapter:
@@ -63,7 +63,7 @@ def delete_quiz(subject_id, chapter_id,quiz_id):
     subject = Subject.query.get(subject_id)
     if not subject:
         flash('Subject does not exist')
-        return redirect(url_for('admin.admin'))
+        return redirect(url_for('admin.subject_dash_admin'))
     
     chapter = Chapter.query.get(chapter_id)
     if not chapter:
@@ -84,7 +84,7 @@ def delete_quiz_post(subject_id,chapter_id,quiz_id):
     
     if not subject:
         flash('Subject does not exist')
-        return redirect(url_for('admin.admin'))
+        return redirect(url_for('admin.subject_dash_admin'))
     
     chapter = Chapter.query.get(chapter_id)
     if not chapter:
@@ -108,7 +108,7 @@ def edit_quiz(subject_id,chapter_id,quiz_id):
     subject = Subject.query.get(subject_id)
     if not subject:
         flash('Subject not found')
-        return redirect(url_for('admin.admin'))
+        return redirect(url_for('admin.subject_dash_admin'))
 
     chapter = Chapter.query.get(chapter_id)
     if not chapter:
@@ -128,7 +128,7 @@ def edit_quiz_post(subject_id,chapter_id, quiz_id):
     subject = Subject.query.get(subject_id)
     if not subject:
         flash('Subject not found')
-        return redirect(url_for('admin.admin'))
+        return redirect(url_for('admin.subject_dash_admin'))
     
     chapter = Chapter.query.get(chapter_id)
     if not chapter:
@@ -167,7 +167,7 @@ def view_quiz(subject_id,chapter_id,quiz_id):
     subject = Subject.query.get(subject_id)
     if not subject:
         flash('Subject not found')
-        return redirect(url_for('admin.admin'))
+        return redirect(url_for('admin.subject_dash_admin'))
     
     chapter = Chapter.query.get(chapter_id)
     if not chapter:

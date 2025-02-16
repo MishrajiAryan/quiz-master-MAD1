@@ -5,40 +5,30 @@
 {% endblock %}
 
 {% block content %}
-<h1 class="display-1 text-center">Subjects</h1>
+<h1 class="display-1 text-center">Admin Dashboard</h1>
 <hr>
-
-<div class="text-center mb-4">
-    <a href="{{url_for('subject.add_subject')}}" class="btn btn-primary">
-        <i class="fa fa-plus" aria-hidden="true"></i> 
-        Add Subject
-    </a>
-</div>
-
 <div class="container">
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-        {% for subject in subjects %}
-        <div class="col">
-            <div class="card h-100 shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">{{ subject.name }}</h5>
-                    <p class="card-text text-muted">{{ subject.description }}</p>
-                    <p class="card-text"><strong>Chapters:</strong> {{ subject.chapters|length }}</p>
-                </div>
-                <div class="card-footer d-flex justify-content-between">
-                    <a href="{{url_for('subject.view_subject', subject_id=subject.id)}}" class="btn btn-success">
-                        <i class="fa fa-eye"></i> View
-                    </a>
-                    <a href="{{url_for('subject.edit_subject', subject_id=subject.id)}}" class="btn btn-warning">
-                        <i class="fa fa-edit"></i> Edit
-                    </a>
-                    <a href="{{url_for('subject.delete_subject', subject_id=subject.id)}}" class="btn btn-danger">
-                        <i class="fa fa-trash"></i> Delete
-                    </a>
+    <div class="row justify-content-around">
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
+            <div class="card mx-auto" style="width: 95%;">
+                <img src="https://api.dicebear.com/9.x/initials/svg?seed=User Dashboard" class="img-thumbnail border mx-auto d-block rounded-circle" style="max-width: 70%;" alt="...">
+                <div class="card-body text-center">
+                    <h5 class="card-title">User Dashboard</h5>
+                    <p class="card-text">Access list of Users along with their details. Manage user access, view basic profile and quizzes they have attempted.</p>
+                    <a href="{{ url_for('admin.user_dash_admin')}}" class="btn btn-primary">Visit Users</a>
                 </div>
             </div>
         </div>
-        {% endfor %}
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
+            <div class="card mx-auto" style="width: 95%;">
+                <img src="https://api.dicebear.com/9.x/initials/svg?seed=Subject Dashboard" class="img-thumbnail border mx-auto d-block rounded-circle" style="max-width: 70%;" alt="...">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Subject Dashboard</h5>
+                    <p class="card-text">Access list of Subject along with related options like add subject. View basic statistic details about the subject like chapters present.</p>
+                    <a href="{{ url_for('admin.subject_dash_admin')}}" class="btn btn-primary">Visit Subjects</a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <br>

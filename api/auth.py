@@ -53,7 +53,7 @@ def login_post():
             flash('Incorrect Password')
             return redirect(url_for('auth.login'))
         session['email'] = admin.email
-        flash('Logged in as Admin')
+        flash('Log in as Admin successful')
         return redirect(url_for('auth.index'))
 
     # user login
@@ -163,7 +163,7 @@ def profile_post():
     admin = Admin.query.filter_by(email=session['email']).first()
     if admin:
         if not check_password_hash(admin.password, password):
-            flash('Incorrect Password')
+            flash('Incorrect Current Password')
             return redirect(url_for('auth.profile'))
         
         if new_password:
@@ -207,6 +207,5 @@ def profile_post():
 def logout():
     session.pop('email')
     flash('Log Out Successful')
-    session.clear()
     return redirect(url_for('auth.login'))
 

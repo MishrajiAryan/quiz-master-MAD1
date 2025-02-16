@@ -6,71 +6,70 @@ Details: {{user.name}}
 
 {% block content %}
 <div class="container mt-5 d-flex justify-content-center">
-    <div class="col-md-8">
+  <div class="col-md-8">
+    <h1 class="display-1 text-center">
+      <img src="https://api.dicebear.com/9.x/initials/svg?seed={{user.name}}"
+        class="object-fit-sm-contain img-thumbnail border rounded-circle mx-auto d-block" style="max-width: 20%;"
+        alt="profile picture">
+      {{user.name}}
+    </h1>
+    <p class="text-center">
+    <div class="container text-center mt-4 ">
+      <div class="row text-center fw-bold border-bottom d-none d-md-flex">
+        <div class="col-12 col-md-4 fw-bold">Email</div>
+        <div class="col-12 col-md-4 fw-bold">Phone Number</div>
+        <div class="col-12 col-md-4 fw-bold">Date of Birth</div>
+      </div>
+      <div class="row text-center d-none d-md-flex">
+        <div class="col-12 col-md-4">{{user.email}}</div>
+        <div class="col-12 col-md-4">{{user.phone_number}}</div>
+        <div class="col-12 col-md-4">{{user.dob}}</div>
+      </div>
+      <!-- for small screens -->
+      <div class="row text-center d-md-none">
+        <div class="col-12 fw-bold">Email</div>
+        <div class="col-12 mb-2">{{user.email}}</div>
 
-        <h1 class="display-1 text-center">
-            <img src="https://api.dicebear.com/9.x/initials/svg?seed={{user.name}}"
-            class="object-fit-sm-contain img-thumbnail border rounded-circle mx-auto d-block" style="max-width: 20%;" alt="profile picture">
-            {{user.name}}
-        </h1>
-        
-        <p class="text-center">
-        <div class="container text-center mt-4 ">
-            <div class="row text-center fw-bold border-bottom d-none d-md-flex">
-                <div class="col-12 col-md-4 fw-bold">Email</div>
-                <div class="col-12 col-md-4 fw-bold">Phone Number</div>
-                <div class="col-12 col-md-4 fw-bold">Date of Birth</div>
-            </div>
-            <div class="row text-center d-none d-md-flex">
-                <div class="col-12 col-md-4">{{user.email}}</div>
-                <div class="col-12 col-md-4">{{user.phone_number}}</div>
-                <div class="col-12 col-md-4">{{user.dob}}</div>
-            </div>
-            <!-- for small screens -->
-            <div class="row text-center d-md-none">
-                <div class="col-12 fw-bold">Email</div>
-                <div class="col-12 mb-2">{{user.email}}</div>
-        
-                <div class="col-12 fw-bold">Phone Number</div>
-                <div class="col-12 mb-2">{{user.phone_number}}</div>
-        
-                <div class="col-12 fw-bold">Date of Birth</div>
-                <div class="col-12 mb-2">{{user.dob}}</div>
-        
-            </div>
-        </div>
-        </p>
-        <hr>
-        <div class="card shadow-lg p-4">
-            <div class="card-body">
-                  
-            <table class="table table-hover">
-                <thead>
-                  <tr>
-                    <th scope="col">Quiz ID</th>
-                    <th scope="col">Date of Attempt</th>
-                    <th scope="col">Total Questions</th>
-                    <th scope="col">Total Scored</th>
-                    <th scope="col">Percentage Scored</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {% for score in scores %}
-                  <tr>
-                    <td>{{score.quiz_id}}</td>
-                    <td>{{score.timestamp}}</td>
-                    <td>{{score.total_questions}}</td>
-                    <td>{{score.total_score}}</td>
-                    <td>{{score.percentage_score}}</td>
-                  </tr>
-                  {% endfor %}
-                </tbody>
-              </table>
-            
-            </div>
-        </div>
-        <br>     
+        <div class="col-12 fw-bold">Phone Number</div>
+        <div class="col-12 mb-2">{{user.phone_number}}</div>
+
+        <div class="col-12 fw-bold">Date of Birth</div>
+        <div class="col-12 mb-2">{{user.dob}}</div>
+
+      </div>
     </div>
+    </p>
+    <hr>
+    <div class="card shadow-lg p-4">
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">Quiz ID</th>
+                <th scope="col">Date of Attempt</th>
+                <th scope="col">Total Questions</th>
+                <th scope="col">Total Scored</th>
+                <th scope="col">Percentage Scored</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for score in scores %}
+              <tr>
+                <td>{{score.quiz_id}}</td>
+                <td>{{score.timestamp}}</td>
+                <td>{{score.total_questions}}</td>
+                <td>{{score.total_score}}</td>
+                <td>{{score.percentage_score}}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <br>
+  </div>
 </div>
 
 {% endblock %}

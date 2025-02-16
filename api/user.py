@@ -159,4 +159,43 @@ def quiz_test_post(user_id, quiz_id):
     return render_template('user/quiz_result.html', user=user, quiz=quiz,question=question, quiz_id=quiz_id, user_id=user_id)
 
 
+@user_bp.route('/user/<int:user_id>/quiz/attempted')
+@auth_req
+def past_quiz_attempt(user_id):
+    admin = Admin.query.filter_by(email=session['email']).first()
+    if admin:
+        flash('Admin in session, cannot access')
+        return redirect(url_for('admin.admin'))
+    
+    user = User.query.filter_by(email=session.get('email')).first()
+    if not user:
+        flash('User not found')
+        return redirect(url_for('auth.index'))
+
+    quiz = Quiz.query.all()
+    
+    question = quiz.questions
+    
+    return render_template('user/quiz_test.html', user=user, quiz=quiz,question=question, user_id=user_id)
+
+
+@user_bp.route('/user/<int:user_id>/summary')
+@auth_req
+def user_summary(user_id):
+    admin = Admin.query.filter_by(email=session['email']).first()
+    if admin:
+        flash('Admin in session, cannot access')
+        return redirect(url_for('admin.admin'))
+    
+    user = User.query.filter_by(email=session.get('email')).first()
+    if not user:
+        flash('User not found')
+        return redirect(url_for('auth.index'))
+
+    quiz = Quiz.query.all()
+    
+    question = quiz.questions
+    
+    return render_template('user/quiz_test.html', user=user, quiz=quiz,question=question, user_id=user_id)
+
 

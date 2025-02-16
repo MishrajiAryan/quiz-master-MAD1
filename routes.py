@@ -8,7 +8,7 @@ from api.quiz import quiz_bp
 from api.subject import subject_bp
 from api.user import user_bp
 
-# Register individual blueprints without the /api prefix
+# Register individual blueprints
 app.register_blueprint(admin_bp, url_prefix="/admin")
 app.register_blueprint(auth_bp, url_prefix="/")
 app.register_blueprint(chapter_bp, url_prefix="/chapter")

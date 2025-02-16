@@ -35,7 +35,7 @@ def add_subject_post():
     db.session.commit()
     flash("Subject Added Successfully")
 
-    return redirect(url_for('admin.admin'))
+    return redirect(url_for('admin.subject_dash_admin'))
 
 @subject_bp.route('/subject/<int:subject_id>')
 @admin_req
@@ -43,7 +43,7 @@ def view_subject(subject_id):
     subject = Subject.query.get(subject_id)
     if not subject:
         flash('Subject not found')
-        return redirect(url_for('admin.admin'))
+        return redirect(url_for('admin.subject_dash_admin'))
     admin = Admin.query.filter_by(email=session['email']).first()
     return render_template('/subject/view_subject.html',subject=subject, admin=admin)
 
@@ -53,7 +53,7 @@ def edit_subject(subject_id):
     subject = Subject.query.get(subject_id)
     if not subject:
         flash('Subject not found')
-        return redirect(url_for('admin.admin'))
+        return redirect(url_for('admin.subject_dash_admin'))
     admin = Admin.query.filter_by(email=session['email']).first()
     return render_template('/subject/edit_subject.html', subject=subject,admin=admin)
 
@@ -63,7 +63,7 @@ def edit_subject_post(subject_id):
     subject = Subject.query.get(subject_id)
     if not subject:
         flash('Subject not found')
-        return redirect(url_for('admin.admin'))
+        return redirect(url_for('admin.subject_dash_admin'))
     
     name = request.form.get('subject_name')
     description = request.form.get('subject_description')
@@ -78,7 +78,7 @@ def edit_subject_post(subject_id):
     db.session.commit()
 
     flash("Subject Updated Successfully")
-    return redirect(url_for('admin.admin'))
+    return redirect(url_for('admin.subject_dash_admin'))
 
 @subject_bp.route('/subject/<int:subject_id>/delete')
 @admin_req
@@ -86,7 +86,7 @@ def delete_subject(subject_id):
     subject = Subject.query.get(subject_id)
     if not subject:
         flash('Subject not found')
-        return redirect(url_for('admin.admin'))
+        return redirect(url_for('admin.subject_dash_admin'))
     admin = Admin.query.filter_by(email=session['email']).first()
     return render_template('/subject/delete_subject.html',subject=subject,admin=admin)
 
@@ -96,10 +96,10 @@ def delete_subject_post(subject_id):
     subject = Subject.query.get(subject_id)
     if not subject:
         flash('Subject not found')
-        return redirect(url_for('admin.admin'))
+        return redirect(url_for('admin.subject_dash_admin'))
     db.session.delete(subject)
     db.session.commit()
 
     flash('Subject Deleted Successfully')
-    return redirect(url_for('admin.admin'))
+    return redirect(url_for('admin.subject_dash_admin'))
 

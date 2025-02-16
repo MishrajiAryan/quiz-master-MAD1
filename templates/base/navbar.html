@@ -14,16 +14,16 @@
         {% if admin %}
         <a class="nav-link btn btn-outline-danger" aria-current="page" href="{{ url_for('admin.user_dash_admin')}}">User
           Dashboard</a>
-        <a class="nav-link btn btn-outline-danger" aria-current="page" href="{{ url_for('admin.admin')}}">Subject
+        <a class="nav-link btn btn-outline-danger" aria-current="page" href="{{ url_for('admin.subject_dash_admin')}}">Subject
           Dashboard</a>
-        <a class="nav-link btn btn-outline-danger" aria-current="page" href="{{ url_for('admin.admin')}}">Summary</a>
+        <a class="nav-link btn btn-outline-danger" aria-current="page" href="{{ url_for('admin.admin_summary')}}">Summary</a>
         {% endif %}
 
         {% if not admin %}
         {% if user %}
-        <a class="nav-link btn btn-outline-danger" aria-current="page" href="{{ url_for('admin.admin')}}">Attempted
+        <a class="nav-link btn btn-outline-danger" aria-current="page" href="{{ url_for('user.past_quiz_attempt', user_id=user.id)}}">Attempted
           Quiz</a>
-        <a class="nav-link btn btn-outline-danger" aria-current="page" href="{{ url_for('admin.admin')}}">Summary</a>
+        <a class="nav-link btn btn-outline-danger" aria-current="page" href="{{ url_for('user.user_summary', user_id=user.id)}}">Summary</a>
         {% endif %}
         {% endif %}
         

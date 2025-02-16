@@ -12,12 +12,12 @@
                     <p class="card-text"><strong>Scheduled Date:</strong> {{ quiz.date_of_quiz.strftime('%d-%m-%Y') }}</p>
                 </div>
                 <div class="card-footer d-flex justify-content-between">
-                    <a href="{{ url_for('preview_quiz', user_id=user.id, quiz_id=quiz.id) }}" 
+                    <a href="{{ url_for('user.preview_quiz', user_id=user.id, quiz_id=quiz.id) }}" 
                        class="btn btn-success">
                         <i class="fa fa-eye"></i> 
                         View
                     </a>
-                    <a href="{{ url_for('attempt_quiz', user_id=user.id, quiz_id=quiz.id) }}" 
+                    <a href="{{ url_for('user.attempt_quiz', user_id=user.id, quiz_id=quiz.id) }}" 
                        class="btn btn-primary">
                         <i class="fa fa-play"></i> 
                         Attempt

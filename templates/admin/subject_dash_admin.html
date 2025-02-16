@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Admin Dashboard
+{% endblock %}
+
+{% block content %}
+<h1 class="display-1 text-center">Subjects</h1>
+<hr>
+
+<div class="text-center mb-4">
+    <a href="{{url_for('subject.add_subject')}}" class="btn btn-primary">
+        <i class="fa fa-plus" aria-hidden="true"></i> 
+        Add Subject
+    </a>
+</div>
+
+<div class="container">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for subject in subjects %}
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">{{ subject.name }}</h5>
+                    <p class="card-text text-muted">{{ subject.description }}</p>
+                    <p class="card-text"><strong>Chapters:</strong> {{ subject.chapters|length }}</p>
+                    <p class="card-text"><strong>Date Created:</strong> {{ subject.created_at.strftime('%Y-%m-%d') }}</p>
+                </div>
+                <div class="card-footer d-flex justify-content-between">
+                    <a href="{{url_for('subject.view_subject', subject_id=subject.id)}}" class="btn btn-success">
+                        <i class="fa fa-eye"></i> View
+                    </a>
+                    <a href="{{url_for('subject.edit_subject', subject_id=subject.id)}}" class="btn btn-warning">
+                        <i class="fa fa-edit"></i> Edit
+                    </a>
+                    <a href="{{url_for('subject.delete_subject', subject_id=subject.id)}}" class="btn btn-danger">
+                        <i class="fa fa-trash"></i> Delete
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<br>
+{% endblock %}

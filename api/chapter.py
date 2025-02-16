@@ -13,7 +13,7 @@ def add_chapter(subject_id):
     subject = Subject.query.get(subject_id)
     if not subject:
         flash('Subject does not exist')
-        return redirect(url_for('admin.admin'))
+        return redirect(url_for('admin.subject_dash_admin'))
     admin = Admin.query.filter_by(email=session['email']).first()
     return render_template('/chapter/add_chapter.html', subject=subject,admin=admin)
 
@@ -24,7 +24,7 @@ def add_chapter_post(subject_id):
     subject = Subject.query.get(subject_id)
     if not subject:
         flash('Subject does not exist')
-        return redirect(url_for('admin.admin'))
+        return redirect(url_for('admin.subject_dash_admin'))
     
     name = request.form.get('chapter_name')
     description = request.form.get('chapter_description')
@@ -51,7 +51,7 @@ def delete_chapter(subject_id, chapter_id):
     subject = Subject.query.get(subject_id)
     if not subject:
         flash('Subject does not exist')
-        return redirect(url_for('admin.admin'))
+        return redirect(url_for('admin.subject_dash_admin'))
     
     chapter = Chapter.query.get(chapter_id)
     if not chapter:
@@ -68,7 +68,7 @@ def delete_chapter_post(subject_id,chapter_id):
     
     if not subject:
         flash('Subject does not exist')
-        return redirect(url_for('admin.admin'))
+        return redirect(url_for('admin.subject_dash_admin'))
     
     chapter = Chapter.query.get(chapter_id)
     if not chapter:
@@ -88,7 +88,7 @@ def edit_chapter(subject_id,chapter_id):
     subject = Subject.query.get(subject_id)
     if not subject:
         flash('Subject not found')
-        return redirect(url_for('admin.admin'))
+        return redirect(url_for('admin.subject_dash_admin'))
 
     chapter = Chapter.query.get(chapter_id)
     if not chapter:
@@ -103,7 +103,7 @@ def edit_chapter_post(subject_id,chapter_id):
     subject = Subject.query.get(subject_id)
     if not subject:
         flash('Subject not found')
-        return redirect(url_for('admin.admin'))
+        return redirect(url_for('admin.subject_dash_admin'))
     
     chapter = Chapter.query.get(chapter_id)
     if not chapter:
@@ -131,7 +131,7 @@ def view_chapter(subject_id,chapter_id):
     subject = Subject.query.get(subject_id)
     if not subject:
         flash('Subject not found')
-        return redirect(url_for('admin.admin'))
+        return redirect(url_for('admin.subject_dash_admin'))
     
     chapter = Chapter.query.get(chapter_id)
     if not chapter:
