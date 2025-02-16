@@ -13,20 +13,6 @@ Result: {{ quiz.name }}
             <hr>
 
             {% if score %}
-            <!-- User Score Progress Bar -->
-            <div class="progress mb-3">
-                <div class="progress-bar 
-                    {% if score.percentage_score < 40 %} bg-danger 
-                    {% elif score.percentage_score < 80 %} bg-warning 
-                    {% else %} bg-success {% endif %}" 
-                    role="progressbar" 
-                    style="width: {{score.percentage_score}}%" 
-                    aria-valuenow="{{score.percentage_score}}" 
-                    aria-valuemin="0" 
-                    aria-valuemax="100">
-                    {{ score.percentage_score }}%
-                </div>
-            </div>
 
             <h5 class="text-center">Your Score: <strong>{{ score.total_score }}</strong> / <strong>{{ score.total_questions }}</strong></h5>
             <h5 class="text-center">Percentage: <strong>{{ score.percentage_score }}%</strong></h5>
