@@ -47,6 +47,7 @@ Details: {{user.name}}
             <thead>
               <tr>
                 <th scope="col">Quiz ID</th>
+                <th scope="col">Quiz Name</th>
                 <th scope="col">Date of Attempt</th>
                 <th scope="col">Total Questions</th>
                 <th scope="col">Total Scored</th>
@@ -57,10 +58,11 @@ Details: {{user.name}}
               {% for score in score %}
               <tr>
                 <td>{{score.quiz_id}}</td>
+                <td>{{score.quiz.name}}</td>
                 <td>{{score.timestamp.strftime('%Y-%m-%d')}}</td>
                 <td>{{score.total_questions}}</td>
                 <td>{{score.total_score}}</td>
-                <td>{{score.percentage_score}}</td>
+                <td>{{score.percentage_score|round(2)}}%</td>
               </tr>
               {% endfor %}
             </tbody>

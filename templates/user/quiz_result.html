@@ -15,7 +15,7 @@ Result: {{ quiz.name }}
             {% if score %}
 
             <h5 class="text-center">Your Score: <strong>{{ score.total_score }}</strong> / <strong>{{ score.total_questions }}</strong></h5>
-            <h5 class="text-center">Percentage: <strong>{{ score.percentage_score }}%</strong></h5>
+            <h5 class="text-center">Percentage: <strong>{{ score.percentage_score|round(2) }}%</strong></h5>
 
             <!-- Feedback Messages -->
             {% if score.percentage_score < 40 %}

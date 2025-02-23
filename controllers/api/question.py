@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect, url_for, flash, session, Blueprint, jsonify
 from models import db, Subject, Chapter, Quiz, Question, Admin
-from auth.admin_auth import admin_req
+from controllers.auth.admin_auth import admin_req
 
 
 question_bp = Blueprint('question', __name__)

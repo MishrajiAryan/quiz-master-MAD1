@@ -1,7 +1,7 @@
 from flask import render_template, request, redirect, url_for, flash, session, Blueprint, jsonify
 from models import db, Subject, Admin
 from datetime import datetime, timedelta
-from auth.admin_auth import admin_req
+from controllers.auth.admin_auth import admin_req
 
 
 subject_bp = Blueprint('subject', __name__)

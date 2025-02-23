@@ -2,7 +2,7 @@ from flask import render_template, request, redirect, url_for, flash, session, B
 from models import db, Subject, Chapter, Admin
 from datetime import datetime
 from functools import wraps
-from auth.admin_auth import admin_req
+from controllers.auth.admin_auth import admin_req
 
 chapter_bp = Blueprint('chapter', __name__)
 

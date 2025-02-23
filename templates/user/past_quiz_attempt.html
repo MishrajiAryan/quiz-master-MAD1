@@ -34,7 +34,7 @@ Past Attempts: {{user.name}}
                 <td>{{score.timestamp.strftime('%Y-%m-%d')}}</td>
                 <td>{{score.total_questions}}</td>
                 <td>{{score.total_score}}</td>
-                <td>{{score.percentage_score}}</td>
+                <td>{{score.percentage_score|round(2)}}%</td>
                 <td>
                     <a href="{{url_for('user.quiz_result', user_id = score.user_id, quiz_id=score.quiz_id)}}" class="btn btn-success btn-sm">
                         <i class="fa fa-eye" aria-hidden="true"></i>

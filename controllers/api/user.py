@@ -2,7 +2,7 @@ from re import A
 from flask import render_template, request, redirect, url_for, flash, session, Blueprint, jsonify
 from models import db, User, Subject, Chapter, Quiz, Question, Score, Admin
 from datetime import datetime, timedelta
-from auth.user_auth import auth_req
+from controllers.auth.user_auth import auth_req
 
 
 user_bp = Blueprint('user', __name__)
@@ -172,7 +172,7 @@ def quiz_test_post(user_id, quiz_id):
         timestamp=datetime.now(),
         total_score =total_score,
         total_questions = total_questions,
-        percentage_score = percentage_score,
+        percentage_score = "{:.2f}".format(percentage_score),
     )
 
     db.session.add(score)

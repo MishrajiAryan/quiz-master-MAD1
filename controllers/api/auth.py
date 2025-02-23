@@ -3,7 +3,7 @@ from models import db, User,Admin
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 import os
-from auth.user_auth import auth_req
+from controllers.auth.user_auth import auth_req
 
 auth_bp = Blueprint('auth', __name__)
 
