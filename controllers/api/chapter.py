@@ -1,5 +1,5 @@
 from flask import render_template, request, redirect, url_for, flash, session, Blueprint, jsonify
-from models import db, Subject, Chapter, Admin
+from models import db, Subject, Chapter, Admin, Quiz
 from datetime import datetime
 from functools import wraps
 from controllers.auth.admin_auth import admin_req
@@ -138,4 +138,15 @@ def view_chapter(subject_id,chapter_id):
         flash('Chapter does not exist')
         return redirect(url_for('subject.view_subject', subject_id=subject_id))
     admin = Admin.query.filter_by(email=session['email']).first()
-    return render_template('/chapter/view_chapter.html',subject=subject, chapter=chapter,admin=admin)
+
+    query = request.args.get('query', '').strip()
+
+    # Fetch all quizzes for the given chapter
+    quizzes = Quiz.query.filter_by(chapter_id=chapter_id)
+
+    if query:
+        quizzes = quizzes.filter(Quiz.name.ilike(f"%{query}%"))
+
+    quizzes = quizzes.all()
+
+    return render_template('/chapter/view_chapter.html',subject=subject, chapter=chapter,admin=admin, quizzes=quizzes)

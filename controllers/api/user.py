@@ -194,11 +194,17 @@ def past_quiz_attempt(user_id):
         flash('User not found')
         return redirect(url_for('auth.index'))
 
-    quiz = Quiz.query.all()
+    query = request.args.get('query', '').strip()
+
+    # Fetch past quiz attempts, filter by quiz name if a search query is provided
+    score = Score.query.filter_by(user_id=user_id)
     
-    score = Score.query.filter_by(user_id=user_id).all()
+    if query:
+        score = score.join(Quiz).filter(Quiz.name.ilike(f"%{query}%"))
+
+    score = score.all()
     
-    return render_template('user/past_quiz_attempt.html', user=user, quiz=quiz,score=score, user_id=user_id)
+    return render_template('user/past_quiz_attempt.html', user=user,score=score, user_id=user_id)
 
 
 @user_bp.route('/user/<int:user_id>/summary')

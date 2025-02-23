@@ -1,6 +1,5 @@
 from flask import render_template, request, redirect, url_for, flash, session, Blueprint, jsonify
-from models import db, Subject, Admin
-from datetime import datetime, timedelta
+from models import db, Subject, Admin, Chapter
 from controllers.auth.admin_auth import admin_req
 
 
@@ -45,7 +44,18 @@ def view_subject(subject_id):
         flash('Subject not found')
         return redirect(url_for('admin.subject_dash_admin'))
     admin = Admin.query.filter_by(email=session['email']).first()
-    return render_template('/subject/view_subject.html',subject=subject, admin=admin)
+  
+    query = request.args.get('query', '').strip()
+
+    # Fetch all chapters for the given subject
+    chapters = Chapter.query.filter_by(subject_id=subject_id)
+    
+    if query:
+        chapters = chapters.filter(Chapter.name.ilike(f"%{query}%"))
+
+    chapters = chapters.all()
+
+    return render_template('/subject/view_subject.html',subject=subject, admin=admin, chapters=chapters)
 
 @subject_bp.route('/subject/<int:subject_id>/edit')
 @admin_req

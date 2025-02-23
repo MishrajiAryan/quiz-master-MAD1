@@ -1,0 +1,12 @@
+<form class="d-flex justify-content-center flex-wrap me-2 mb-2" role="search" action="{{url_for('admin.user_dash_admin')}}">
+    <span class="me-1 mb-2">      
+        <select class="form-select form-control border-black" type="text"  id="filter" name="filter">
+            <option value="id" selected>User ID</option>
+            <option value="name">Name</option>
+            <option value="email">Email</option>
+            <option value="phone">Phone</option>
+        </select>
+    </span>
+    <input class="form-control me-2 mb-2 border-black" type="search" placeholder="{{request.args.get('query', '')}}" name="query" style="max-width: 60%;">
+    <button class="btn btn-outline-primary me-2 mb-2" type="submit">Search</button>
+</form>

@@ -1,0 +1,9 @@
+<form class="d-flex justify-content-center flex-wrap me-2 mb-2" role="search"
+    action="{{url_for('user.past_quiz_attempt', user_id=user.id)}}">
+    <span class="me-1 mb-2">
+        <button type="button" class="btn">Quiz Name</button>
+    </span>
+    <input class="form-control me-2 mb-2 border-black" type="search" placeholder="{{request.args.get('query', '')}}"
+        name="query" style="max-width: 60%;">
+    <button class="btn btn-outline-primary me-2 mb-2" type="submit">Search</button>
+</form>

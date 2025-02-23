@@ -1,5 +1,5 @@
 from flask import render_template, request, redirect, url_for, flash, session, Blueprint, jsonify
-from models import db, Subject, Chapter, Quiz, Admin
+from models import db, Subject, Chapter, Quiz, Admin, Question
 from datetime import datetime
 from controllers.auth.admin_auth import admin_req
 
@@ -187,6 +187,18 @@ def view_quiz(subject_id,chapter_id,quiz_id):
     if not quiz:
         flash('Quiz does not exist')
         return redirect(url_for('chapter.view_chapter', subject_id=subject_id, chapter_id=chapter_id))
-    admin = Admin.query.filter_by(email=session['email']).first()
-    return render_template('/quiz/view_quiz.html',subject=subject, chapter=chapter, quiz=quiz,admin=admin)
+    # Retrieve search query
+    query = request.args.get('query', '').strip()
 
+    # Get all questions related to the quiz
+    questions = Question.query.filter_by(quiz_id=quiz_id)
+
+    # If search query is provided, filter questions by statement
+    if query:
+        questions = questions.filter(Question.question_statement.ilike(f"%{query}%"))
+
+    # Execute the query
+    questions = questions.all()
+
+    admin = Admin.query.filter_by(email=session['email']).first()
+    return render_template('/quiz/view_quiz.html', subject=subject, chapter=chapter, quiz=quiz, questions=questions, admin=admin)
