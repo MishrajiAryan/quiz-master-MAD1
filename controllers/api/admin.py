@@ -1,5 +1,6 @@
 from flask import session, Blueprint, jsonify, render_template, flash, redirect, url_for, request
-from models import Subject, Admin, User,db, Score, Quiz
+from controllers.api import chapter, question
+from models import Chapter, Question, Subject, Admin, User,db, Score, Quiz
 from controllers.auth.admin_auth import admin_req
 
 admin_bp = Blueprint('admin', __name__)
@@ -97,5 +98,19 @@ def view_user_admin(user_id):
 def admin_summary():
     subjects = Subject.query.all()
     admin = Admin.query.filter_by(email=session['email']).first()
-    return render_template('admin/admin_summary.html',admin=admin, subjects=subjects)
+    users = User.query.all()
+    chapters = Chapter.query.all()
+    quizzes = Quiz.query.all()
+    questions = Question.query.all()
+
+    active_count = sum(1 for user in users if user.is_active)
+    inactive_count = len(users) - active_count
+
+    subject_count=len(subjects)
+    chapter_count=len(chapters)
+    quiz_count=len(quizzes)
+    question_count=len(questions)
+
+    return render_template('admin/admin_summary.html',admin=admin, subjects=subjects, active_count=active_count, inactive_count=inactive_count,
+                           subject_count=subject_count,chapter_count=chapter_count,quiz_count=quiz_count,question_count=question_count)
 

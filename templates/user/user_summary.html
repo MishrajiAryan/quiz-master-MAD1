@@ -1,1 +1,106 @@
-hello ji
+{% extends "layout.html" %}
+
+{% block title %}
+    User Summary
+{% endblock %}
+
+{% block content %}
+<h1 class="display-1 text-center">Summary</h1>
+<hr>
+<div class="container text-center">
+    <div class="row">
+        <div class="col">
+            <div class="card shadow" style="max-width: 450px; max-height: 450px;">
+                <div class="card-body">
+                    <canvas id="quizTimeline"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card shadow" style="max-width: 850px; max-height: 850px;">
+                <div class="card-body">
+                    <canvas id="maxMinScore"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+  
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+<script>
+    const quizTimeline = document.getElementById('quizTimeline');
+    const maxMinScore = document.getElementById('maxMinScore');
+
+    new Chart(quizTimeline, {
+        type: 'line',
+        data: {
+            labels: {{quiz_list|safe}},
+            datasets: [
+            {
+                data: {{scores_list|safe}}, 
+                backgroundColor: '#FF6384',
+                borderColor: '#D32F2F',
+                borderWidth: 1            
+            }
+            ]
+          },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                title: {
+                    display: true,
+                    text: 'Quiz Score Timeline' // Add chart title
+                } 
+            }
+                 
+        }
+    });
+
+    new Chart(maxMinScore, {
+        type: 'bar',
+        data: {
+            labels: ['Maximum','Minimum'],
+            datasets: [
+            {
+                data: [{{ max_score|safe }}, {{ min_score|safe }}], 
+                backgroundColor: [
+                    '#FFCE56', // Yellow
+                    '#9966FF', // Purple
+
+                ],
+                borderColor: [
+                    '#FFD700', // Gold
+                    '#800080', // Purple
+                ],
+                borderWidth: 1,
+                borderRadius: 50
+            }
+            ]
+          },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                title: {
+                    display: true,
+                    text: 'Max vs Min Score' // Add chart title
+                } 
+            },
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }        
+        }
+    });
+    
+</script>
+  
+{% endblock %}

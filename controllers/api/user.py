@@ -1,4 +1,3 @@
-from re import A
 from flask import render_template, request, redirect, url_for, flash, session, Blueprint, jsonify
 from models import db, User, Subject, Chapter, Quiz, Question, Score, Admin
 from datetime import datetime, timedelta
@@ -207,24 +206,6 @@ def past_quiz_attempt(user_id):
     return render_template('user/past_quiz_attempt.html', user=user,score=score, user_id=user_id)
 
 
-@user_bp.route('/user/<int:user_id>/summary')
-@auth_req
-def user_summary(user_id):
-    admin = Admin.query.filter_by(email=session['email']).first()
-    if admin:
-        flash('Admin in session, cannot access')
-        return redirect(url_for('admin.admin'))
-    
-    user = User.query.filter_by(email=session.get('email')).first()
-    if not user:
-        flash('User not found')
-        return redirect(url_for('auth.index'))
-
-    quiz = Quiz.query.all()
-    
-    
-    return render_template('user/user_summary.html', user=user, quiz=quiz, user_id=user_id)
-
 @user_bp.route('/user/<int:user_id>/quiz/<int:quiz_id>/result')
 @auth_req
 def quiz_result(user_id, quiz_id):
@@ -249,3 +230,27 @@ def quiz_result(user_id, quiz_id):
     return render_template('user/quiz_result.html', user=user,score=score, quiz=quiz, user_id=user_id)
 
 
+@user_bp.route('/user/<int:user_id>/summary')
+@auth_req
+def user_summary(user_id):
+    admin = Admin.query.filter_by(email=session['email']).first()
+    if admin:
+        flash('Admin in session, cannot access')
+        return redirect(url_for('admin.admin'))
+    
+    user = User.query.filter_by(email=session.get('email')).first()
+    if not user:
+        flash('User not found')
+        return redirect(url_for('auth.index'))
+
+    quiz = Quiz.query.all()
+
+    scores = Score.query.filter_by(user_id=user_id).all()
+    max_score=max(score.percentage_score for score in scores)
+    min_score=min(score.percentage_score for score in scores)
+
+    scores_list = [score.percentage_score for score in scores]
+    quiz_list = [score.quiz.name for score in scores]
+    
+    return render_template('user/user_summary.html', user=user, quiz=quiz, user_id=user_id, max_score=max_score,
+                           min_score=min_score, scores_list=scores_list,quiz_list=quiz_list)
