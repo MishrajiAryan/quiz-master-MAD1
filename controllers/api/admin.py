@@ -1,5 +1,4 @@
 from flask import session, Blueprint, jsonify, render_template, flash, redirect, url_for, request
-from controllers.api import chapter, question
 from models import Chapter, Question, Subject, Admin, User,db, Score, Quiz
 from controllers.auth.admin_auth import admin_req
 
