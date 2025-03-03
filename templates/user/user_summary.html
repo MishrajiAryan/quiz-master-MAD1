@@ -17,7 +17,7 @@
             </div>
         </div>
         <div class="col">
-            <div class="card shadow" style="max-width: 850px; max-height: 850px;">
+            <div class="card shadow" style="max-width: 2000px; max-height: 2000px;">
                 <div class="card-body">
                     <canvas id="maxMinScore"></canvas>
                 </div>
@@ -32,14 +32,18 @@
 <script>
     const quizTimeline = document.getElementById('quizTimeline');
     const maxMinScore = document.getElementById('maxMinScore');
+    const quizList = JSON.parse('{{quiz_list|tojson|safe}}');
+    const scoresList = JSON.parse('{{scores_list|tojson|safe}}');
+    const maxScore  = JSON.parse('{{max_score|tojson|safe}}');
+    const minScore = JSON.parse('{{min_score|tojson|safe}}');
 
     new Chart(quizTimeline, {
         type: 'line',
         data: {
-            labels: {{quiz_list|safe}},
+            labels: quizList,
             datasets: [
             {
-                data: {{scores_list|safe}}, 
+                data: scoresList, 
                 backgroundColor: '#FF6384',
                 borderColor: '#D32F2F',
                 borderWidth: 1            
@@ -54,7 +58,7 @@
                 },
                 title: {
                     display: true,
-                    text: 'Quiz Score Timeline' // Add chart title
+                    text: 'Quiz Score Timeline'
                 } 
             }
                  
@@ -67,7 +71,7 @@
             labels: ['Maximum','Minimum'],
             datasets: [
             {
-                data: [{{ max_score|safe }}, {{ min_score|safe }}], 
+                data: [maxScore, minScore], 
                 backgroundColor: [
                     '#FFCE56', // Yellow
                     '#9966FF', // Purple
@@ -90,7 +94,7 @@
                 },
                 title: {
                     display: true,
-                    text: 'Max vs Min Score' // Add chart title
+                    text: 'Max vs Min Score'
                 } 
             },
             scales: {

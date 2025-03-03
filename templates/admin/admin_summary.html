@@ -33,13 +33,21 @@
     const userActiveStatus = document.getElementById('userActiveStatus');
     const totalCounts = document.getElementById('totalCounts');
 
+    const activeCount= JSON.parse('{{active_count|tojson|safe }}') ;
+    const inactiveCount = JSON.parse('{{inactive_count|tojson|safe}}');
+
+    const subjectCount = JSON.parse('{{ subject_count|tojson|safe }}');
+    const chapterCount = JSON.parse('{{ chapter_count|tojson|safe }}');
+    const quizCount = JSON.parse('{{ quiz_count|tojson|safe }}');
+    const questionCount = JSON.parse('{{ question_count|tojson|safe }}');
+
     new Chart(userActiveStatus, {
         type: 'pie',
         data: {
             labels: ['Active', 'Inactive'],
             datasets: [
             {
-                data: [{{ active_count|safe }}, {{ inactive_count|safe }}], 
+                data: [activeCount, inactiveCount], 
                 backgroundColor: ['#36A2EB', '#FF6384'],
                 borderColor: ['#2A80B9', '#D32F2F'],
                 borderWidth: 1,
@@ -69,7 +77,7 @@
             labels: ['Subject','Chapter','Quiz','Question'],
             datasets: [
             {
-                data: [{{ subject_count|safe }}, {{ chapter_count|safe }}, {{ quiz_count|safe }}, {{ question_count|safe }}], 
+                data: [subjectCount, chapterCount, quizCount, questionCount], 
                 backgroundColor: [
                     '#FFCE56', // Yellow
                     '#4BC0C0', // Teal
