@@ -140,6 +140,7 @@
                 localStorage.setItem(TIME_LEFT_KEY, timeRemaining); // Store in localStorage
             } else {
                 clearInterval(timerInterval);
+                localStorage.removeItem(TIME_LEFT_KEY);
                 alert("Time's up!");
                 form.submit();
             }
@@ -147,6 +148,10 @@
 
         timerDisplay.textContent = formatTime(timeRemaining); // Initial display
         const timerInterval = setInterval(updateTimer, 1000);
+
+        form.addEventListener('submit', () => {
+            localStorage.removeItem(TIME_LEFT_KEY); // Remove timer value on submit
+        });
 
         // When the quiz is submitted or the user leaves
         window.addEventListener('beforeunload', () => {

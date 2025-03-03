@@ -155,6 +155,7 @@ def profile_post():
     new_phone_number = request.form.get('new_phone_number')
     new_name = request.form.get('new_name')
     new_dob = request.form.get('new_dob')
+    new_qualification = request.form.get('new_qualification')
 
     if not password:
         flash('Please fill current password before changing anything')
@@ -196,6 +197,9 @@ def profile_post():
         if new_dob:
             new_dob_date = datetime.strptime(new_dob, "%Y-%m-%d").date()
             user.dob = new_dob_date
+
+        if new_qualification:
+            user.qualification = new_qualification
 
     db.session.commit()
     flash('Profile Updated successfully')

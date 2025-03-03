@@ -37,7 +37,7 @@ Register: Quiz Quest
             <div class="form-group">
                 <label for="qualification" class="form-label">Qualification:</label>
                 <div class="input-group mb-3">
-                    <label class="input-group-text border-black" for="inputGroupSelect01">Your Qualification is</label>
+                    <label class="input-group-text border-black" for="qualification">Your Qualification is</label>
                     <select class="form-select border-black" type="text"  id="qualification" name="qualification" required>
                         <option selected>Choose...</option>
                         <option value="Primary">Primary</option>
@@ -68,4 +68,16 @@ Register: Quiz Quest
 </div>
 <br>
 <br>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const dobInput = document.getElementById('dob');
+        const today = new Date();
+        const yesterday = new Date(today);
+        yesterday.setDate(today.getDate() - 1);
+        const yesterdayString = yesterday.toISOString().split('T')[0];
+        dobInput.setAttribute('max', yesterdayString);
+    });
+</script>
+
 {% endblock %}

@@ -74,16 +74,32 @@ Admin
                 
                     {% if user %}
                     <div class="form-group">
-                        <label for="new_phone_number" class="form-label">Phone Number:</label>
-                        <input type="tel" class="form-control border-black"  placeholder="{{user.phone_number}}" id="new_phone_number" name="new_phone_number">
-                    </div>
-                    <div class="form-group">
                         <label for="new_name" class="form-label">Name:</label>
                         <input type="text" class="form-control border-black"  placeholder="{{user.name}}" id="new_name" name="new_name">
                     </div>
                     <div class="form-group">
+                        <label for="new_phone_number" class="form-label">Phone Number:</label>
+                        <input type="tel" class="form-control border-black"  placeholder="{{user.phone_number}}" id="new_phone_number" name="new_phone_number">
+                    </div>
+                    
+                    <div class="form-group">
                         <label for="new_dob" class="form-label">Date of Birth:</label>
                         <input type="date" class="form-control border-black"  placeholder="{{user.dob}}" id="new_dob" name="new_dob">
+                    </div>
+                    <div class="form-group">
+                        <label for="new_qualification" class="form-label">Qualification:</label>
+                        <div class="input-group mb-3">
+                            <label class="input-group-text border-black" for="new_qualification">Your Qualification is</label>
+                            <select class="form-select border-black" type="text" placeholder="{{user.qualification}}"  id="new_qualification" name="new_qualification">
+                                <option selected>Choose...</option>
+                                <option value="Primary">Primary</option>
+                                <option value="Secondary">Secondary</option>
+                                <option value="Senior Secondary">Senior Secondary</option>
+                                <option value="Graduation">Graduation</option>
+                                <option value="Post Graduation">Post Graduation</option>
+                                <option value="PhD">PhD</option>
+                            </select>
+                        </div>
                     </div>
                     {% endif %}
                 
@@ -103,4 +119,14 @@ Admin
     </div>
 </div>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const dobInput = document.getElementById('new_dob');
+        const today = new Date();
+        const yesterday = new Date(today);
+        yesterday.setDate(today.getDate() - 1);
+        const yesterdayString = yesterday.toISOString().split('T')[0];
+        dobInput.setAttribute('max', yesterdayString);
+    });
+</script>
 {% endblock %}
