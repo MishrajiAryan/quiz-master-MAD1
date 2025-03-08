@@ -60,14 +60,14 @@ class Chapter(db.Model):
 class Quiz(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(150), nullable=False)
-    chapter_id = db.Column(db.Integer, db.ForeignKey('chapter.id'), nullable=False)
+    chapter_id = db.Column(db.Integer, db.ForeignKey('chapter.id', ondelete="CASCADE"), nullable=False)  # Add CASCADE
     date_of_quiz = db.Column(db.Date, nullable=False)
     time_duration = db.Column(db.String(10))  # HH:MM format
     remarks = db.Column(db.Text)
 
-    chapter = db.relationship('Chapter', backref=db.backref('quizzes', lazy=True))
-
+    chapter = db.relationship('Chapter', backref=db.backref('quizzes', lazy=True, cascade="all, delete"))
     questions = db.relationship('Question', backref='quiz', lazy=True, cascade="all, delete")
+
 
 
 class Question(db.Model):
