@@ -1,6 +1,6 @@
-from flask import render_template, request, redirect, url_for, flash, session, Blueprint, jsonify
+from flask import render_template, request, redirect, url_for, flash, session, Blueprint, jsonify # type: ignore
 from models import db, User,Admin
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash # type: ignore
 from datetime import datetime
 import os
 from controllers.auth.user_auth import auth_req
@@ -198,7 +198,7 @@ def profile_post():
             new_dob_date = datetime.strptime(new_dob, "%Y-%m-%d").date()
             user.dob = new_dob_date
 
-        if new_qualification:
+        if new_qualification != "Choose...":
             user.qualification = new_qualification
 
     db.session.commit()

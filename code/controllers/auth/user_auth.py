@@ -1,4 +1,4 @@
-from flask import redirect, url_for, flash, session
+from flask import redirect, url_for, flash, session # type: ignore
 from functools import wraps
 
 # Decorator for Authentication

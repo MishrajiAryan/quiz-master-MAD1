@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, url_for, flash, session, Blueprint, jsonify
+from flask import render_template, request, redirect, url_for, flash, session, Blueprint, jsonify # type: ignore
 from models import db, Subject, Chapter, Quiz, Admin, Question
 from datetime import datetime
 from controllers.auth.admin_auth import admin_req
