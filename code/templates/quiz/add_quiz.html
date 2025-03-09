@@ -19,10 +19,26 @@
                 <label for="date_of_quiz" class="form-label">Date of Quiz:</label>
                 <input type="date" class="form-control border-black" style="max-width: 60%;" id="date_of_quiz" name="date_of_quiz" required>
             </div>
-            <div class="form-group">
-                <label for="time_duration" class="form-label">Time Duration(HH:MM):</label>
-                <input type="time" class="form-control hour-12 border-black" style="max-width: 60%;" id="time_duration" name="time_duration" required>
+            <br>
+            <div class="form-group d-flex align-items-center">
+                <label for="hours" class="form-label me-2">Time Duration:</label>
+            
+                <input type="text" class="form-control text-center border-black" 
+                       id="hours" name="hours" maxlength="2" 
+                       style="width: 50px;" placeholder="HH" required 
+                       pattern="^([0-1]?[0-9]|2[0-3])$" 
+                       title="Enter hours (00-23)">
+            
+                <span class="mx-2">:</span>
+            
+                <input type="text" class="form-control text-center border-black" 
+                       id="minutes" name="minutes" maxlength="2" 
+                       style="width: 50px;" placeholder="MM" required 
+                       pattern="^[0-5][0-9]$" 
+                       title="Enter minutes (00-59)">
             </div>
+            <input type="hidden" name="time_duration" id="time_duration">
+            
             <div class="form-group">
                 <label for="remarks" class="form-label">Remarks:</label>
                 <input type="text" class="form-control border-black" id="remarks" name="remarks" required>
@@ -45,21 +61,19 @@
         
         </form>
         <script>
-            const dateInput = document.getElementById('date_of_quiz');
-            const today = new Date().toISOString().split('T')[0];
-            dateInput.setAttribute('min', today);
-            
-            function validateForm() { // Added validation function
-                const timeDuration = document.getElementById('time_duration').value;
-                const [hours, minutes] = timeDuration.split(':').map(Number);
-
-                if (hours === 0 && minutes === 0) {
-                    alert('Time Duration cannot be zero.');
-                    return false;
+            document.querySelector("form").addEventListener("submit", function(event) {
+                const hours = document.getElementById("hours").value.padStart(2, '0');
+                const minutes = document.getElementById("minutes").value.padStart(2, '0');
+        
+                if (hours === "00" && minutes === "00") {
+                    alert("Time Duration cannot be zero.");
+                    event.preventDefault();
+                    return;
                 }
-                return true;
-            }
-          </script>
+        
+                document.getElementById("time_duration").value = hours + ":" + minutes;
+            });
+        </script>
     </div>
 </div>
 <br>
