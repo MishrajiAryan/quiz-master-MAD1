@@ -1,9 +1,9 @@
 from app import app
-from flask_sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy # type: ignore
 from datetime import datetime
 import os
-from werkzeug.security import generate_password_hash
-from dotenv import load_dotenv
+from werkzeug.security import generate_password_hash # type: ignore
+from dotenv import load_dotenv # type: ignore
 
 db = SQLAlchemy(app)
 load_dotenv()
