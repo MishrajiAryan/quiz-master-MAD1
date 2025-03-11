@@ -1,4 +1,4 @@
-from dotenv import load_dotenv # type: ignore
+from dotenv import load_dotenv  # type: ignore
 import os
 from app import app
 

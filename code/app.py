@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template # type: ignore
 
 #keep this below imports else will Throw Error
 app = Flask(__name__)
@@ -13,6 +13,10 @@ import models
 import controllers.routes
 
 
-if __name__ == '__main__':
+if __name__=="__main__":
     app.run(debug=True)
+
+
+
+
 

@@ -1,0 +1,65 @@
+# Checks
+1. if duplicate subject, chapter or quiz can be made.
+2. make sure deleting a subject deletes all the corresponding quizzes too.
+
+
+
+# STUDY
+1. learn to center align my reg or login form: https://copilot.microsoft.com/shares/J9qeuhCAVFixAye5HJeev
+2. 
+
+
+QUIZ-MASTER-MAD1/
+├── .vscode/          (VS Code specific settings)
+│   └── ...
+├── controllers/      (Application logic and routes)
+│   ├── api/          (contains API routes)
+│   │   ├── __pycache__/
+│   │   ├── __init__.py
+│   │   ├── admin.py
+│   │   ├── auth.py
+│   │   ├── chapter.py
+│   │   ├── question.py
+│   │   ├── quiz.py
+│   │   ├── subject.py
+│   │   └── user.py
+│   ├── auth/         (Authentication related logic)
+│   │   ├── __pycache__/
+│   │   ├── __init__.py
+│   │   ├── admin_auth.py
+│   │   ├── user_auth.py
+│   │   ├── config.py
+│   │   └── routes.py
+│   └── __pycache__/
+├── instance/         (Flask instance folder - contains db.sqlite3)
+│   └── db.sqlite3     (SQLite database file)
+├── static/           (Static files - CSS, JavaScript, images)
+│   └── favicon.ico     (Website favicon)
+├── templates/        (HTML templates for your views)
+│   ├── admin/
+│   │   └── ...
+│   ├── auth/
+│   │   └── ...
+│   ├── base/
+│   │   └── ...
+│   ├── chapter/
+│   │   └── ...
+│   ├── question/
+│   │   └── ...
+│   ├── quiz/
+│   │   └── ...
+│   ├── subject/
+│   │   └── ...
+│   ├── user/
+│   │   └── ...
+│   └── layout.html    (Base template)
+├── venv/             (Virtual environment)
+│   └── ...
+├── .env              (Environment variables - not committed)
+├── .env.sample       (Template for environment variables)
+├── .gitignore        (Git ignore file)
+├── app.py            (Main Flask application file)
+├── models.py         (Data models)
+├── README.md         (Project documentation)
+├── requirements.txt  (Project dependencies)
+└── TODO              (Task list)
