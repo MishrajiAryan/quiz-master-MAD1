@@ -1,8 +1,0 @@
-# Quiz Quest (21f2000307)
-Quiz Quest is a multi-user exam preparation app that allows admins to manage quizzes and users to attempt quizzes and view their scores. Built with Flask, Jinja2, HTML, CSS, Bootstrap, and SQLite, it offers a comprehensive platform for effective learning and assessment.
-
-
-In terminal, run "python -m venv venv"
-Venv folder is made
-In terminal, run "venv/Scripts/activate"
-Run - "pip install flask flask-sqlalchemy python-dotenv"
