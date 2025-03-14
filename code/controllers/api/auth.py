@@ -1,6 +1,6 @@
-from flask import render_template, request, redirect, url_for, flash, session, Blueprint, jsonify # type: ignore
+from flask import render_template, request, redirect, url_for, flash, session, Blueprint, jsonify 
 from models import db, User,Admin
-from werkzeug.security import generate_password_hash, check_password_hash # type: ignore
+from werkzeug.security import generate_password_hash, check_password_hash 
 from datetime import datetime
 import os
 from controllers.auth.user_auth import auth_req
@@ -111,7 +111,7 @@ def register_post():
         if not email or not password or not confirm_password or not name or not qualification or not dob or not phone_number:
             flash('Please fill all the fields')
             return redirect(url_for('auth.register'))
-
+    
         if password != confirm_password:
             flash('Passwords do not match')
             return redirect(url_for('auth.register'))
@@ -121,6 +121,11 @@ def register_post():
 
         if user:
             flash('Email already exists')
+            return redirect(url_for('auth.register'))
+        
+        existing_phone = User.query.filter_by(phone_number=phone_number).first()
+        if existing_phone:
+            flash('Phone number already exists')
             return redirect(url_for('auth.register'))
 
         dob_date = datetime.strptime(dob, "%Y-%m-%d").date()
@@ -192,6 +197,11 @@ def profile_post():
             user.name = new_name
             
         if new_phone_number:
+            existing_phone = User.query.filter_by(phone_number=new_phone_number).first()
+            if existing_phone:
+                flash('Phone number already exists')
+                return redirect(url_for('auth.profile'))
+            
             user.phone_number = new_phone_number
             
         if new_dob:

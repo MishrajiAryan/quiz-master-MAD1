@@ -61,6 +61,10 @@
         
         </form>
         <script>
+            const dateInput = document.getElementById('date_of_quiz');
+            const today = new Date().toISOString().split('T')[0];
+            dateInput.setAttribute('min', today);
+            
             document.querySelector("form").addEventListener("submit", function(event) {
                 const hours = document.getElementById("hours").value.padStart(2, '0');
                 const minutes = document.getElementById("minutes").value.padStart(2, '0');
